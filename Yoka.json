@@ -1,0 +1,11 @@
+{
+  "id": "Yoka",
+  "name": "Yoka",
+  "author": "HIFU",
+  "description": "A character that plays around HP, Thorns, and Gold",
+  "version": "0.0.1",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": ["BaseLib"],
+  "affects_gameplay": true
+}

@@ -1,0 +1,16 @@
+{
+    "YOKA-YOKA.aromaPrinciple": "[sine][jitter][gold]A dangerous one... This may bring me riches...[/gold][/jitter][/sine]",
+	"YOKA-YOKA.banter.alive.endTurnPing": "[jitter]End it.[/jitter]",
+	"YOKA-YOKA.banter.dead.endTurnPing": ". . .",
+	"YOKA-YOKA.cardsModifierDescription": "Yoka cards will now appear in rewards and shops.",
+	"YOKA-YOKA.cardsModifierTitle": "Yoka Cards",
+	"YOKA-YOKA.description": "A lone traveler.\nDefames herself and foes to get what she wants.",
+	"YOKA-YOKA.eventDeathPrevention": "[jitter]I do not live for others...\naside from strange exceptions...[/jitter]",
+	"YOKA-YOKA.goldMonologue": "[sine][jitter]Greed is good.[/jitter][/sine]",
+	"YOKA-YOKA.possessiveAdjective": "her",
+	"YOKA-YOKA.pronounObject": "her",
+	"YOKA-YOKA.pronounPossessive": "hers",
+	"YOKA-YOKA.pronounSubject": "she",
+	"YOKA-YOKA.title": "Yoka",
+	"YOKA-YOKA.titleObject": "Yoka"
+}
