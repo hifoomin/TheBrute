@@ -24,7 +24,8 @@ namespace Yoka.Relics.Ancients
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<SymbiosisPower>(1m), new HealVar(7m)
+            new PowerVar<SymbiosisPower>(1m),
+            new HealVar(7m)
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<ThornsPower>()];

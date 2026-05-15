@@ -22,7 +22,11 @@ namespace Yoka.Relics.Starters
     {
         public override RelicRarity Rarity => RelicRarity.Starter;
 
-        protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<ThornsPower>(2m), new HealVar(4m)];
+        protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new PowerVar<ThornsPower>(2m),
+            new HealVar(4m)
+        ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<ThornsPower>()];
 

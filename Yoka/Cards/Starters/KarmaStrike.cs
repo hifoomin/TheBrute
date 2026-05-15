@@ -43,11 +43,6 @@ namespace Yoka.Cards.Starters
             })
         ];
 
-        public CardModel GetTranscendenceTransformedCard()
-        {
-            return ModelDb.Card<Totality>();
-        }
-
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
@@ -61,6 +56,11 @@ namespace Yoka.Cards.Starters
         protected override void OnUpgrade()
         {
             DynamicVars.Damage.UpgradeValueBy(2m);
+        }
+
+        public CardModel GetTranscendenceTransformedCard()
+        {
+            return ModelDb.Card<Totality>();
         }
     }
 }

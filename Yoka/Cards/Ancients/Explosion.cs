@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -22,7 +23,7 @@ using Yoka.Powers;
 
 namespace Yoka.Cards.Ancients
 {
-    internal class Explosion : YokaCard
+    internal class Explosion : YokaCard, ITomeCard
     {
         public Explosion() : base(2, CardType.Attack, CardRarity.Ancient, TargetType.AllEnemies)
         {
