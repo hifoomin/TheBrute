@@ -33,18 +33,20 @@ namespace Yoka.Cards.Uncommons
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
             var allCards = Owner.PlayerCombatState.AllCards;
-            var card = Owner.RunState.Rng.CombatCardSelection.NextItem(allCards);
-            if (card != null && (!card.DynamicVars.TryGetValue("Gold", out var gold) || gold.BaseValue <= 0))
+            var randomCard = Owner.RunState.Rng.CombatCardSelection.NextItem(allCards);
+            if (randomCard != null && (!randomCard.DynamicVars.TryGetValue("Gold", out var gold) || gold.BaseValue <= 0))
             {
                 // CardCmd.ApplyKeyword(item, CardKeyword.Exhaust);
                 // item.DynamicVars.HpLoss.BaseValue += DynamicVars.HpLoss.BaseValue;
                 var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
 
-                var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(card.DynamicVars);
+                var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(randomCard.DynamicVars);
 
                 cardVars["Gold"] = new GoldVar(DynamicVars.Gold.IntValue);
                 // Main.Logger.Warn("reckless strike onplay: trying to add keyword and gold");
-                card.AddKeyword(Yoka.Keywords.goldLossKeyword);
+                randomCard.AddKeyword(Yoka.Keywords.goldLossKeyword);
+
+                CardCmd.Upgrade(randomCard);
                 // Main.Logger.Warn("reckless strike onplay: cards new gold value is " + vars["Gold"].BaseValue);
             }
 

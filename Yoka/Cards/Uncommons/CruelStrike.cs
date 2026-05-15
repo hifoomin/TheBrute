@@ -22,7 +22,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(13m, ValueProp.Move),
+            new DamageVar(11m, ValueProp.Move),
             new PowerVar<VigorPower>(4m)
         ];
 

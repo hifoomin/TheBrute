@@ -41,7 +41,7 @@ namespace Yoka.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new HpLossVar(3)
+            new HpLossVar(4)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

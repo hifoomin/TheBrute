@@ -19,6 +19,7 @@ namespace Yoka.Cards.Ancients
     {
     }
 
+    /*
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Models.Relics.ArchaicTooth), "TranscendenceUpgrades", MethodType.Getter)]
     public class ArchaicToothPatch
     {
@@ -38,4 +39,5 @@ namespace Yoka.Cards.Ancients
             __result[ModelDb.Relic<Toxemia>().Id] = ModelDb.Relic<Symbiosis>();
         }
     }
+    */
 }

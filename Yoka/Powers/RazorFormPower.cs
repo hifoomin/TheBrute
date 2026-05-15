@@ -23,7 +23,10 @@ namespace Yoka.Powers
 
         public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
         {
-            await PowerCmd.Apply<ThornsPower>(choiceContext, Owner, Amount, Owner, cardSource);
+            if (target == Owner && result.UnblockedDamage > 0)
+            {
+                await PowerCmd.Apply<ThornsPower>(choiceContext, Owner, Amount, Owner, cardSource);
+            }
         }
     }
 }

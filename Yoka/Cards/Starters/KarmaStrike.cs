@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -6,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Cards;
@@ -16,10 +18,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Yoka.Cards;
+using Yoka.Cards.Ancients;
 
 namespace Yoka.Cards.Starters
 {
-    internal class KarmaStrike : YokaCard
+    internal class KarmaStrike : YokaCard, ITranscendenceCard
     {
         public KarmaStrike() : base(1, CardType.Attack, CardRarity.Basic, TargetType.AnyEnemy)
         {
@@ -39,6 +42,11 @@ namespace Yoka.Cards.Starters
                 return Utils.TookUnblockedDamageLastTurn(card.Owner) ? 1m : 0m;
             })
         ];
+
+        public CardModel GetTranscendenceTransformedCard()
+        {
+            return ModelDb.Card<Totality>();
+        }
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
