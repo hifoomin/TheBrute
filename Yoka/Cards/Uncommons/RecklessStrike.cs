@@ -46,7 +46,11 @@ namespace Yoka.Cards.Uncommons
                 // Main.Logger.Warn("reckless strike onplay: trying to add keyword and gold");
                 randomCard.AddKeyword(Yoka.Keywords.goldLossKeyword);
 
-                CardCmd.Upgrade(randomCard);
+                if (randomCard.IsUpgradable)
+                {
+                    CardCmd.Upgrade(randomCard);
+                }
+
                 // Main.Logger.Warn("reckless strike onplay: cards new gold value is " + vars["Gold"].BaseValue);
             }
 
