@@ -34,5 +34,12 @@
 	"YOKA-IMMUNIZE_POWER.smartDescription": "Whenever you receive unblocked attack damage, other players heal [blue]{Amount}[/blue] HP.",
 	"YOKA-RAZOR_FORM_POWER.title": "Razor Form",
 	"YOKA-RAZOR_FORM_POWER.description": "Whenever you lose HP, gain [gold]Thorns[/gold].",
-	"YOKA-RAZOR_FORM_POWER.smartDescription": "Whenever you lose HP, gain [blue]{Amount}[/blue] [gold]Thorns[/gold]."
+	"YOKA-RAZOR_FORM_POWER.smartDescription": "Whenever you lose HP, gain [blue]{Amount}[/blue] [gold]Thorns[/gold].",
+	"YOKA-EMBARASS.title": "Embarass",
+	"YOKA-EMBARASS.description": "",
+	"YOKA-EMBARASS.smartDescription": "",
+	"YOKA-ATTUNE_POWER.title": "Attune",
+	"YOKA-ATTUNE_POWER.description": "Next turn, put a card from your [gold]Draw Pile[/gold] into your [gold]Hand[/gold].",
+	"YOKA-ATTUNE_POWER.smartDescription": "Next turn, put a card from your [gold]Draw Pile[/gold] into your [gold]Hand[/gold].",
+	"YOKA-ATTUNE_POWER.selectionScreenPrompt": "Select a card to put in your Hand."
 }

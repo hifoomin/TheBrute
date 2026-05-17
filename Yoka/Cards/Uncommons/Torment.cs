@@ -48,7 +48,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(4m);
+            DynamicVars.Vulnerable.UpgradeValueBy(1m);
         }
     }
 }

@@ -35,10 +35,13 @@ namespace Yoka.Powers
         public override async Task AfterGoldGained(Player player)
         {
             var hittableEnemies = CombatState.HittableEnemies;
-            if (hittableEnemies.Count != 0)
+            if (hittableEnemies.Count != 0 && Owner.Player != null)
             {
                 var randomEnemy = Owner.Player.RunState.Rng.CombatTargets.NextItem(hittableEnemies);
-                await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), randomEnemy, Amount, ValueProp.Unpowered, null, null);
+                if (randomEnemy != null)
+                {
+                    await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), randomEnemy, Amount, ValueProp.Unpowered, null, null);
+                }
             }
         }
     }
@@ -53,8 +56,10 @@ namespace Yoka.Powers
             if (accidentPower != null && hittableEnemies != null && hittableEnemies.Count != 0)
             {
                 var randomEnemy = player.RunState.Rng.CombatTargets.NextItem(hittableEnemies);
-
-                CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), randomEnemy, accidentPower.Amount, ValueProp.Unpowered, null, null);
+                if (randomEnemy != null)
+                {
+                    CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), randomEnemy, accidentPower.Amount, ValueProp.Unpowered, null, null);
+                }
             }
         }
     }

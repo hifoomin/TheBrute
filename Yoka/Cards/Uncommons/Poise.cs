@@ -35,6 +35,7 @@ namespace Yoka.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<PlatingPower>(6m),
+            new CardsVar(1)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -46,7 +47,7 @@ namespace Yoka.Cards.Uncommons
                 select c)
             ];
 
-            CardModel cardModel = (await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, 1))).FirstOrDefault();
+            CardModel cardModel = (await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue))).FirstOrDefault();
             if (cardModel != null)
             {
                 await CardCmd.Exhaust(choiceContext, cardModel);

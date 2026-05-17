@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Yoka.Cards.Uncommons
@@ -32,7 +33,11 @@ namespace Yoka.Cards.Uncommons
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            var allCards = Owner.PlayerCombatState.AllCards;
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
+                .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
+                .Execute(choiceContext);
+
+            var allCards = Utils.GetAllCardsExceptExhaustPile(Owner);
             var randomCard = Owner.RunState.Rng.CombatCardSelection.NextItem(allCards);
             if (randomCard != null && (!randomCard.DynamicVars.TryGetValue("Gold", out var gold) || gold.BaseValue <= 0))
             {
@@ -49,14 +54,11 @@ namespace Yoka.Cards.Uncommons
                 if (randomCard.IsUpgradable)
                 {
                     CardCmd.Upgrade(randomCard);
+                    CardCmd.Preview(randomCard, 1.5f);
                 }
 
                 // Main.Logger.Warn("reckless strike onplay: cards new gold value is " + vars["Gold"].BaseValue);
             }
-
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-                .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
-                .Execute(choiceContext);
         }
 
         protected override void OnUpgrade()

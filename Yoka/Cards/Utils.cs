@@ -2,11 +2,13 @@
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Gold;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Relics;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +48,13 @@ namespace Yoka
                 }
             }
             return count;
+        }
+
+        public static IEnumerable<CardModel> GetAllCardsExceptExhaustPile(Player owner)
+        {
+            return owner.PlayerCombatState._piles
+                  .Where(p => p.Type != PileType.Exhaust)
+                  .SelectMany(p => p.Cards);
         }
 
         public static bool HasGold(Player owner, int amount)

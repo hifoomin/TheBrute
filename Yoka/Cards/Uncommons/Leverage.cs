@@ -34,7 +34,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new EnergyVar(2)
+            new EnergyVar(3)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

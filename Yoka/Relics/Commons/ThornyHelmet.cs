@@ -28,15 +28,7 @@ namespace Yoka.Relics.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<TemporaryThornsPower>(2m)
+            new PowerVar<TemporaryThornsPower>(3m)
         ];
-
-        public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
-        {
-            if (amount > 0m && power is TemporaryThornsPower)
-            {
-                await PowerCmd.Apply<TemporaryThornsPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsPower"].BaseValue, applier, cardSource);
-            }
-        }
     }
 }

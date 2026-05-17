@@ -1,4 +1,6 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using Godot;
+using HarmonyLib;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -11,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Yoka.Relics.Commons;
 
 namespace Yoka.Powers
 {
@@ -36,8 +39,26 @@ namespace Yoka.Powers
         {
             if (side == CombatSide.Enemy)
             {
+                if (Owner.Player != null && Owner.Player.GetRelic<ThornyHelmet>() != null)
+                {
+                    for (int i = 0; i < 3; i++)
+                    {
+                        await PowerCmd.Decrement(this);
+                    }
+
+                    return;
+                }
                 await PowerCmd.Remove(this);
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(PowerModel), "SetAmount")]
+    public class KurwaMacGownoZjebanePatchxDD
+    {
+        private static void Prefix(ref int amount)
+        {
+            amount = Mathf.Max(amount, 0);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace Yoka.Powers
 
                 CardModel card = CombatState.CreateCard<Burn>(Owner.Player);
                 CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, Owner.Player));
-                await Cmd.Wait(0.5f);
+                await Cmd.Wait(0.25f);
             }
         }
     }

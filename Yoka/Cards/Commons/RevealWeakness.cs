@@ -22,7 +22,7 @@ namespace Yoka.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(11m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new BlockVar(12m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
             new PowerVar<VulnerablePower>(1m)
         ];
 

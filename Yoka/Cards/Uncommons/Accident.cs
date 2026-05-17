@@ -25,18 +25,18 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(8m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new PowerVar<AccidentPower>(7m),
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-            await PowerCmd.Apply<AccidentPower>(choiceContext, Owner.Creature, DynamicVars.Damage.BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<AccidentPower>(choiceContext, Owner.Creature, DynamicVars["AccidentPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(4m);
+            DynamicVars["AccidentPower"].UpgradeValueBy(3m);
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Yoka.Cards.Uncommons
         {
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
-            var upgradeableCards = Owner.PlayerCombatState.AllCards
+            var upgradeableCards = Utils.GetAllCardsExceptExhaustPile(Owner)
                                   .Where(card => card.IsUpgradable)
                                   .ToList();
 
@@ -54,8 +54,9 @@ namespace Yoka.Cards.Uncommons
                     continue;
                 }
 
-                CardCmd.Upgrade(randomUpgradeableCard);
+                CardCmd.Upgrade(randomUpgradeableCard, MegaCrit.Sts2.Core.Nodes.CommonUi.CardPreviewStyle.MessyLayout);
                 upgradeableCards.Remove(randomUpgradeableCard);
+                CardCmd.Preview(randomUpgradeableCard, 2.5f);
             }
         }
 

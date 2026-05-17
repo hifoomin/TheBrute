@@ -31,7 +31,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            var allCards = Owner.PlayerCombatState.AllCards;
+            var allCards = Utils.GetAllCardsExceptExhaustPile(Owner);
             var card = Owner.RunState.Rng.CombatCardSelection.NextItem(allCards);
             if (card != null)
             {

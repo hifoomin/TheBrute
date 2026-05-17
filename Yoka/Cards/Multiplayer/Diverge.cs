@@ -35,7 +35,7 @@ namespace Yoka.Cards.Multiplayer
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(4m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new BlockVar(5m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
             new PowerVar<ThornsPower>(1m)
         ];
 

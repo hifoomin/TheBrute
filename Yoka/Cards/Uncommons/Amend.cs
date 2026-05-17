@@ -28,7 +28,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(3),
+            new MaxHpVar(2),
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -43,11 +43,12 @@ namespace Yoka.Cards.Uncommons
                 var randomZeroCostCard = CardFactory.GetDistinctForCombat(Owner,
                                       from card in Owner.Character.CardPool.GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint)
                                       where card.EnergyCost.GetWithModifiers(CostModifiers.All) == 0 &&
+                                      card != this &&
                                       !card.EnergyCost.CostsX
                                       select card, 1, Owner.RunState.Rng.CombatCardGeneration).FirstOrDefault();
 
-                var toTransform = CombatState.CreateCard(randomZeroCostCard, Owner);
-                await CardCmd.Transform(transformableStatusCard, toTransform);
+                // var toTransform = CombatState.CreateCard(randomZeroCostCard, Owner);
+                await CardCmd.Transform(transformableStatusCard, randomZeroCostCard);
             }
             // holy fuck thiis might affect the trout population
         }

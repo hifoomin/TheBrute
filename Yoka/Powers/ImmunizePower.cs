@@ -24,14 +24,17 @@ namespace Yoka.Powers
 
         public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
         {
-            var alivePlayersExcludingPowerOwner = from c in CombatState.GetTeammatesOf(Owner)
-                                                  where c != null && c.IsAlive && c.IsPlayer
-                                                  && c != Owner
-                                                  select c;
-
-            foreach (Creature player in alivePlayersExcludingPowerOwner)
+            if (result.UnblockedDamage > 0 && dealer != target && dealer.IsEnemy)
             {
-                await CreatureCmd.Heal(player, DynamicVars.Heal.BaseValue);
+                var alivePlayersExcludingPowerOwner = from c in CombatState.GetTeammatesOf(Owner)
+                                                      where c != null && c.IsAlive && c.IsPlayer
+                                                      && c != Owner
+                                                      select c;
+
+                foreach (Creature player in alivePlayersExcludingPowerOwner)
+                {
+                    await CreatureCmd.Heal(player, Amount);
+                }
             }
         }
     }
