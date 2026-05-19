@@ -32,7 +32,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new HealVar(4m),
+            new HealVar(5m),
             new GoldVar(12),
             new DynamicVar("VakuuNextTurn", 1m)
         ];

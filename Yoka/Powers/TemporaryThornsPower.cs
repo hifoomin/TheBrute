@@ -41,7 +41,7 @@ namespace Yoka.Powers
             {
                 if (Owner.Player != null && Owner.Player.GetRelic<ThornyHelmet>() != null)
                 {
-                    for (int i = 0; i < 3; i++)
+                    for (int i = 0; i < 4; i++)
                     {
                         await PowerCmd.Decrement(this);
                     }
@@ -56,9 +56,12 @@ namespace Yoka.Powers
     [HarmonyPatch(typeof(PowerModel), "SetAmount")]
     public class KurwaMacGownoZjebanePatchxDD
     {
-        private static void Prefix(ref int amount)
+        private static void Prefix(PowerModel __instance, ref int amount)
         {
-            amount = Mathf.Max(amount, 0);
+            if (__instance is TemporaryThornsPower)
+            {
+                amount = Mathf.Max(amount, 0);
+            }
         }
     }
 }

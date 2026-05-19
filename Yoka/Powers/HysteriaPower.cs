@@ -7,9 +7,11 @@ using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -29,6 +31,11 @@ namespace Yoka.Powers
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.ForEnergy(this)];
 
+        protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new CardsVar(3)
+        ];
+
         public override decimal ModifyMaxEnergy(Player player, decimal amount)
         {
             if (player != Owner.Player)
@@ -38,17 +45,17 @@ namespace Yoka.Powers
             return amount + (decimal)Amount;
         }
 
-        public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+        public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
         {
-            if (cardPlay.Card.Owner == Owner.Player)
-            {
-                NFireBurningVfx child = NFireBurningVfx.Create(Owner.Player.Creature, 1f, goingRight: false);
-                NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(child);
+            NFireBurningVfx child = NFireBurningVfx.Create(Owner.Player.Creature, 1f, goingRight: false);
+            NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(child);
 
+            for (int i = 0; i < DynamicVars.Cards.BaseValue; i++)
+            {
                 CardModel card = CombatState.CreateCard<Burn>(Owner.Player);
                 CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, Owner.Player));
-                await Cmd.Wait(0.25f);
             }
+            await Cmd.Wait(0.5f);
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Yoka.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(8m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new DamageVar(9m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
             new EnergyVar(1)
         ];
 

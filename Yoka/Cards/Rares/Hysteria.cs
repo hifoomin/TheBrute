@@ -26,7 +26,8 @@ namespace Yoka.Cards.Rares
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new EnergyVar(2),
-            new PowerVar<HysteriaPower>(2m)
+            new PowerVar<HysteriaPower>(2m),
+            new CardsVar(3)
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips => [EnergyHoverTip];

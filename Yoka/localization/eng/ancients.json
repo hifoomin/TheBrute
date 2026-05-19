@@ -1,6 +1,6 @@
 {
-    "THE_ARCHITECT.talk.YOKA.0-0r.char": "I am angry at the architect",
-	"THE_ARCHITECT.talk.YOKA.0-0r.next": "Continue",
-	"THE_ARCHITECT.talk.YOKA.0-1r.ancient": "You die",
-	"THE_ARCHITECT.talk.YOKA.0-attack": "Both"
+    "THE_ARCHITECT.talk.YOKA-YOKA.0-0r.char": "Kurrrrr",
+	"THE_ARCHITECT.talk.YOKA-YOKA.0-0r.next": "KILL THAT BOY",
+	"THE_ARCHITECT.talk.YOKA-YOKA.0-1r.ancient": "You're dead.\nBetter luck next time.",
+	"THE_ARCHITECT.talk.YOKA-YOKA.0-attack": "co xdd"
 }

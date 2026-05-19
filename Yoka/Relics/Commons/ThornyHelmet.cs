@@ -28,7 +28,7 @@ namespace Yoka.Relics.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<TemporaryThornsPower>(3m)
+            new PowerVar<TemporaryThornsPower>(4m)
         ];
     }
 }

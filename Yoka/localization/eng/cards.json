@@ -49,7 +49,7 @@
 	"YOKA-WALL_OF_THORNS.title": "Wall of Thorns",
 	"YOKA-WALL_OF_THORNS.description": "Gain {Block:diff()} [gold]Block[/gold].\nGain {ThornsPower:diff()} [gold]Thorns[/gold].",
 	"YOKA-STOCKADE.title": "Stockade",
-	"YOKA-STOCKADE.description": "Draw {Cards:diff()} {Cards:plural:card|cards}.\nGain {ThornsPower:diff()} [gold]Thorns[/gold].",
+	"YOKA-STOCKADE.description": "Gain {ThornsPower:diff()} [gold]Thorns[/gold].\nNext turn, draw {DrawCardsNextTurnPower:diff()} {DrawCardsNextTurnPower:plural:card|cards}.",
 	"YOKA-COLLAPSE.title": "Collapse",
 	"YOKA-COLLAPSE.description": "Lose {HpLoss:diff()} HP.\nDeal damage equal to {IfUpgraded:show:triple|double} your [gold]Thorns[/gold].{InCombat:\n(Deals {CalculatedDamage:diff()} damage.)|}",
 	"YOKA-SCHEME.title": "Scheme",
@@ -57,7 +57,7 @@
 	"YOKA-LEVERAGE.title": "Leverage",
 	"YOKA-LEVERAGE.description": "If you received unblocked attack damage last turn, gain {Energy:energyIcons()}.",
 	"YOKA-HYSTERIA.title": "Hysteria",
-	"YOKA-HYSTERIA.description": "At the start of your turn, gain {Energy:energyIcons()}.\nWhenever you play a card, add a [gold]Burn[/gold] into your [gold]Discard Pile[/gold].",
+	"YOKA-HYSTERIA.description": "At the start of your turn, gain {Energy:energyIcons()}.\nAt the end of your turn, add {Cards:diff()} [gold]{Cards:plural:Burn|Burns}[/gold] into your [gold]Discard Pile[/gold].",
 	"YOKA-HEDGE.title": "Hedge",
 	"YOKA-HEDGE.description": "Gain {Block:diff()} [gold]Block[/gold].\nIf you gained or lost [gold]Gold[/gold] this turn, gain [gold]Block[/gold] {Repeat:diff()} additional {Repeat:plural:time|times}.",
 	"YOKA-DEATH_WISH.title": "Death Wish",
@@ -134,5 +134,7 @@
 	"YOKA-ATTUNE.description": "Draw {Cards:diff()} {Cards:plural:card|cards}.\nNext turn, put a card from your [gold]Draw Pile[/gold] into your [gold]Hand[/gold].",
 	"YOKA-ATTUNE.selectionScreenPrompt": "Select a card to put in your Hand.",
 	"YOKA-GUARD.title": "Guard",
-	"YOKA-GUARD.description": "Gain {Block:diff()} [gold]Block[/gold].\nNext turn, draw {DrawCardsNextTurnPower:diff()} {DrawCardsNextTurnPower:plural:card|cards}."
+	"YOKA-GUARD.description": "Gain {Block:diff()} [gold]Block[/gold].\nNext turn, draw {DrawCardsNextTurnPower:diff()} {DrawCardsNextTurnPower:plural:card|cards}.",
+	"YOKA-EMBARASS.title": "Embarass",
+	"YOKA-EMBARASS.description": "Enemy deals 50% less damage but hits {EmbarassPower:diff()} more {EmbarassPower:plural:time|times}."
 }	

@@ -27,16 +27,16 @@ namespace Yoka.Cards.Commons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(14m, ValueProp.Move),
-            new GoldVar(5)
+            new GoldVar(4)
         ];
 
-        protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, 5);
+        protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, 4);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            if (Utils.HasGold(Owner, 5))
+            if (Utils.HasGold(Owner, 4))
             {
                 await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
                 .WithHitFx(null /*"vfx/vfx_attack_slash"*/)

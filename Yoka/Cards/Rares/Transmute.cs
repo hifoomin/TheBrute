@@ -46,23 +46,30 @@ namespace Yoka.Cards.Rares
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            var filter = (CardModel card) => (!card.DynamicVars.TryGetValue("HpLoss", out var hpLoss) || hpLoss.BaseValue <= 0) || (!card.DynamicVars.TryGetValue("Heal", out var heal) || heal.BaseValue > 0);
-            foreach (CardModel card in await CardSelectCmd.FromHand(choiceContext, Owner, new CardSelectorPrefs(SelectionScreenPrompt, 1), filter, this))
+            foreach (CardModel card in await CardSelectCmd.FromHand(choiceContext, Owner, new CardSelectorPrefs(SelectionScreenPrompt, 1), null, this))
             {
+                card.BaseReplayCount++;
+
                 if (!card.EnergyCost.CostsX && card.EnergyCost.GetWithModifiers(CostModifiers.None) >= 0)
                 {
-                    // CardCmd.ApplyKeyword(item, CardKeyword.Exhaust);
-                    // item.DynamicVars.HpLoss.BaseValue += DynamicVars.HpLoss.BaseValue;
                     var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
 
                     var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(card.DynamicVars);
 
-                    cardVars["HpLoss"] = new HpLossVar(DynamicVars.HpLoss.BaseValue);
-                    // Main.Logger.Warn("transmute onplay: trying to add keyword and hp loss");
-                    card.AddKeyword(Yoka.Keywords.hpLossKeyword);
-                    // Main.Logger.Warn("transmute onplay: cards new hploss value is " + vars["HpLoss"].BaseValue);
+                    if (cardVars.TryGetValue("HpLoss", out var existingVar) && existingVar is HpLossVar existingHpLoss)
+                    {
+                        cardVars["HpLoss"] = new HpLossVar(existingHpLoss.BaseValue + card.BaseReplayCount);
+                    }
+                    else
+                    {
+                        cardVars["HpLoss"] = new HpLossVar(DynamicVars.HpLoss.BaseValue);
+
+                        if (!card.hasHpLossKeyword())
+                        {
+                            card.AddKeyword(Yoka.Keywords.hpLossKeyword);
+                        }
+                    }
                 }
-                card.BaseReplayCount++;
             }
         }
 

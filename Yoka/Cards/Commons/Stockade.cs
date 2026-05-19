@@ -36,13 +36,13 @@ namespace Yoka.Cards.Commons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<ThornsPower>(1m),
-            new CardsVar(1)
+            new PowerVar<DrawCardsNextTurnPower>(1)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, DynamicVars["ThornsPower"].BaseValue, Owner.Creature, this);
-            await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
+            await PowerCmd.Apply<DrawCardsNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["DrawCardsNextTurnPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()

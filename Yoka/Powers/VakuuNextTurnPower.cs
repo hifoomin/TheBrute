@@ -28,13 +28,17 @@ namespace Yoka.Powers
     {
         public override PowerType Type => PowerType.Debuff;
 
-        public override PowerStackType StackType => PowerStackType.Single;
+        public override PowerStackType StackType => PowerStackType.Counter;
 
-        private int gainedOnTurnNumber = 0;
+        private int activatedOnTurnNumber;
 
         public override Task BeforeApplied(Creature target, decimal amount, Creature? applier, CardModel? cardSource)
         {
-            gainedOnTurnNumber = applier.CombatState.RoundNumber;
+            if (Amount <= 0 && applier.CombatState != null)
+            {
+                activatedOnTurnNumber = applier.CombatState.RoundNumber + 1;
+            }
+
             return Task.CompletedTask;
         }
 
@@ -46,7 +50,7 @@ namespace Yoka.Powers
             }
 
             ICombatState combatState = player.Creature.CombatState;
-            if (combatState.RoundNumber <= gainedOnTurnNumber)
+            if (combatState.RoundNumber < activatedOnTurnNumber)
             {
                 return;
             }
@@ -89,7 +93,8 @@ namespace Yoka.Powers
             }
             var localizationString = (hasPlayedMaxCards ? new LocString("relics", "WHISPERING_EARRING.warning") : new LocString("relics", "WHISPERING_EARRING.approval"));
             TalkCmd.Play(localizationString, player.Creature, VfxColor.Purple);
-            await PowerCmd.Remove(this);
+
+            await PowerCmd.Decrement(this);
         }
 
         private Creature? GetRandomTarget(CardModel card, ICombatState combatState, Player player)

@@ -32,7 +32,7 @@ namespace Yoka.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(2m),
-            new CardsVar(4)
+            new CardsVar(6)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
