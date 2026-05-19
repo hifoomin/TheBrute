@@ -43,7 +43,7 @@ namespace Yoka.Cards.Uncommons
                 var randomZeroCostCard = CardFactory.GetDistinctForCombat(Owner,
                                       from card in Owner.Character.CardPool.GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint)
                                       where card.EnergyCost.GetWithModifiers(CostModifiers.All) == 0 &&
-                                      card != this &&
+                                      card.Id != ModelDb.Card<Amend>().Id &&
                                       !card.EnergyCost.CostsX
                                       select card, 1, Owner.RunState.Rng.CombatCardGeneration).FirstOrDefault();
 

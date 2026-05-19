@@ -40,7 +40,7 @@ namespace Yoka.Cards.Uncommons
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
             var upgradeableCards = Utils.GetAllCardsExceptExhaustPile(Owner)
-                                  .Where(card => card.IsUpgradable)
+                                  .Where(card => card.IsUpgradable && card != this)
                                   .ToList();
 
             var upgradeCount = Math.Min(DynamicVars.Cards.IntValue, upgradeableCards.Count);
