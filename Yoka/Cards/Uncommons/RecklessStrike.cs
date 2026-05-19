@@ -26,7 +26,7 @@ namespace Yoka.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(14m, ValueProp.Move),
-            new GoldVar(2)
+            new GoldVar(3)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

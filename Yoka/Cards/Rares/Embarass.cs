@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿/*
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -27,62 +28,36 @@ namespace Yoka.Cards.Rares
             new PowerVar<EmbarassPower>(1m)
         ];
 
-        // CO JEST KURWA CO JEST KURWA CO JEST KURWA CO JEST KURWA CO JEST KURWA CO JEST KURWA CO JEST KURWA CO JEST KURWA
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            decimal powerAmount = 0;
-
             var monster = cardPlay.Target.Monster;
 
             var enemyMove = monster.NextMove;
-            List<AbstractIntent> abstractIntents = enemyMove.Intents.ToList();
-            List<AbstractIntent> newAbstractIntents = [];
-            foreach (AbstractIntent abstractIntent in abstractIntents)
+            List<AbstractIntent> intents = enemyMove.Intents.ToList();
+            List<AbstractIntent> newIntents = [];
+            foreach (AbstractIntent intent in intents)
             {
-                if (abstractIntent is AttackIntent attackIntent)
+                if (intent is AttackIntent)
                 {
-                    decimal baseDamage = attackIntent.DamageCalc?.Invoke() ?? 0m;
-                    Main.Logger.Warn("base damage is " + baseDamage);
+                    AttackIntent attack = (AttackIntent)intent;
 
-                    int currentHits = attackIntent.Repeats;
-                    Main.Logger.Warn("current hits is " + currentHits);
-                    if (currentHits <= 0)
-                    {
-                        currentHits = 1;
-                    }
+                    var baseDamage = attack.DamageCalc();
+                    var baseHitCount = attack.Repeats;
+                    var totalDamage = baseDamage * baseHitCount;
+                    var newBaseDamage = Math.Floor(totalDamage / (attack.Repeats + 1));
 
-                    decimal currentTotal = baseDamage * currentHits;
-                    Main.Logger.Warn("current total is " + currentTotal);
-
-                    int newHits = currentHits + 1;
-
-                    Main.Logger.Warn("new hits is " + newHits);
-
-                    decimal newBaseDamage = Math.Floor(currentTotal / newHits);
-                    Main.Logger.Warn("new base damage is " + newBaseDamage);
-                    newBaseDamage = Math.Max(1, newBaseDamage);
-                    Main.Logger.Warn("new base damage #2 is " + newBaseDamage);
-
-                    // var newIntent = new MultiAttackIntent((int)newBaseDamage, newHits);
-                    var newIntent = new MultiAttackIntent((int)attackIntent.DamageCalc(), attackIntent.Repeats + 1);
-
-                    powerAmount = newHits;
+                    newIntents.Add(new MultiAttackIntent((int)newBaseDamage, attack.Repeats + 1));
                 }
                 else
                 {
-                    newAbstractIntents.Add(abstractIntent);
+                    newIntents.Add(intent);
                 }
             }
-            var newMove = new MoveState(enemyMove.StateId, enemyMove._onPerform, [.. newAbstractIntents])
-            {
-                FollowUpState = enemyMove.FollowUpState
-            };
+            var newMove = new MoveState(enemyMove.StateId, enemyMove._onPerform, newIntents.ToArray());
+            newMove.FollowUpState = enemyMove.FollowUpState;
             monster.SetMoveImmediate(newMove);
-
-            // await PowerCmd.Apply<EmbarassPower>(choiceContext, cardPlay.Target, powerAmount, Owner.Creature, this);
-            await PowerCmd.Apply<EmbarassPower>(choiceContext, cardPlay.Target, DynamicVars["EmbarassPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
@@ -91,3 +66,4 @@ namespace Yoka.Cards.Rares
         }
     }
 }
+*/

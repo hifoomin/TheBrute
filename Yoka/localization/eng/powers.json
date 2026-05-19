@@ -41,5 +41,11 @@
 	"YOKA-ATTUNE_POWER.title": "Attune",
 	"YOKA-ATTUNE_POWER.description": "Next turn, put a card from your [gold]Draw Pile[/gold] into your [gold]Hand[/gold].",
 	"YOKA-ATTUNE_POWER.smartDescription": "Next turn, put a card from your [gold]Draw Pile[/gold] into your [gold]Hand[/gold].",
-	"YOKA-ATTUNE_POWER.selectionScreenPrompt": "Select a card to put in your Hand."
+	"YOKA-ATTUNE_POWER.selectionScreenPrompt": "Select a card to put in your Hand.",
+	"YOKA-BITTER_EMBRACE_POWER.title": "Bitter Embrace",
+	"YOKA-BITTER_EMBRACE_POWER.description": "At the start of your turn, add 1 [gold]random 0 Energy card[/gold] into your [gold]Hand[/gold].",
+	"YOKA-BITTER_EMBRACE_POWER.smartDescription": "At the start of your turn, add [blue]{Amount}[/blue] [gold]random 0{energyPrefix:energyIcons(1)} card[/gold] into your [gold]Hand[/gold].",
+	"YOKA-COMBO_POWER.title": "Combo",
+	"YOKA-COMBO_POWER.description": "This turn, your next Attack is played an extra time.",
+	"YOKA-COMBO_POWER.smartDescription": "This turn, your next Attack is played [blue]{Amount}[/blue] extra {Amount:plural:time|times}."
 }

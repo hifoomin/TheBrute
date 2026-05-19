@@ -30,7 +30,7 @@ namespace Yoka.Cards.Commons
                 .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
 
-            await CardCmd.Discard(choiceContext, await CardSelectCmd.FromHandForDiscard(choiceContext, base.Owner, new CardSelectorPrefs(CardSelectorPrefs.DiscardSelectionPrompt, DynamicVars.Cards.IntValue), null, this));
+            await CardCmd.Discard(choiceContext, await CardSelectCmd.FromHandForDiscard(choiceContext, Owner, new CardSelectorPrefs(CardSelectorPrefs.DiscardSelectionPrompt, DynamicVars.Cards.IntValue), null, this));
         }
 
         protected override void OnUpgrade()

@@ -31,9 +31,9 @@ namespace Yoka.Cards.Uncommons
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
-            CardSelectorPrefs prefs = new CardSelectorPrefs(base.SelectionScreenPrompt, 1);
-            CardPile pile = PileType.Discard.GetPile(base.Owner);
-            CardModel cardModel = (await CardSelectCmd.FromSimpleGrid(choiceContext, pile.Cards, base.Owner, prefs)).FirstOrDefault();
+            CardSelectorPrefs prefs = new CardSelectorPrefs(SelectionScreenPrompt, 1);
+            CardPile pile = PileType.Discard.GetPile(Owner);
+            CardModel cardModel = (await CardSelectCmd.FromSimpleGrid(choiceContext, pile.Cards, Owner, prefs)).FirstOrDefault();
             bool flag = cardModel != null;
             bool flag2 = flag;
             if (flag2)

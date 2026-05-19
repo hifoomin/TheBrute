@@ -136,5 +136,17 @@
 	"YOKA-GUARD.title": "Guard",
 	"YOKA-GUARD.description": "Gain {Block:diff()} [gold]Block[/gold].\nNext turn, draw {DrawCardsNextTurnPower:diff()} {DrawCardsNextTurnPower:plural:card|cards}.",
 	"YOKA-EMBARASS.title": "Embarass",
-	"YOKA-EMBARASS.description": "Enemy deals 50% less damage but hits {EmbarassPower:diff()} more {EmbarassPower:plural:time|times}."
+	"YOKA-EMBARASS.description": "Enemy deals 50% less damage but hits {EmbarassPower:diff()} more {EmbarassPower:plural:time|times}.",
+	"YOKA-IMPULSE.title": "Impulse",
+	"YOKA-IMPULSE.description": "Deal {Damage:diff()} damage.\nIf [gold]Fatal[/gold], gain {Energy:energyIcons()}.",
+	"YOKA-COMBO.title": "Combo",
+	"YOKA-COMBO.description": "This turn, your next Attack is played {ComboPower:diff()} extra {ComboPower:plural:time|times}.",
+	"YOKA-TWIST_THE_KNIFE.title": "Twist the Knife",
+	"YOKA-TWIST_THE_KNIFE.description": "Deal {Damage:diff()} damage for each {energyPrefix:energyIcons(1)} spent this combat.{InCombat:\n(Deals {CalculatedDamage:diff()} damage.)|}",
+	"YOKA-SUPREMACY.title": "Supremacy",
+	"YOKA-SUPREMACY.description": "Gain {Block:diff()} [gold]Block[/gold].\nEvery {Cards:diff()} {Cards:plural:Attack|Attack} you play in a turn, put this into your [gold]Hand[/gold].",
+	"YOKA-BITTER_EMBRACE.title": "Bitter Embrace",
+	"YOKA-BITTER_EMBRACE.description": "At the start of your turn, add {BitterEmbracePower:diff()} [gold]random 0{energyPrefix:energyIcons(1)} card[/gold] into your [gold]Hand[/gold].",
+	"YOKA-HEAVE.title": "Heave",
+	"YOKA-HEAVE.description": "Draw X cards.\nDeal {Damage:diff()} damage to a random enemy for each card in your [gold]Hand[/gold]."
 }	

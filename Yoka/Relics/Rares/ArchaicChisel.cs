@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿/*
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -74,3 +75,6 @@ namespace Yoka.Relics.Rares
         }
     }
 }
+*/
+
+// this is just a test relic for fun, I choose not to include it because of how overpowered it is (ig it could burn away or smth) and because it's not thematic to the character

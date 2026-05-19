@@ -30,7 +30,7 @@ namespace Yoka.Cards.Uncommons
         {
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
-            IEnumerable<CardModel> enumerable = PileType.Discard.GetPile(base.Owner).Cards.Where(Filter).ToList();
+            IEnumerable<CardModel> enumerable = PileType.Discard.GetPile(Owner).Cards.Where(Filter).ToList();
             foreach (CardModel item in enumerable)
             {
                 await CardPileCmd.Add(item, PileType.Hand);
