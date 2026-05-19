@@ -17,23 +17,21 @@ using Yoka.Powers;
 
 namespace Yoka.Cards.Rares
 {
-    internal class DeathWish : YokaCard
+    internal class HunkerDown : YokaCard
     {
-        public DeathWish() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+        public HunkerDown() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
         {
         }
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<DeathWishPower>(1m)
+            new PowerVar<HunkerDownPower>(1m)
         ];
-
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [EnergyHoverTip];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-            await PowerCmd.Apply<DeathWishPower>(choiceContext, Owner.Creature, DynamicVars["DeathWishPower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<HunkerDownPower>(choiceContext, Owner.Creature, DynamicVars["HunkerDownPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()

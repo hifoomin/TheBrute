@@ -15,30 +15,28 @@ using System.Text;
 using System.Threading.Tasks;
 using Yoka.Powers;
 
-namespace Yoka.Cards.Rares
+namespace Yoka.Cards.Uncommons
 {
-    internal class DeathWish : YokaCard
+    internal class Riposte : YokaCard
     {
-        public DeathWish() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+        public Riposte() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<DeathWishPower>(1m)
+            new BlockVar(10m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
         ];
-
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [EnergyHoverTip];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-            await PowerCmd.Apply<DeathWishPower>(choiceContext, Owner.Creature, DynamicVars["DeathWishPower"].BaseValue, Owner.Creature, this);
+            await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+            await PowerCmd.Apply<FreeAttackPower>(choiceContext, base.Owner.Creature, 1m, base.Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            EnergyCost.UpgradeBy(-1);
+            DynamicVars.Block.UpgradeValueBy(5m);
         }
     }
 }

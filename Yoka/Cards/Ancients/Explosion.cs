@@ -1,4 +1,5 @@
-﻿using BaseLib.Abstracts;
+﻿/*
+using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
@@ -25,7 +26,7 @@ namespace Yoka.Cards.Ancients
 {
     internal class Explosion : YokaCard, ITomeCard
     {
-        public Explosion() : base(2, CardType.Attack, CardRarity.Ancient, TargetType.AllEnemies)
+        public Explosion() : base(2, CardType.Power, CardRarity.Ancient, TargetType.AllEnemies)
         {
         }
 
@@ -34,10 +35,13 @@ namespace Yoka.Cards.Ancients
             CardKeyword.Exhaust
         ];
 
+        public bool Show =>
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new PowerVar<ExplosionPower>(1m),
             new CalculationBaseVar(0m),
-            new ExtraDamageVar(2m),
+            new ExtraDamageVar(1m),
             new CalculatedDamageVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
             {
                 return Utils.TookUnblockedDamageCount(card.Owner) + GoldLostThisCombatTracker.Get(card.Owner.Creature);
@@ -46,14 +50,14 @@ namespace Yoka.Cards.Ancients
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await DamageCmd.Attack(DynamicVars.CalculatedDamage).FromCard(this).TargetingAllOpponents(CombatState)
-                .WithHitFx(null /*"vfx/vfx_giant_horizontal_slash"*/)
-                .Execute(choiceContext);
+            await PowerCmd.Apply<ExplosionPower>(choiceContext, Owner.Creature, DynamicVars["ExplosionPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
             DynamicVars.ExtraDamage.UpgradeValueBy(1m);
+            DynamicVars["ExplosionPower"].UpgradeValueBy(1m);
         }
     }
 }
+*/

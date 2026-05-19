@@ -16,7 +16,7 @@
 	"YOKA-HYSTERIA_POWER.smartDescription": "At the start of your turn, gain [blue]{Amount}[/blue] [gold]Energy[/gold].\nAt the end of your turn, add {Cards:diff()} [gold]{Cards:plural:Burn|Burns}[/gold] into your [gold]Discard Pile[/gold].",
 	"YOKA-DEATH_WISH_POWER.title": "Death Wish",
 	"YOKA-DEATH_WISH_POWER.description": "Whenever you lose Max HP, add a random Attack into your [gold]Hand[/gold]. It's free to play this turn.",
-	"YOKA-DEATH_WISH_POWER.smartDescription": "Whenever you lose Max HP, add [blue]{Amount}[/blue] random Attack into your [gold]Hand[/gold]. It's free to play this turn.",
+	"YOKA-DEATH_WISH_POWER.smartDescription": "Whenever you lose Max HP, add [blue]{Amount}[/blue] random {Amount:plural:Attack|Attacks} into your [gold]Hand[/gold]. It's free to play this turn.",
 	"YOKA-HIGH_ROLLER_POWER.title": "High Roller",
 	"YOKA-HIGH_ROLLER_POWER.description": "Whenever you gain or lose Gold, gain [gold]Strength[/gold].",
 	"YOKA-HIGH_ROLLER_POWER.smartDescription": "Whenever you gain or lose Gold, gain [blue]{Amount}[/blue] [gold]Strength[/gold].",
@@ -44,8 +44,17 @@
 	"YOKA-ATTUNE_POWER.selectionScreenPrompt": "Select a card to put in your Hand.",
 	"YOKA-BITTER_EMBRACE_POWER.title": "Bitter Embrace",
 	"YOKA-BITTER_EMBRACE_POWER.description": "At the start of your turn, add 1 [gold]random 0 Energy card[/gold] into your [gold]Hand[/gold].",
-	"YOKA-BITTER_EMBRACE_POWER.smartDescription": "At the start of your turn, add [blue]{Amount}[/blue] [gold]random 0{energyPrefix:energyIcons(1)} card[/gold] into your [gold]Hand[/gold].",
+	"YOKA-BITTER_EMBRACE_POWER.smartDescription": "At the start of your turn, add [blue]{Amount}[/blue] random 0 {energyPrefix:energyIcons(1)} card into your [gold]Hand[/gold].",
 	"YOKA-COMBO_POWER.title": "Combo",
 	"YOKA-COMBO_POWER.description": "This turn, your next Attack is played an extra time.",
-	"YOKA-COMBO_POWER.smartDescription": "This turn, your next Attack is played [blue]{Amount}[/blue] extra {Amount:plural:time|times}."
+	"YOKA-COMBO_POWER.smartDescription": "This turn, your next Attack is played [blue]{Amount}[/blue] extra {Amount:plural:time|times}.",
+	"YOKA-HUNKER_DOWN_POWER.title": "Hunker Down",
+	"YOKA-HUNKER_DOWN_POWER.description": "Whenever you gain [gold]Block[/gold], draw a card.",
+	"YOKA-HUNKER_DOWN_POWER.smartDescription": "Whenever you gain [gold]Block[/gold], draw {Amount} {Amount:plural:card|cards}.",
+	"YOKA-SALVAGE_POWER.title": "Salvage",
+	"YOKA-SALVAGE_POWER.description": "Reduce your [gold]Maximum Hand Size[/gold].",
+	"YOKA-SALVAGE_POWER.smartDescription": "Reduce your [gold]Maximum Hand Size[/gold] by [blue]{Amount}[/blue].",
+	"YOKA-EXPLOSION_POWER.title": "Explosion",
+	"YOKA-EXPLOSION_POWER.description": "At the start of your turn, deal damage equal to your HP and [gold]Gold[/gold] lost this combat.",
+	"YOKA-EXPLOSION_POWER.smartDescription": "At the start of your turn, deal damage equal to{Amount>2:show: twice|} your HP and [gold]Gold[/gold] lost this combat."
 }

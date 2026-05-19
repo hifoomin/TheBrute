@@ -34,6 +34,11 @@ namespace Yoka.Powers
 
         public override async Task AfterGoldGained(Player player)
         {
+            if (player != Owner.Player)
+            {
+                return;
+            }
+
             var hittableEnemies = CombatState.HittableEnemies;
             if (hittableEnemies.Count != 0 && Owner.Player != null)
             {

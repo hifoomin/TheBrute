@@ -29,6 +29,7 @@ namespace Yoka.Powers
             {
                 return;
             }
+
             var eligibleCards = Owner.Player.Character.CardPool.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint).Where(delegate (CardModel card)
             {
                 var cardRarity = card.Rarity;
