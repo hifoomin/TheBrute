@@ -2,6 +2,7 @@
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -40,10 +41,21 @@ namespace Yoka.Cards.Rares
             // DynamicVars.Block.BaseValue = 7m;
         }
 
-        protected override async Task OnTurnEndInHand(PlayerChoiceContext choiceContext)
+        public override Task BeforeFlush(PlayerChoiceContext choiceContext, Player player)
         {
-            AssertMutable();
+            if (player != Owner)
+            {
+                return Task.CompletedTask;
+            }
+            CardPile? pile = Pile;
+            if (pile == null || pile.Type != PileType.Hand)
+            {
+                return Task.CompletedTask;
+            }
+
             DynamicVars.Block.UpgradeValueBy(DynamicVars["RetainBlock"].BaseValue);
+
+            return Task.CompletedTask;
         }
 
         protected override void OnUpgrade()

@@ -152,7 +152,7 @@
 	"YOKA-HUNKER_DOWN.title": "Hunker Down",
 	"YOKA-HUNKER_DOWN.description": "Whenever you gain [gold]Block[/gold], draw {HunkerDownPower:diff()} {HunkerDownPower:plural:card|cards}.",
 	"YOKA-SAFEGUARD.title": "Safeguard",
-	"YOKA-SAFEGUARD.description": "Gain {Block:diff()}.\nWhen [gold]Retained[/gold], increase its [gold]Block[/gold] by {RetainBlock:diff()} this combat.",
+	"YOKA-SAFEGUARD.description": "Gain {Block:diff()} Block.\nWhen [gold]Retained[/gold], increase its [gold]Block[/gold] by {RetainBlock:diff()} this combat.",
 	"YOKA-RIPOSTE.title": "Riposte",
 	"YOKA-RIPOSTE.description": "Gain {Block:diff()} [gold]Block[/gold].\nThe next Attack you play costs 0 {energyPrefix:energyIcons(1)}.",
 	"YOKA-SALVAGE.title": "Salvage",
