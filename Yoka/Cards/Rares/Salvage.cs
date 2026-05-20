@@ -27,6 +27,11 @@ namespace Yoka.Cards.Rares
         {
         }
 
+        public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        [
+            CardKeyword.Exhaust
+        ];
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(3m),
