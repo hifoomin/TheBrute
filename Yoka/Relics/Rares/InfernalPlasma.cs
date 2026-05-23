@@ -27,7 +27,7 @@ namespace Yoka.Relics.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(2m)
+            new MaxHpVar(3m)
         ];
 
         private bool shouldRun = false;

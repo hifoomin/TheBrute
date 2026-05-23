@@ -13,7 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Yoka.Relics.Commons;
+
+// using Yoka.Relics.Commons;
 
 namespace Yoka.Powers
 {
@@ -35,19 +36,10 @@ namespace Yoka.Powers
             }
         }
 
-        public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+        public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
         {
             if (side == CombatSide.Enemy)
             {
-                if (Owner.Player != null && Owner.Player.GetRelic<ThornyHelmet>() != null)
-                {
-                    for (int i = 0; i < 4; i++)
-                    {
-                        await PowerCmd.Decrement(this);
-                    }
-
-                    return;
-                }
                 await PowerCmd.Remove(this);
             }
         }

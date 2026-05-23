@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using MegaCrit.Sts2.Core.CardSelection;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -29,39 +30,44 @@ namespace Yoka.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new CardsVar(1),
-            new DamageVar(3, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move)
+            new GoldVar(4)
         ];
+
+        public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        [
+            CardKeyword.Exhaust
+        ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated
+        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            var repeats = ResolveEnergyXValue();
-            await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue * repeats, Owner);
-
-            VfxCmd.PlayOnCreatureCenters(CombatState.HittableEnemies, "vfx/vfx_attack_slash");
-            SfxCmd.Play("slash_attack.mp3");
-
-            var cardsInHand = PileType.Hand.GetPile(Owner).Cards.Count;
-            for (int i = 0; i < cardsInHand; i++)
+            var exhaustRepeats = ResolveEnergyXValue();
+            if (IsUpgraded)
             {
-                var hittableEnemies = CombatManager.Instance._state?.HittableEnemies;
-                if (hittableEnemies == null || hittableEnemies.Count <= 0)
-                {
-                    continue;
-                }
-
-                var randomEnemy = Owner.RunState.Rng.CombatTargets.NextItem(hittableEnemies);
-                if (randomEnemy == null)
-                {
-                    continue;
-                }
-
-                await CreatureCmd.Damage(choiceContext, randomEnemy, DynamicVars.Damage.BaseValue, ValueProp.Move, this);
+                exhaustRepeats++;
             }
-        }
 
-        protected override void OnUpgrade()
-        {
-            DynamicVars.Damage.UpgradeValueBy(1m);
+            var goldLossRepeats = ResolveEnergyXValue();
+
+            List<CardModel> cardsIn =
+            [..
+                (from c in PileType.Draw.GetPile(Owner).Cards
+                orderby c.Rarity, c.Id
+                select c)
+            ];
+
+            foreach (var card in await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue * exhaustRepeats)))
+            {
+                if (card != null)
+                {
+                    await CardCmd.Exhaust(choiceContext, card);
+                }
+            }
+            await PlayerCmd.LoseGold(DynamicVars.Gold.BaseValue, Owner);
         }
     }
 }

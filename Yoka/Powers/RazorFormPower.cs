@@ -1,6 +1,8 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using HarmonyLib;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
@@ -8,10 +10,13 @@ using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Yoka.Cards;
+using Yoka.Relics.Uncommons;
 
 namespace Yoka.Powers
 {
@@ -20,12 +25,19 @@ namespace Yoka.Powers
         public override PowerType Type => PowerType.Buff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
+    }
 
-        public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
+    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd), "LoseMaxHp")]
+    internal class LoseMaxHpPatch
+    {
+        private static void Postfix(Task __result, PlayerChoiceContext choiceContext, Creature creature)
         {
-            if (target == Owner && result.UnblockedDamage > 0)
+            var razorFormPower = creature.GetPower<RazorFormPower>();
+            var combatState = creature.CombatState;
+
+            if (razorFormPower != null && combatState != null)
             {
-                await PowerCmd.Apply<ThornsPower>(choiceContext, Owner, Amount, Owner, cardSource);
+                PowerCmd.Apply<ThornsPower>(choiceContext, creature, razorFormPower.Amount, null, null);
             }
         }
     }

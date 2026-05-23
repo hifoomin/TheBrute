@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Yoka.Cards;
 using Yoka.Powers;
 
 namespace Yoka.Powers
@@ -34,11 +35,11 @@ namespace Yoka.Powers
             {
                 var cardRarity = card.Rarity;
 
-                var isZeroCost = card.EnergyCost.Canonical == 0 && !card.EnergyCost.CostsX;
+                var isGoldRelated = card.Tags.Contains(Tags.goldRelated);
 
                 var isAcceptableRarity = cardRarity != CardRarity.Basic || cardRarity != CardRarity.Ancient || cardRarity != CardRarity.Status || cardRarity != CardRarity.Token || cardRarity != CardRarity.Curse;
 
-                var isEligible = isZeroCost && isAcceptableRarity;
+                var isEligible = isGoldRelated && isAcceptableRarity;
 
                 return isEligible;
             }).ToList();

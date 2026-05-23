@@ -17,16 +17,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Yoka.Relics;
 
-namespace Yoka
+namespace Yoka.Cards
 {
     public static class Keywords
     {
         [CustomEnum, KeywordProperties(AutoKeywordPosition.Before)]
-        public static CardKeyword hpLossKeyword;
+        public static CardKeyword transmutedKeyword;
 
-        public static bool hasHpLossKeyword(this CardModel card)
+        public static bool hasTransmutedKeyword(this CardModel card)
         {
-            return card.Keywords.Contains(hpLossKeyword);
+            return card.Keywords.Contains(transmutedKeyword);
         }
 
         [CustomEnum, KeywordProperties(AutoKeywordPosition.Before)]
@@ -47,13 +47,16 @@ namespace Yoka
 
             // Main.Logger.Warn("onplaywrapperpatch ran");
 
-            if (__instance.hasHpLossKeyword())
+            if (__instance.hasTransmutedKeyword())
             {
-                CreatureCmd.Damage(choiceContext, __instance.Owner.Creature, __instance.DynamicVars.HpLoss.BaseValue, ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, __instance);
+                Main.Logger.Warn("CARD HAS TRANSMUTED KEYWORD, PLAYINGGGGG");
+                // await CreatureCmd.LoseMaxHp(choiceContext, __instance.Owner.Creature, __instance.DynamicVars.MaxHp.BaseValue, true);
+                CreatureCmd.LoseMaxHp(choiceContext, __instance.Owner.Creature, __instance.DynamicVars["Transmuted"].BaseValue, true);
             }
 
             if (__instance.hasGoldLossKeyword())
             {
+                // await PlayerCmd.LoseGold(__instance.DynamicVars["Gold"].IntValue, __instance.Owner);
                 PlayerCmd.LoseGold(__instance.DynamicVars["Gold"].IntValue, __instance.Owner);
             }
         }

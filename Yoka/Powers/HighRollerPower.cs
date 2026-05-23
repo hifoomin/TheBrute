@@ -19,6 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Yoka.Cards;
 
 namespace Yoka.Powers
 {
@@ -28,16 +29,18 @@ namespace Yoka.Powers
 
         public override PowerStackType StackType => PowerStackType.Counter;
 
+        /*
         private int lastGold = 0;
 
         public override async Task BeforeCardPlayed(CardPlay cardPlay)
         {
             lastGold = Owner.Player.Gold;
         }
+        */
 
         public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            if (cardPlay.Card.Owner == Owner.Player && lastGold != Owner.Player.Gold)
+            if (cardPlay.Card.Owner == Owner.Player && GoldLostTracker.GetChangedGoldThisTurn(Owner))
             {
                 await PowerCmd.Apply<StrengthPower>(choiceContext, Owner, Amount, Owner, null);
             }

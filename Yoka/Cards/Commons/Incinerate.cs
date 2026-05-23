@@ -30,6 +30,11 @@ namespace Yoka.Cards.Commons
             new GoldVar(4)
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated
+        ]);
+
         protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, 4);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -48,7 +53,7 @@ namespace Yoka.Cards.Commons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(7m);
+            DynamicVars.Damage.UpgradeValueBy(5m);
         }
     }
 }

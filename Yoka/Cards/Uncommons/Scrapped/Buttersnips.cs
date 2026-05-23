@@ -1,4 +1,5 @@
-﻿using BaseLib.Extensions;
+﻿/*
+using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -24,6 +25,11 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<ThornsPower>()];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             // 5 at base + 2 per each thorns, so 9 at base with starting relic, 17 with bristle (pretty goog but no block)
@@ -32,13 +38,6 @@ namespace Yoka.Cards.Uncommons
             new ExtraDamageVar(2m),
             new CalculatedDamageVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
             {
-                /*
-                int totalThornsPowers = 0;
-                var cachedUniqueThornsPowers = card.Owner.Creature.Powers.Where(x => x.Description.)
-                for (int i = 0; i < )
-                totalThornsPowers += card.Owner.Creature.GetPowerAmount<>
-                // wanted to get all powers with a description tolower that contains thorns for mod compatiblity, but maybe not for now lol (also idk how to filter it by language and such)
-                */
                 return card.Owner.Creature.GetPowerAmount<ThornsPower>() + card.Owner.Creature.GetPowerAmount<TemporaryThornsPower>();
             })
         ];
@@ -46,7 +45,7 @@ namespace Yoka.Cards.Uncommons
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await DamageCmd.Attack(DynamicVars.CalculatedDamage).FromCard(this).TargetingAllOpponents(CombatState)
-                .WithHitFx(null /*"vfx/vfx_giant_horizontal_slash"*/)
+                .WithHitFx(null)
                 .Execute(choiceContext);
         }
 
@@ -56,3 +55,4 @@ namespace Yoka.Cards.Uncommons
         }
     }
 }
+*/

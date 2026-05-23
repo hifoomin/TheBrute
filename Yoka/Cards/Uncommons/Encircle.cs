@@ -26,11 +26,16 @@ namespace Yoka.Cards.Uncommons
 {
     internal class Encircle : YokaCard
     {
-        public Encircle() : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        public Encircle() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<EncirclePower>()];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [

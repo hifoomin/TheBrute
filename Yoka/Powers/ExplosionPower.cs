@@ -35,7 +35,7 @@ namespace Yoka.Powers
                 return;
             }
 
-            var damage = Utils.TookUnblockedDamageCount(Owner.Player) + GoldLostThisCombatTracker.Get(Owner);
+            var damage = Utils.TookUnblockedDamageCount(Owner.Player) + GoldLostTracker.GetTotalGoldLostThisCombat(Owner);
 
             await DamageCmd.Attack(damage * Amount).TargetingAllOpponents(CombatState)
                 .WithHitFx(null /*"vfx/vfx_giant_horizontal_slash"*/)

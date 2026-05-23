@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
@@ -22,9 +23,16 @@ namespace Yoka.Powers
 
         public override PowerStackType StackType => PowerStackType.Counter;
 
-        public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
+        private int lastMaxHP;
+
+        public override async Task BeforeCardPlayed(CardPlay cardPlay)
         {
-            if (result.UnblockedDamage > 0 && dealer != target && dealer.IsEnemy)
+            lastMaxHP = Owner.MaxHp;
+        }
+
+        public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+        {
+            if (cardPlay.Card.Owner == Owner.Player && lastMaxHP > Owner.MaxHp)
             {
                 var alivePlayersExcludingPowerOwner = from c in CombatState.GetTeammatesOf(Owner)
                                                       where c != null && c.IsAlive && c.IsPlayer
@@ -33,7 +41,7 @@ namespace Yoka.Powers
 
                 foreach (Creature player in alivePlayersExcludingPowerOwner)
                 {
-                    await CreatureCmd.Heal(player, Amount);
+                    await CreatureCmd.GainMaxHp(player, Amount);
                 }
             }
         }

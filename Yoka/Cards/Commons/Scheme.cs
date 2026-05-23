@@ -27,6 +27,11 @@ namespace Yoka.Cards.Commons
             new PowerVar<Powers.TemporaryThornsNextTurnPower>(3m)
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
+
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);

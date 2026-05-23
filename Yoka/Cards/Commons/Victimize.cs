@@ -14,7 +14,7 @@ namespace Yoka.Cards.Commons
     internal class Victimize : YokaCard
 #pragma warning restore STS001 // Symbol missing localization
     {
-        public Victimize() : base(0, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+        public Victimize() : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
         {
         }
 
@@ -23,10 +23,15 @@ namespace Yoka.Cards.Commons
             CardKeyword.Exhaust
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated
+        ]);
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<VulnerablePower>(2m),
-            new GoldVar(2)
+            new GoldVar(1)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -39,7 +44,7 @@ namespace Yoka.Cards.Commons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Gold.UpgradeValueBy(1m);
+            DynamicVars.Vulnerable.UpgradeValueBy(1m);
         }
     }
 }

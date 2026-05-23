@@ -20,19 +20,20 @@ namespace Yoka.Cards.Uncommons
 {
     internal class Fragment : YokaCard
     {
-        public Fragment() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        public Fragment() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
-        public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [
-            CardKeyword.Exhaust
-        ];
-
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.FromPower<ThornsPower>(),
+            HoverTipFactory.FromPower<PlatingPower>(),
+            HoverTipFactory.FromPower<ThornsPower>()
         ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [

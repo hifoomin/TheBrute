@@ -1,4 +1,5 @@
-﻿using BaseLib.Abstracts;
+﻿/*
+using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
@@ -49,7 +50,7 @@ namespace Yoka.Cards.Starters
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount((int)((CalculatedVar)DynamicVars["CalculatedHits"]).Calculate(cardPlay.Target)).FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
+            .WithHitFx(null)
             .Execute(choiceContext);
         }
 
@@ -64,3 +65,4 @@ namespace Yoka.Cards.Starters
         }
     }
 }
+*/

@@ -31,21 +31,21 @@ namespace Yoka.Powers
         public override PowerType Type => PowerType.Buff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
+    }
 
-        public override async Task AfterGoldGained(Player player)
+    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "GainGold")]
+    internal class GainGoldPatch
+    {
+        private static void Postfix(Task __result, Player player)
         {
-            if (player != Owner.Player)
+            var accidentPower = player.Creature.Powers.OfType<AccidentPower>().FirstOrDefault();
+            var hittableEnemies = CombatManager.Instance._state?.HittableEnemies;
+            if (accidentPower != null && hittableEnemies != null && hittableEnemies.Count != 0)
             {
-                return;
-            }
-
-            var hittableEnemies = CombatState.HittableEnemies;
-            if (hittableEnemies.Count != 0 && Owner.Player != null)
-            {
-                var randomEnemy = Owner.Player.RunState.Rng.CombatTargets.NextItem(hittableEnemies);
+                var randomEnemy = player.RunState.Rng.CombatTargets.NextItem(hittableEnemies);
                 if (randomEnemy != null)
                 {
-                    await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), randomEnemy, Amount, ValueProp.Unpowered, null, null);
+                    CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), randomEnemy, accidentPower.Amount, ValueProp.Unpowered, null, null);
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace Yoka.Powers
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "LoseGold")]
     internal class LoseGoldPatch
     {
-        private static void Postfix(Task __result, Player player, GoldLossType goldLossType)
+        private static void Postfix(Task __result, Player player)
         {
             var accidentPower = player.Creature.Powers.OfType<AccidentPower>().FirstOrDefault();
             var hittableEnemies = CombatManager.Instance._state?.HittableEnemies;

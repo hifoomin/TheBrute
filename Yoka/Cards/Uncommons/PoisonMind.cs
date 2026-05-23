@@ -18,7 +18,12 @@ namespace Yoka.Cards.Uncommons
         {
         }
 
-        protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, 15);
+        protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, 8);
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated
+        ]);
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
@@ -27,14 +32,14 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new GoldVar(15),
+            new GoldVar(8),
             new PowerVar<StrengthPower>(2m),
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-            if (Utils.HasGold(Owner, 15))
+            if (Utils.HasGold(Owner, 8))
             {
                 await PowerCmd.Apply<StrengthPower>(choiceContext, cardPlay.Target, -DynamicVars.Strength.BaseValue, Owner.Creature, this);
                 await PlayerCmd.LoseGold(DynamicVars["Gold"].IntValue, Owner);
@@ -43,7 +48,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Gold.UpgradeValueBy(-5m);
+            DynamicVars.Strength.UpgradeValueBy(1m);
         }
     }
 }

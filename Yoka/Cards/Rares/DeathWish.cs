@@ -30,6 +30,11 @@ namespace Yoka.Cards.Rares
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips => [EnergyHoverTip];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.maxHpRelated
+        ]);
+
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);

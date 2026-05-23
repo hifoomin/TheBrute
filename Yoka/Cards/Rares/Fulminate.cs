@@ -33,6 +33,11 @@ namespace Yoka.Cards.Rares
             new PowerVar<TemporaryThornsNextTurnPower>(3m)
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
+
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);

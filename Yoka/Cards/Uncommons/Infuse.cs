@@ -32,14 +32,19 @@ namespace Yoka.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(2m),
-            new CardsVar(6)
+            new CardsVar(5)
         ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.maxHpRelated
+        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
-            var upgradeableCards = Utils.GetAllCardsExceptExhaustPile(Owner)
+            var upgradeableCards = PileType.Draw.GetPile(Owner).Cards
                                   .Where(card => card.IsUpgradable && card != this)
                                   .ToList();
 

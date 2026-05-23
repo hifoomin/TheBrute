@@ -15,6 +15,38 @@ namespace Yoka.Cards.Starters
 {
     internal class Bristle : YokaCard
     {
+        public Bristle() : base(1, CardType.Skill, CardRarity.Basic, TargetType.Self)
+        {
+        }
+
+        public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        [
+            CardKeyword.Retain
+        ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
+
+        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<TemporaryThornsPower>()];
+
+        protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<Powers.TemporaryThornsPower>(5m)];
+
+        protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+        {
+            await PowerCmd.Apply<Powers.TemporaryThornsPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsPower"].BaseValue, Owner.Creature, this);
+        }
+
+        protected override void OnUpgrade()
+        {
+            DynamicVars["TemporaryThornsPower"].UpgradeValueBy(2m);
+        }
+    }
+
+    /*
+    internal class Bristle : YokaCard
+    {
         public Bristle() : base(0, CardType.Skill, CardRarity.Basic, TargetType.Self)
         {
         }
@@ -34,4 +66,5 @@ namespace Yoka.Cards.Starters
             AddKeyword(CardKeyword.Retain);
         }
     }
+    */
 }

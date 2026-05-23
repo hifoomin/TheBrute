@@ -41,35 +41,40 @@ namespace Yoka.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new HpLossVar(4)
+            new MaxHpVar(2)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             foreach (CardModel card in await CardSelectCmd.FromHand(choiceContext, Owner, new CardSelectorPrefs(SelectionScreenPrompt, 1), null, this))
             {
-                card.BaseReplayCount++;
-
                 if (!card.EnergyCost.CostsX && card.EnergyCost.GetWithModifiers(CostModifiers.None) >= 0)
                 {
                     var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
 
                     var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(card.DynamicVars);
 
-                    if (cardVars.TryGetValue("HpLoss", out var existingVar) && existingVar is HpLossVar existingHpLoss)
+                    if (!card.hasTransmutedKeyword())
                     {
-                        cardVars["HpLoss"] = new HpLossVar(existingHpLoss.BaseValue + card.BaseReplayCount);
+                        Main.Logger.Warn("added transmuted keyword");
+                        card.AddKeyword(Yoka.Cards.Keywords.transmutedKeyword);
+                    }
+
+                    if (cardVars.TryGetValue("Transmuted", out var existingVar) && existingVar is TransmutedVar existingTransmuted)
+                    {
+                        Main.Logger.Warn("added ONTO EXISTINGTGFDKHG EGDSAGSD transmuted var to card");
+                        Main.Logger.Warn("Existing transmuted var before: " + existingTransmuted.BaseValue);
+                        cardVars["Transmuted"] = new TransmutedVar(existingTransmuted.BaseValue + DynamicVars.MaxHp.BaseValue);
+                        Main.Logger.Warn("Existing transmuted var AFTERERERERERER: " + cardVars["Transmuted"].BaseValue);
                     }
                     else
                     {
-                        cardVars["HpLoss"] = new HpLossVar(DynamicVars.HpLoss.BaseValue);
-
-                        if (!card.hasHpLossKeyword())
-                        {
-                            card.AddKeyword(Yoka.Keywords.hpLossKeyword);
-                        }
+                        Main.Logger.Warn("added NEWWW transmuted var to card");
+                        cardVars["Transmuted"] = new TransmutedVar(DynamicVars.MaxHp.BaseValue);
                     }
                 }
+
+                card.BaseReplayCount++;
             }
         }
 

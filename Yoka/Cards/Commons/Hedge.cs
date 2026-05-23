@@ -24,11 +24,21 @@ namespace Yoka.Cards.Commons
 
         public override bool GainsBlock => true;
 
+        /*
         private int lastGold;
 
         private bool changedGoldThisTurn => Owner.Gold != lastGold;
 
         protected override bool ShouldGlowGoldInternal => Owner.Gold != lastGold;
+
+        */
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated
+        ]);
+
+        protected override bool ShouldGlowGoldInternal => GoldLostTracker.GetChangedGoldThisTurn(Owner.Creature);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
@@ -41,7 +51,7 @@ namespace Yoka.Cards.Commons
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
             int blockGains = 1;
-            if (changedGoldThisTurn)
+            if (/*changedGoldThisTurn*/ GoldLostTracker.GetChangedGoldThisTurn(Owner.Creature))
             {
                 blockGains += DynamicVars.Repeat.IntValue;
             }
@@ -52,10 +62,12 @@ namespace Yoka.Cards.Commons
             }
         }
 
+        /*
         public override async Task AfterPlayerTurnStartEarly(PlayerChoiceContext choiceContext, Player player)
         {
             lastGold = Owner.Gold;
         }
+        */
 
         protected override void OnUpgrade()
         {

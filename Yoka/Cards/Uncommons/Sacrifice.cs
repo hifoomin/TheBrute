@@ -26,23 +26,37 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new HealVar(7m)
+            new MaxHpVar(4m)
         ];
+
+        public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        [
+            CardKeyword.Exhaust
+        ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.maxHpRelated
+        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            var allCards = Utils.GetAllCardsExceptExhaustPile(Owner);
+            var allCards = Utils.GetAllCardsExceptExhaustPile(Owner)
+            .Where(card => card != this)
+            .ToList();
+
             var card = Owner.RunState.Rng.CombatCardSelection.NextItem(allCards);
             if (card != null)
             {
                 await CardCmd.Exhaust(choiceContext, card);
             }
-            await CreatureCmd.Heal(Owner.Creature, DynamicVars.Heal.BaseValue);
+
+            await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Heal.UpgradeValueBy(2m);
+            DynamicVars.MaxHp.UpgradeValueBy(1m);
         }
     }
 }

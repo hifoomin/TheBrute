@@ -13,15 +13,20 @@ namespace Yoka.Cards.Uncommons
     internal class Crash : YokaCard
 #pragma warning restore STS001 // Symbol missing localization
     {
-        public Crash() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.RandomEnemy)
+        public Crash() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
         {
         }
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(2m),
-            new DamageVar(27m, ValueProp.Move)
+            new DamageVar(21m, ValueProp.Move)
         ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.maxHpRelated
+        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
@@ -33,7 +38,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(13m);
+            DynamicVars.Damage.UpgradeValueBy(8m);
         }
     }
 }

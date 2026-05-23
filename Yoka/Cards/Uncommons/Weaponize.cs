@@ -17,11 +17,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Yoka.Powers;
 
-namespace Yoka.Cards.Commons
+namespace Yoka.Cards.Uncommons
 {
     internal class Weaponize : YokaCard
     {
-        public Weaponize() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+        public Weaponize() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
@@ -30,14 +30,19 @@ namespace Yoka.Cards.Commons
             CardKeyword.Exhaust
         ];
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<VigorPower>()];
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
+
+        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<StrengthPower>(0m),
             new CalculationBaseVar(0m),
-            new CalculationExtraVar(1m),
-            new CalculatedVar("CalculatedVigor").WithMultiplier((card, _) =>
+            new CalculationExtraVar(0.25m),
+            new CalculatedVar("CalculatedStrength").WithMultiplier((card, _) =>
             {
                 var creature = card.Owner.Creature;
                 var totalThorns = creature.GetPowerAmount<ThornsPower>() + creature.GetPowerAmount<TemporaryThornsPower>();
@@ -48,13 +53,12 @@ namespace Yoka.Cards.Commons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars.Strength.BaseValue, Owner.Creature, this);
-            await PowerCmd.Apply<VigorPower>(choiceContext, Owner.Creature, ((CalculatedVar)DynamicVars["CalculatedVigor"]).Calculate(Owner.Creature), Owner.Creature, this);
+            await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, ((CalculatedVar)DynamicVars["CalculatedStrength"]).Calculate(Owner.Creature) + DynamicVars.Strength.BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Strength.UpgradeValueBy(1m);
+            DynamicVars.CalculationExtra.UpgradeValueBy(0.081m); // so that a third of 3 thorns gives you 1 strength lol
         }
     }
 }

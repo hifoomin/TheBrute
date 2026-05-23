@@ -35,6 +35,11 @@ namespace Yoka.Cards.Ancients
             CardKeyword.Exhaust
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated
+        ]);
+
         public bool Show =>
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>

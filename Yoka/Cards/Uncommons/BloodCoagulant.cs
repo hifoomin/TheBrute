@@ -22,7 +22,7 @@ namespace Yoka.Cards.Uncommons
 {
     internal class BloodCoagulant : YokaCard
     {
-        public BloodCoagulant() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        public BloodCoagulant() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
@@ -32,9 +32,14 @@ namespace Yoka.Cards.Uncommons
             HoverTipFactory.FromPower<TemporaryThornsPower>(),
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated, Yoka.Cards.Tags.maxHpRelated
+        ]);
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new HpLossVar(1m),
+            new MaxHpVar(1m),
             new PowerVar<ThornsPower>(3m),
             new PowerVar<TemporaryThornsPower>(3m)
         ];
@@ -43,7 +48,8 @@ namespace Yoka.Cards.Uncommons
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-            await CreatureCmd.Damage(choiceContext, Owner.Creature, DynamicVars.HpLoss.BaseValue, ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, this);
+            await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
+
             await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, DynamicVars["ThornsPower"].BaseValue, Owner.Creature, this);
             await PowerCmd.Apply<TemporaryThornsPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsPower"].BaseValue, Owner.Creature, this);
         }

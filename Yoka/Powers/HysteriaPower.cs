@@ -33,7 +33,8 @@ namespace Yoka.Powers
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new CardsVar(3)
+            new MaxHpVar(1),
+            new GoldVar(4)
         ];
 
         public override decimal ModifyMaxEnergy(Player player, decimal amount)
@@ -45,17 +46,15 @@ namespace Yoka.Powers
             return amount + (decimal)Amount;
         }
 
-        public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+        public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
         {
-            NFireBurningVfx child = NFireBurningVfx.Create(Owner.Player.Creature, 1f, goingRight: false);
-            NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(child);
-
-            for (int i = 0; i < DynamicVars.Cards.BaseValue; i++)
+            if (player != Owner.Player)
             {
-                CardModel card = CombatState.CreateCard<Burn>(Owner.Player);
-                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, Owner.Player));
+                return;
             }
-            await Cmd.Wait(0.5f);
+
+            await CreatureCmd.LoseMaxHp(choiceContext, Owner, DynamicVars.MaxHp.BaseValue, true);
+            await PlayerCmd.LoseGold(DynamicVars["Gold"].IntValue, Owner.Player);
         }
     }
 }

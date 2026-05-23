@@ -13,7 +13,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using Yoka.Cards;
+using Yoka.Powers;
 
 namespace Yoka.Cards.Commons
 {
@@ -26,23 +28,29 @@ namespace Yoka.Cards.Commons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(9m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
-            new EnergyVar(1)
+            new PowerVar<TemporaryThornsNextTurnPower>(3m)
         ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-                .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
+                .WithHitFx(null)
                 .Execute(choiceContext);
 
-            await PowerCmd.Apply<EnergyNextTurnPower>(choiceContext, Owner.Creature, DynamicVars.Energy.IntValue, Owner.Creature, this);
+            await PowerCmd.Apply<TemporaryThornsNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsNextTurnPower"].IntValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(2m);
+            DynamicVars.Damage.UpgradeValueBy(1m);
+            DynamicVars["TemporaryThornsNextTurnPower"].UpgradeValueBy(1m);
         }
     }
 }

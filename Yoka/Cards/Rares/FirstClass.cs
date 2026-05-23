@@ -16,22 +16,28 @@ using System.Threading.Tasks;
 using Yoka.Powers;
 using Yoka.Cards;
 
-namespace Yoka.Cards.Uncommons
+namespace Yoka.Cards.Rares
 {
     internal class FirstClass : YokaCard
     {
-        public FirstClass() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        public FirstClass() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
         {
         }
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated
+        ]);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(0m, ValueProp.Move),
             new CalculationBaseVar(0m),
-            new CalculationExtraVar(1m),
+            new CalculationExtraVar(0.12m),
             new CalculatedVar("GoldDamage").WithMultiplier((card, _) =>
             {
-                return Math.Floor(card.Owner.Gold * 0.15m);
+                // return Math.Ceiling(card.Owner.Gold * 0.15m);
+                return card.Owner.Gold;
             })
         ];
 
@@ -48,7 +54,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(6m);
+            DynamicVars.CalculationExtra.UpgradeValueBy(0.04m);
         }
     }
 }

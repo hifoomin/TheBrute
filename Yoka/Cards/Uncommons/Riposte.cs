@@ -25,7 +25,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(10m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new BlockVar(11m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -19,7 +19,7 @@ namespace Yoka.Cards.Rares
 {
     internal class HunkerDown : YokaCard
     {
-        public HunkerDown() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
+        public HunkerDown() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
         {
         }
 

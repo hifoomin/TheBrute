@@ -28,9 +28,14 @@ namespace Yoka.Cards.Rares
             new CalculationExtraVar(1m),
             new CalculatedVar("CalculatedHits").WithMultiplier((CardModel card, Creature? _) =>
             {
-                return CombatManager.Instance.History.Entries.OfType<DamageReceivedEntry>().Count((DamageReceivedEntry e) => e.Receiver == card.Owner.Creature && e.Result.UnblockedDamage > 0);
+                return MaxHpLostTracker.GetTimesMaxHpLostFromCardsThisCombat(card.Owner.Creature);
             })
         ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.maxHpRelated
+        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {

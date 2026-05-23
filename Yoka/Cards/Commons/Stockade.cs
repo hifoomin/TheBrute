@@ -33,6 +33,11 @@ namespace Yoka.Cards.Commons
             HoverTipFactory.FromPower<ThornsPower>(),
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<ThornsPower>(1m),

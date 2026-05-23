@@ -32,10 +32,15 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new HealVar(5m),
+            new MaxHpVar(2m),
             new GoldVar(12),
             new DynamicVar("VakuuNextTurn", 1m)
         ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated, Yoka.Cards.Tags.maxHpRelated
+        ]);
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
@@ -46,7 +51,7 @@ namespace Yoka.Cards.Uncommons
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-            await CreatureCmd.Heal(Owner.Creature, DynamicVars.Heal.BaseValue);
+            await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
 
             await PlayerCmd.GainGold(DynamicVars.Gold.IntValue, Owner);
 
@@ -55,7 +60,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Heal.UpgradeValueBy(2m);
+            DynamicVars.MaxHp.UpgradeValueBy(1m);
             DynamicVars.Gold.UpgradeValueBy(6m);
         }
     }

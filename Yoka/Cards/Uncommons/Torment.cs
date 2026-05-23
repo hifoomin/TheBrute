@@ -19,20 +19,18 @@ namespace Yoka.Cards.Uncommons
         {
         }
 
-        protected override bool ShouldGlowGoldInternal => CombatManager.Instance.History.Entries
-                .OfType<DamageReceivedEntry>()
-                .Any(entry =>
-                    entry.Actor.Player == Owner &&
-                    entry.Dealer != null && entry.Dealer.IsEnemy &&
-                    entry.RoundNumber == Owner.Creature.CombatState.RoundNumber - 1 &&
-                    entry.Result.UnblockedDamage > 0
-                );
+        protected override bool ShouldGlowGoldInternal => GoldLostTracker.GetChangedGoldThisTurn(Owner.Creature);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(11m, ValueProp.Move),
-            new PowerVar<VulnerablePower>(2m)
+            new PowerVar<WeakPower>(2m)
         ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated
+        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
@@ -40,15 +38,15 @@ namespace Yoka.Cards.Uncommons
                 .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
 
-            if (ShouldGlowGoldInternal)
+            if (GoldLostTracker.GetChangedGoldThisTurn(Owner.Creature))
             {
-                await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
+                await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
             }
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Vulnerable.UpgradeValueBy(1m);
+            DynamicVars.Weak.UpgradeValueBy(1m);
         }
     }
 }

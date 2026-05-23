@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
+using System.Reflection.Metadata.Ecma335;
 
 namespace Yoka.Cards.Uncommons
 {
@@ -21,11 +22,11 @@ namespace Yoka.Cards.Uncommons
         {
         }
 
-        protected override HashSet<CardTag> CanonicalTags => new([CardTag.Strike]);
+        protected override HashSet<CardTag> CanonicalTags => new([CardTag.Strike, Yoka.Cards.Tags.goldRelated]);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(14m, ValueProp.Move),
+            new DamageVar(13m, ValueProp.Move),
             new GoldVar(3)
         ];
 
@@ -37,27 +38,31 @@ namespace Yoka.Cards.Uncommons
                 .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
 
-            var allCards = Utils.GetAllCardsExceptExhaustPile(Owner);
-            var randomCard = Owner.RunState.Rng.CombatCardSelection.NextItem(allCards);
-            if (randomCard != null && (!randomCard.DynamicVars.TryGetValue("Gold", out var gold) || gold.BaseValue <= 0))
+            for (int i = 0; i < 50; i++)
             {
-                // CardCmd.ApplyKeyword(item, CardKeyword.Exhaust);
-                // item.DynamicVars.HpLoss.BaseValue += DynamicVars.HpLoss.BaseValue;
-                var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
-
-                var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(randomCard.DynamicVars);
-
-                cardVars["Gold"] = new GoldVar(DynamicVars.Gold.IntValue);
-                // Main.Logger.Warn("reckless strike onplay: trying to add keyword and gold");
-                randomCard.AddKeyword(Yoka.Keywords.goldLossKeyword);
-
-                if (randomCard.IsUpgradable)
+                var cardsInHand = PileType.Hand.GetPile(Owner).Cards;
+                var randomCard = Owner.RunState.Rng.CombatCardSelection.NextItem(cardsInHand);
+                if (randomCard == null || !randomCard.IsUpgradable)
                 {
-                    CardCmd.Upgrade(randomCard);
-                    CardCmd.Preview(randomCard, 1.5f);
+                    continue;
                 }
 
-                // Main.Logger.Warn("reckless strike onplay: cards new gold value is " + vars["Gold"].BaseValue);
+                if (randomCard != null && (!randomCard.DynamicVars.TryGetValue("Gold", out var gold) || gold.BaseValue <= 0))
+                {
+                    var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
+
+                    var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(randomCard.DynamicVars);
+
+                    cardVars["Gold"] = new GoldVar(DynamicVars.Gold.IntValue);
+                    // Main.Logger.Warn("reckless strike onplay: trying to add keyword and gold");
+                    randomCard.AddKeyword(Yoka.Cards.Keywords.goldLossKeyword);
+
+                    CardCmd.Upgrade(randomCard);
+                    // CardCmd.Preview(randomCard, 1.5f);
+                    break;
+
+                    // Main.Logger.Warn("reckless strike onplay: cards new gold value is " + vars["Gold"].BaseValue);
+                }
             }
         }
 

@@ -31,10 +31,15 @@ namespace Yoka.Cards.Commons
             HoverTipFactory.FromCard<Burn>()
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(7m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
-            new PowerVar<ThornsPower>(1m)
+            new BlockVar(6m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new PowerVar<ThornsPower>(2m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -42,14 +47,7 @@ namespace Yoka.Cards.Commons
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
             await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, DynamicVars["ThornsPower"].BaseValue, Owner.Creature, this);
 
-            NFireBurningVfx child = NFireBurningVfx.Create(Owner.Creature, 1f, goingRight: false);
-            NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(child);
-
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-
-            CardModel card = CombatState.CreateCard<Burn>(Owner);
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, Owner));
-            await Cmd.Wait(0.5f);
         }
 
         protected override void OnUpgrade()

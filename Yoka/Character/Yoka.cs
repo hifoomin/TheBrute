@@ -23,7 +23,7 @@ public class Yoka : PlaceholderCharacterModel
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Feminine;
-    public override int StartingHp => 84;
+    public override int StartingHp => 70;
 
     public override IEnumerable<CardModel> StartingDeck =>
     [
@@ -41,7 +41,7 @@ public class Yoka : PlaceholderCharacterModel
 
         // 2x starter
         ModelDb.Card<Bristle>(),
-        ModelDb.Card<KarmaStrike>(),
+        ModelDb.Card<Steal>(),
     ];
 
     public override IReadOnlyList<RelicModel> StartingRelics =>

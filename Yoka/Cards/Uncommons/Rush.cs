@@ -23,7 +23,7 @@ namespace Yoka.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new CardsVar(1),
-            new PowerVar<VigorPower>(4m)
+            new PowerVar<StrengthPower>(1m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -31,13 +31,13 @@ namespace Yoka.Cards.Uncommons
             CardModel cardModel = (await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner)).FirstOrDefault();
             if (cardModel != null && cardModel.Type == CardType.Attack)
             {
-                await PowerCmd.Apply<VigorPower>(choiceContext, Owner.Creature, DynamicVars["VigorPower"].BaseValue, Owner.Creature, this);
+                await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars["StrengthPower"].BaseValue, Owner.Creature, this);
             }
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars["VigorPower"].UpgradeValueBy(2m);
+            DynamicVars["StrengthPower"].UpgradeValueBy(1m);
         }
     }
 }

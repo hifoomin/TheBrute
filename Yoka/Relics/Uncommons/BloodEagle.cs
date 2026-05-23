@@ -34,7 +34,7 @@ namespace Yoka.Relics.Uncommons
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "LoseGold")]
     internal class LoseGoldPatch
     {
-        private static void Postfix(Task __result, Player player, GoldLossType goldLossType)
+        private static void Postfix(Task __result, Player player)
         {
             var bloodEagle = player.GetRelic<BloodEagle>();
 

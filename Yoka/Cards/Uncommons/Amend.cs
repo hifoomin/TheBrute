@@ -31,24 +31,28 @@ namespace Yoka.Cards.Uncommons
             new MaxHpVar(2),
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.maxHpRelated
+        ]);
+
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
-            var transformableStatusCards = PileType.Hand.GetPile(Owner).Cards.Where((CardModel c) => c != null && c.IsTransformable && c.Type == CardType.Status).ToList();
-            foreach (CardModel transformableStatusCard in transformableStatusCards)
+            var transformableCards = PileType.Hand.GetPile(Owner).Cards.Where((CardModel c) => c != null && c.IsTransformable && (c.Type == CardType.Status || c.Type == CardType.Curse || c.Type == CardType.Quest)).ToList();
+            foreach (CardModel transformableStatusCard in transformableCards)
             {
-                var randomZeroCostCard = CardFactory.GetDistinctForCombat(Owner,
+                var randomThornsCard = CardFactory.GetDistinctForCombat(Owner,
                                       from card in Owner.Character.CardPool.GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint)
-                                      where card.EnergyCost.GetWithModifiers(CostModifiers.All) == 0 &&
-                                      card.Id != ModelDb.Card<Amend>().Id &&
-                                      !card.EnergyCost.CostsX
+                                      where card.Tags.Contains(Yoka.Cards.Tags.thornsRelated) &&
+                                      card.Id != ModelDb.Card<Amend>().Id
                                       select card, 1, Owner.RunState.Rng.CombatCardGeneration).FirstOrDefault();
 
                 // var toTransform = CombatState.CreateCard(randomZeroCostCard, Owner);
-                await CardCmd.Transform(transformableStatusCard, randomZeroCostCard);
+                await CardCmd.Transform(transformableStatusCard, randomThornsCard);
             }
             // holy fuck thiis might affect the trout population
         }

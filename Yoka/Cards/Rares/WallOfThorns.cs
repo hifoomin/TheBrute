@@ -29,9 +29,14 @@ namespace Yoka.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(30m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
-            new PowerVar<ThornsPower>(3m)
+            new BlockVar(25m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new PowerVar<ThornsPower>(4m)
         ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
@@ -41,7 +46,7 @@ namespace Yoka.Cards.Rares
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Block.UpgradeValueBy(10m);
+            DynamicVars.Block.UpgradeValueBy(8m);
             DynamicVars["ThornsPower"].UpgradeValueBy(1m);
         }
     }

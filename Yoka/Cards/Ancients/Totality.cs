@@ -1,4 +1,5 @@
-﻿using BaseLib.Abstracts;
+﻿/*
+using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
@@ -28,7 +29,10 @@ namespace Yoka.Cards.Ancients
         {
         }
 
-        protected override HashSet<CardTag> CanonicalTags => new([CardTag.Strike]);
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated
+        ]);
 
         protected override bool ShouldGlowGoldInternal => Utils.TookUnblockedDamageLastTurn(Owner);
 
@@ -49,7 +53,7 @@ namespace Yoka.Cards.Ancients
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount((int)((CalculatedVar)DynamicVars["CalculatedHits"]).Calculate(cardPlay.Target)).FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
+            .WithHitFx(null)
             .Execute(choiceContext);
         }
 
@@ -59,3 +63,4 @@ namespace Yoka.Cards.Ancients
         }
     }
 }
+*/

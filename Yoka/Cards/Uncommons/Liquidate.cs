@@ -32,6 +32,11 @@ namespace Yoka.Cards.Uncommons
             new GoldVar(12)
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated
+        ]);
+
         protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, 12);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

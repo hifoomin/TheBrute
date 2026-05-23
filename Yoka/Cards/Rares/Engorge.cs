@@ -17,7 +17,7 @@ namespace Yoka.Cards.Rares
     internal class Engorge : YokaCard
 #pragma warning restore STS001 // Symbol missing localization
     {
-        public Engorge() : base(3, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        public Engorge() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
         {
         }
 
@@ -26,11 +26,16 @@ namespace Yoka.Cards.Rares
            CardKeyword.Exhaust
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated, Yoka.Cards.Tags.maxHpRelated
+        ]);
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new GoldVar(12),
             new MaxHpVar(4m),
-            new DamageVar(25m, ValueProp.Move)
+            new DamageVar(17m, ValueProp.Move)
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.Static(StaticHoverTip.Fatal)];
@@ -54,7 +59,7 @@ namespace Yoka.Cards.Rares
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(10m);
+            DynamicVars.Damage.UpgradeValueBy(7m);
         }
     }
 }

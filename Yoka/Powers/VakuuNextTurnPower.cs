@@ -73,15 +73,15 @@ namespace Yoka.Powers
                     }
 
                     var handPile = PileType.Hand.GetPile(player);
-                    var randomCard = handPile.Cards.FirstOrDefault((CardModel c) => c.CanPlay());
-                    if (randomCard == null)
+                    var leftmostCard = handPile.Cards.FirstOrDefault((CardModel c) => c.CanPlay());
+                    if (leftmostCard == null)
                     {
                         break;
                     }
 
-                    var randomTarget = GetRandomTarget(randomCard, combatState, player);
-                    await randomCard.SpendResources();
-                    await CardCmd.AutoPlay(choiceContext, randomCard, randomTarget, AutoPlayType.Default, skipXCapture: true);
+                    var randomTarget = GetRandomTarget(leftmostCard, combatState, player);
+                    await leftmostCard.SpendResources();
+                    await CardCmd.AutoPlay(choiceContext, leftmostCard, randomTarget, AutoPlayType.Default, skipXCapture: true);
                 }
 
                 hasPlayedMaxCards = cardsPlayed >= 13;
@@ -103,7 +103,7 @@ namespace Yoka.Powers
             return card.TargetType switch
             {
                 TargetType.AnyEnemy => combatState.HittableEnemies.FirstOrDefault(),
-                TargetType.AnyAlly => combatTargets.NextItem(combatState.Allies.Where((Creature entry) => entry != null && entry.IsAlive && entry.IsPlayer && entry != player.Creature)),
+                TargetType.AnyAlly => combatTargets.NextItem(combatState.Allies.Where((Creature c) => c != null && c.IsAlive && c.IsPlayer && c != player.Creature)),
                 TargetType.AnyPlayer => player.Creature,
                 _ => null,
             };

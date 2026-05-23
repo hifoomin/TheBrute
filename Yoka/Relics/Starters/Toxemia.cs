@@ -24,24 +24,12 @@ namespace Yoka.Relics.Starters
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<ThornsPower>(2m),
-            new HealVar(4m)
+            new MaxHpVar(2m)
         ];
-
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<ThornsPower>()];
 
         public override RelicModel GetUpgradeReplacement()
         {
             return ModelDb.Relic<Ancients.Symbiosis>();
-        }
-
-        public override async Task AfterRoomEntered(AbstractRoom room)
-        {
-            if (room is CombatRoom)
-            {
-                Flash();
-                await PowerCmd.Apply<ThornsPower>(new ThrowingPlayerChoiceContext(), Owner.Creature, DynamicVars["ThornsPower"].BaseValue, Owner.Creature, null);
-            }
         }
 
         public override async Task AfterCombatVictory(CombatRoom _)
@@ -49,7 +37,7 @@ namespace Yoka.Relics.Starters
             if (!Owner.Creature.IsDead)
             {
                 Flash();
-                await CreatureCmd.Heal(Owner.Creature, DynamicVars.Heal.BaseValue);
+                await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
             }
         }
     }

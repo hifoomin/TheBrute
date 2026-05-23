@@ -33,6 +33,11 @@ namespace Yoka.Cards.Multiplayer
             HoverTipFactory.FromPower<ThornsPower>()
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.thornsRelated
+        ]);
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new BlockVar(5m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
@@ -55,7 +60,7 @@ namespace Yoka.Cards.Multiplayer
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Block.UpgradeValueBy(2m);
+            DynamicVars.Block.UpgradeValueBy(3m);
         }
     }
 }

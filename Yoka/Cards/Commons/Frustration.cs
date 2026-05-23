@@ -23,7 +23,7 @@ namespace Yoka.Cards.Commons
         {
         }
 
-        protected override bool ShouldGlowGoldInternal => Utils.TookUnblockedDamageLastTurn(Owner);
+        protected override bool ShouldGlowGoldInternal => MaxHpLostTracker.GetLostMaxHpFromCardThisTurn(Owner.Creature);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
@@ -31,13 +31,18 @@ namespace Yoka.Cards.Commons
             new PowerVar<StrengthPower>(1m),
         ];
 
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.maxHpRelated
+        ]);
+
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).TargetingAllOpponents(CombatState)
                 .WithHitFx(null /*"vfx/vfx_giant_horizontal_slash"*/)
                 .Execute(choiceContext);
 
-            if (Utils.TookUnblockedDamageLastTurn(Owner))
+            if (MaxHpLostTracker.GetLostMaxHpFromCardThisTurn(Owner.Creature))
             {
                 await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
                 await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars.Strength.BaseValue, Owner.Creature, this);

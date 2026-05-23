@@ -25,8 +25,13 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<AccidentPower>(7m),
+            new PowerVar<AccidentPower>(6m),
         ];
+
+        protected override HashSet<CardTag> CanonicalTags => new
+        ([
+            Yoka.Cards.Tags.goldRelated
+        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
@@ -36,7 +41,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars["AccidentPower"].UpgradeValueBy(3m);
+            DynamicVars["AccidentPower"].UpgradeValueBy(2m);
         }
     }
 }

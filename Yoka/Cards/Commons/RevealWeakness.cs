@@ -22,8 +22,8 @@ namespace Yoka.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(12m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
-            new PowerVar<VulnerablePower>(1m)
+            new BlockVar(11m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new PowerVar<VulnerablePower>(2m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -34,7 +34,7 @@ namespace Yoka.Cards.Commons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Vulnerable.UpgradeValueBy(1m);
+            DynamicVars.Block.UpgradeValueBy(4m);
         }
     }
 }
