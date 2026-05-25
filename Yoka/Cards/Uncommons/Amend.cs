@@ -26,6 +26,11 @@ namespace Yoka.Cards.Uncommons
         {
         }
 
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.Static(StaticHoverTip.Transform)
+        ];
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(2),

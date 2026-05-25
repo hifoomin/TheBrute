@@ -35,7 +35,11 @@ namespace Yoka.Cards.Uncommons
             Yoka.Cards.Tags.thornsRelated
         ]);
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<StrengthPower>()];
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<StrengthPower>(),
+            HoverTipFactory.FromPower<ThornsPower>()
+        ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
@@ -45,7 +49,7 @@ namespace Yoka.Cards.Uncommons
             new CalculatedVar("CalculatedStrength").WithMultiplier((card, _) =>
             {
                 var creature = card.Owner.Creature;
-                var totalThorns = creature.GetPowerAmount<ThornsPower>() + creature.GetPowerAmount<TemporaryThornsPower>();
+                var totalThorns = creature.GetPowerAmount<ThornsPower>();
 
                 return totalThorns;
             }),

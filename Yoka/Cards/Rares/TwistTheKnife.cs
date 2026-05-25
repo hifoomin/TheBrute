@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿/*
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -34,7 +35,7 @@ namespace Yoka.Cards.Rares
                 }
 
                 int energySpentThisCombat = (from e in CombatManager.Instance.History.Entries.OfType<MegaCrit.Sts2.Core.Combat.History.Entries.EnergySpentEntry>()
-                          where /*e.HappenedThisTurn(card.CombatState) &&*/ e.Actor.Player == card.Owner
+                          where e.Actor.Player == card.Owner
                           select e).Sum((EnergySpentEntry c) => c.Amount);
 
                 if (card.Pile.Type == PileType.Play)
@@ -58,3 +59,4 @@ namespace Yoka.Cards.Rares
         }
     }
 }
+*/

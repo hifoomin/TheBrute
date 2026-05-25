@@ -19,11 +19,15 @@ namespace Yoka.Cards.Commons
         {
         }
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<TemporaryThornsPower>()];
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>()
+        ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<TemporaryThornsPower>(2m),
+            new PowerVar<ThornsPower>(2m),
+            new PowerVar<TemporaryThornsUpPower>(2m),
             new PowerVar<ExtendPower>(2m)
         ];
 
@@ -34,12 +38,12 @@ namespace Yoka.Cards.Commons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            (await PowerCmd.Apply<ExtendPower>(choiceContext, Owner.Creature, DynamicVars["ExtendPower"].BaseValue, Owner.Creature, this))?.SetTemporaryThornsAmount(DynamicVars["TemporaryThornsPower"].BaseValue);
+            (await PowerCmd.Apply<ExtendPower>(choiceContext, Owner.Creature, DynamicVars["ExtendPower"].BaseValue, Owner.Creature, this))?.SetTemporaryThornsUpAmount(DynamicVars["TemporaryThornsUpPower"].BaseValue);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars["TemporaryThornsPower"].UpgradeValueBy(1m);
+            DynamicVars["TemporaryThornsUpPower"].UpgradeValueBy(1m);
         }
     }
 }

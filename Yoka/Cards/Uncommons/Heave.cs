@@ -67,7 +67,11 @@ namespace Yoka.Cards.Uncommons
                     await CardCmd.Exhaust(choiceContext, card);
                 }
             }
-            await PlayerCmd.LoseGold(DynamicVars.Gold.BaseValue, Owner);
+
+            for (int i = 0; i < goldLossRepeats; i++)
+            {
+                await PlayerCmd.LoseGold(DynamicVars.Gold.BaseValue, Owner);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿/*
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -28,9 +29,10 @@ namespace Yoka.Powers
         {
             if (player == Owner.Player && AmountOnTurnStart != 0)
             {
-                await PowerCmd.Apply<TemporaryThornsPower>(choiceContext, player.Creature, Amount, player.Creature, null);
+                await PowerCmd.Apply<TemporaryThornsUpPower>(choiceContext, player.Creature, Amount, player.Creature, null);
                 await PowerCmd.Remove(this);
             }
         }
     }
 }
+*/

@@ -30,7 +30,10 @@ namespace Yoka.Cards.Uncommons
         {
         }
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<EncirclePower>()];
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>()
+        ];
 
         protected override HashSet<CardTag> CanonicalTags => new
         ([

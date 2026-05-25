@@ -28,8 +28,7 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.FromPower<ThornsPower>(),
-            HoverTipFactory.FromPower<TemporaryThornsPower>(),
+            HoverTipFactory.FromPower<ThornsPower>()
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new
@@ -40,8 +39,8 @@ namespace Yoka.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(1m),
-            new PowerVar<ThornsPower>(3m),
-            new PowerVar<TemporaryThornsPower>(3m)
+            new PowerVar<ThornsPower>(6m),
+            new PowerVar<TemporaryThornsUpPower>(3m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -51,13 +50,13 @@ namespace Yoka.Cards.Uncommons
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
             await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, DynamicVars["ThornsPower"].BaseValue, Owner.Creature, this);
-            await PowerCmd.Apply<TemporaryThornsPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsPower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<TemporaryThornsUpPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsUpPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars["ThornsPower"].UpgradeValueBy(1m);
-            DynamicVars["TemporaryThornsPower"].UpgradeValueBy(1m);
+            DynamicVars["ThornsPower"].UpgradeValueBy(2m);
+            DynamicVars["TemporaryThornsUpPower"].UpgradeValueBy(1m);
         }
     }
 }

@@ -38,8 +38,6 @@ namespace Yoka.Cards.Rares
             Yoka.Cards.Tags.goldRelated
         ]);
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.Static(StaticHoverTip.Fatal)];
-
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             var repeats = ResolveEnergyXValue();
@@ -48,7 +46,10 @@ namespace Yoka.Cards.Rares
                 repeats++;
             }
 
-            await PlayerCmd.GainGold(DynamicVars.Gold.IntValue * repeats, Owner);
+            for (int i = 0; i < repeats; i++)
+            {
+                await PlayerCmd.GainGold(DynamicVars.Gold.IntValue, Owner);
+            }
         }
     }
 }

@@ -29,6 +29,8 @@ namespace Yoka.Cards.Rares
             CardKeyword.Retain
         ];
 
+        public override bool GainsBlock => true;
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new BlockVar(7m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),

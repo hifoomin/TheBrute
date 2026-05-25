@@ -30,15 +30,13 @@ namespace Yoka.Cards.Rares
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(3m),
-            new PowerVar<SalvagePower>(2m)
+            new PowerVar<SalvagePower>(3m)
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new
         ([
             Yoka.Cards.Tags.maxHpRelated
         ]);
-
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [EnergyHoverTip];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {

@@ -29,42 +29,26 @@ namespace Yoka.Cards.Starters
             Yoka.Cards.Tags.thornsRelated
         ]);
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<TemporaryThornsPower>()];
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>()
+        ];
 
-        protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<Powers.TemporaryThornsPower>(5m)];
+        protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new PowerVar<ThornsPower>(5m),
+            new PowerVar<Powers.TemporaryThornsUpPower>(5m)
+        ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await PowerCmd.Apply<Powers.TemporaryThornsPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsPower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, DynamicVars["ThornsPower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<Powers.TemporaryThornsUpPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsUpPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars["TemporaryThornsPower"].UpgradeValueBy(2m);
+            DynamicVars["TemporaryThornsUpPower"].UpgradeValueBy(2m);
         }
     }
-
-    /*
-    internal class Bristle : YokaCard
-    {
-        public Bristle() : base(0, CardType.Skill, CardRarity.Basic, TargetType.Self)
-        {
-        }
-
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<TemporaryThornsPower>()];
-
-        protected override IEnumerable<DynamicVar> CanonicalVars => [new PowerVar<Powers.TemporaryThornsPower>(4m)];
-
-        protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
-        {
-            await PowerCmd.Apply<Powers.TemporaryThornsPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsPower"].BaseValue, Owner.Creature, this);
-        }
-
-        protected override void OnUpgrade()
-        {
-            DynamicVars["TemporaryThornsPower"].UpgradeValueBy(1m);
-            AddKeyword(CardKeyword.Retain);
-        }
-    }
-    */
 }

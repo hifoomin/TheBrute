@@ -20,6 +20,11 @@ namespace Yoka.Cards.Commons
 
         public override bool GainsBlock => true;
 
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<VulnerablePower>(),
+        ];
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new BlockVar(11m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),

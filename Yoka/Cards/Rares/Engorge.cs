@@ -38,7 +38,10 @@ namespace Yoka.Cards.Rares
             new DamageVar(17m, ValueProp.Move)
         ];
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.Static(StaticHoverTip.Fatal)];
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.Static(StaticHoverTip.Fatal)
+        ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {

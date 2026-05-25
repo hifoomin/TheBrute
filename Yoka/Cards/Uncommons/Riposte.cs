@@ -28,6 +28,8 @@ namespace Yoka.Cards.Uncommons
             new BlockVar(11m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
         ];
 
+        public override bool GainsBlock => true;
+
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);

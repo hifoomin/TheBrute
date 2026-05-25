@@ -33,7 +33,7 @@ namespace Yoka.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(2m),
-            new GoldVar(12),
+            new GoldVar(10),
             new DynamicVar("VakuuNextTurn", 1m)
         ];
 
@@ -61,7 +61,7 @@ namespace Yoka.Cards.Uncommons
         protected override void OnUpgrade()
         {
             DynamicVars.MaxHp.UpgradeValueBy(1m);
-            DynamicVars.Gold.UpgradeValueBy(6m);
+            DynamicVars.Gold.UpgradeValueBy(5m);
         }
     }
 }

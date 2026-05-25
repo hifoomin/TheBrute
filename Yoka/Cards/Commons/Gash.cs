@@ -30,6 +30,8 @@ namespace Yoka.Cards.Commons
             new BlockVar(6m, ValueProp.Move)
         ];
 
+        public override bool GainsBlock => true;
+
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");

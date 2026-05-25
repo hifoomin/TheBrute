@@ -25,10 +25,15 @@ namespace Yoka.Cards.Commons
         {
         }
 
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>()
+        ];
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(9m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
-            new PowerVar<TemporaryThornsNextTurnPower>(3m)
+            new PowerVar<TemporaryThornsUpNextTurnPower>(3m)
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new
@@ -44,13 +49,13 @@ namespace Yoka.Cards.Commons
                 .WithHitFx(null)
                 .Execute(choiceContext);
 
-            await PowerCmd.Apply<TemporaryThornsNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsNextTurnPower"].IntValue, Owner.Creature, this);
+            await PowerCmd.Apply<TemporaryThornsUpNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsUpNextTurnPower"].IntValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
             DynamicVars.Damage.UpgradeValueBy(1m);
-            DynamicVars["TemporaryThornsNextTurnPower"].UpgradeValueBy(1m);
+            DynamicVars["TemporaryThornsUpNextTurnPower"].UpgradeValueBy(1m);
         }
     }
 }

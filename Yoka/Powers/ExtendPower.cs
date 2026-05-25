@@ -31,20 +31,23 @@ namespace Yoka.Powers
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<TemporaryThornsPower>(0m)
+            new PowerVar<ThornsPower>(0m),
+            new PowerVar<TemporaryThornsUpPower>(0m)
         ];
 
-        public void SetTemporaryThornsAmount(decimal amount)
+        public void SetTemporaryThornsUpAmount(decimal amount)
         {
             AssertMutable();
-            DynamicVars["TemporaryThornsPower"].BaseValue = amount;
+            DynamicVars["ThornsPower"].BaseValue = amount;
+            DynamicVars["TemporaryThornsUpPower"].BaseValue = amount;
         }
 
-        public override async Task AfterEnergyReset(Player player)
+        public override async Task AfterSideTurnStartLate(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
         {
-            if (player == Owner.Player)
+            if (participants.Contains(Owner))
             {
-                await PowerCmd.Apply<TemporaryThornsPower>(new ThrowingPlayerChoiceContext(), Owner, DynamicVars["TemporaryThornsPower"].BaseValue, Owner, null);
+                await PowerCmd.Apply<ThornsPower>(new ThrowingPlayerChoiceContext(), Owner, DynamicVars["ThornsPower"].BaseValue, Owner, null);
+                await PowerCmd.Apply<TemporaryThornsUpPower>(new ThrowingPlayerChoiceContext(), Owner, DynamicVars["TemporaryThornsUpPower"].BaseValue, Owner, null);
                 await PowerCmd.Decrement(this);
             }
         }

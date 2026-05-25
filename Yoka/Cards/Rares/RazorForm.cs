@@ -27,7 +27,10 @@ namespace Yoka.Cards.Rares
         {
         }
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<ThornsPower>()];
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>()
+        ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [

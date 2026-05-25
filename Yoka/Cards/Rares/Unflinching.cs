@@ -25,19 +25,23 @@ namespace Yoka.Cards.Rares
         {
         }
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<PlatingPower>(), HoverTipFactory.Static(StaticHoverTip.Block), HoverTipFactory.FromKeyword(CardKeyword.Exhaust)];
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>(),
+            HoverTipFactory.FromPower<PlatingPower>()
+        ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new CalculationBaseVar(0m),
-            new CalculationExtraVar(1m),
+            new CalculationExtraVar(0.75m),
             new CalculatedVar("CalculatedPlating").WithMultiplier((card, _) =>
             {
                 var creature = card.Owner.Creature;
-                var totalThorns = creature.GetPowerAmount<ThornsPower>() + creature.GetPowerAmount<TemporaryThornsPower>();
+                var totalThorns = creature.GetPowerAmount<ThornsPower>();
 
                 return totalThorns;
-            }),
+            })
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new
@@ -48,13 +52,11 @@ namespace Yoka.Cards.Rares
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await PowerCmd.Apply<PlatingPower>(choiceContext, Owner.Creature, ((CalculatedVar)DynamicVars["CalculatedPlating"]).Calculate(Owner.Creature), Owner.Creature, this);
-            // await PowerCmd.Remove<ThornsPower>(Owner.Creature);
-            // await PowerCmd.Remove<TemporaryThornsPower>(Owner.Creature);
         }
 
         protected override void OnUpgrade()
         {
-            EnergyCost.UpgradeBy(-1);
+            DynamicVars.CalculationExtra.UpgradeValueBy(0.25m);
         }
     }
 }

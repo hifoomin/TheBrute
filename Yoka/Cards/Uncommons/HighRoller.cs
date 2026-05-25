@@ -28,6 +28,11 @@ namespace Yoka.Cards.Uncommons
             new PowerVar<HighRollerPower>(1m)
         ];
 
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<StrengthPower>()
+        ];
+
         protected override HashSet<CardTag> CanonicalTags => new
         ([
             Yoka.Cards.Tags.goldRelated

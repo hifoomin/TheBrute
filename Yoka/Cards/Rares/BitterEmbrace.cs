@@ -19,7 +19,7 @@ namespace Yoka.Cards.Rares
 {
     internal class BitterEmbrace : YokaCard
     {
-        public BitterEmbrace() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+        public BitterEmbrace() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
         {
         }
 
@@ -27,8 +27,6 @@ namespace Yoka.Cards.Rares
         [
             new PowerVar<BitterEmbracePower>(1m),
         ];
-
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [EnergyHoverTip];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {

@@ -23,14 +23,14 @@ namespace Yoka.Cards.Rares
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.FromPower<TemporaryThornsPower>(),
-            HoverTipFactory.FromPower<TemporaryThornsNextTurnPower>()
+            HoverTipFactory.FromPower<ThornsPower>()
         ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<TemporaryThornsPower>(3m),
-            new PowerVar<TemporaryThornsNextTurnPower>(3m)
+            new PowerVar<ThornsPower>(3m),
+            new PowerVar<TemporaryThornsUpPower>(3m),
+            new PowerVar<TemporaryThornsUpNextTurnPower>(3m)
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new
@@ -42,14 +42,18 @@ namespace Yoka.Cards.Rares
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
             var repeats = ResolveEnergyXValue();
-            await PowerCmd.Apply<Powers.TemporaryThornsPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsPower"].BaseValue * repeats, Owner.Creature, this);
-            await PowerCmd.Apply<Powers.TemporaryThornsNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsNextTurnPower"].BaseValue * repeats, Owner.Creature, this);
+            for (int i = 0; i < repeats; i++)
+            {
+                await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, DynamicVars["ThornsPower"].BaseValue, Owner.Creature, this);
+                await PowerCmd.Apply<Powers.TemporaryThornsUpPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsUpPower"].BaseValue, Owner.Creature, this);
+                await PowerCmd.Apply<Powers.TemporaryThornsUpNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsUpNextTurnPower"].BaseValue, Owner.Creature, this);
+            }
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars["TemporaryThornsPower"].UpgradeValueBy(1m);
-            DynamicVars["TemporaryThornsNextTurnPower"].UpgradeValueBy(1m);
+            DynamicVars["TemporaryThornsUpPower"].UpgradeValueBy(1m);
+            DynamicVars["TemporaryThornsUpNextTurnPower"].UpgradeValueBy(1m);
         }
     }
 }

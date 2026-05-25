@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿/*
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -46,11 +47,12 @@ namespace Yoka.Relics.Commons
         public override bool TryModifyPowerAmountReceived(PowerModel canonicalPower, Creature target, decimal amount, Creature? applier, out decimal modifiedAmount)
         {
             modifiedAmount = amount;
-            if (canonicalPower is not ThornsPower || canonicalPower is not TemporaryThornsPower || canonicalPower is not TemporaryThornsNextTurnPower)
+            if (canonicalPower is not ThornsPower && canonicalPower is not TemporaryThornsUpPower && canonicalPower is not TemporaryThornsUpNextTurnPower)
             {
+                // Main.Logger.Warn("canonicalpower is not thornspower AND not temp thorns up poewr ANDDD not temp thorns up next turn power");
                 return false;
             }
-            if (target != base.Owner.Creature)
+            if (target != Owner.Creature)
             {
                 return false;
             }
@@ -80,3 +82,4 @@ namespace Yoka.Relics.Commons
         }
     }
 }
+*/

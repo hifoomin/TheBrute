@@ -26,6 +26,11 @@ namespace Yoka.Cards.Uncommons
             new PowerVar<StrengthPower>(1m)
         ];
 
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<StrengthPower>()
+        ];
+
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             CardModel cardModel = (await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner)).FirstOrDefault();

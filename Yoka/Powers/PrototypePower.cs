@@ -23,9 +23,9 @@ namespace Yoka.Powers
 
         public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
         {
-            if (applier == Owner && power is not TemporaryThornsPower)
+            if (applier == Owner && power is not TemporaryThornsUpPower)
             {
-                await PowerCmd.Apply<TemporaryThornsPower>(choiceContext, Owner, 1m, applier, cardSource);
+                await PowerCmd.Apply<TemporaryThornsUpPower>(choiceContext, Owner, 1m, applier, cardSource);
             }
         }
     }

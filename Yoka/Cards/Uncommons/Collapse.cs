@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -28,8 +29,13 @@ namespace Yoka.Cards.Uncommons
             new ExtraDamageVar(2m),
             new CalculatedDamageVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
             {
-                return card.Owner.Creature.GetPowerAmount<ThornsPower>() + card.Owner.Creature.GetPowerAmount<TemporaryThornsPower>();
+                return card.Owner.Creature.GetPowerAmount<ThornsPower>();
             })
+        ];
+
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>()
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new

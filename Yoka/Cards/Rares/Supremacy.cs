@@ -29,6 +29,8 @@ namespace Yoka.Cards.Rares
             new CardsVar(3)
         ];
 
+        public override bool GainsBlock => true;
+
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);

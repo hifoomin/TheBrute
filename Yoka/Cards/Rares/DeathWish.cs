@@ -28,8 +28,6 @@ namespace Yoka.Cards.Rares
             new PowerVar<DeathWishPower>(1m)
         ];
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [EnergyHoverTip];
-
         protected override HashSet<CardTag> CanonicalTags => new
         ([
             Yoka.Cards.Tags.maxHpRelated

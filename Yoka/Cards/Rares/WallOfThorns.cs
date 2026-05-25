@@ -25,6 +25,11 @@ namespace Yoka.Cards.Rares
             CardKeyword.Exhaust
         ];
 
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>()
+        ];
+
         public override bool GainsBlock => true;
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>

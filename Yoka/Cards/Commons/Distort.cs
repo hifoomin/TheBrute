@@ -27,8 +27,7 @@ namespace Yoka.Cards.Commons
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.FromPower<ThornsPower>(),
-            HoverTipFactory.FromCard<Burn>()
+            HoverTipFactory.FromPower<ThornsPower>()
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new

@@ -38,7 +38,7 @@ namespace Yoka.Cards.Uncommons
             new ExtraDamageVar(2m),
             new CalculatedDamageVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
             {
-                return card.Owner.Creature.GetPowerAmount<ThornsPower>() + card.Owner.Creature.GetPowerAmount<TemporaryThornsPower>();
+                return card.Owner.Creature.GetPowerAmount<ThornsPower>();
             })
         ];
 

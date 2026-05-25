@@ -19,12 +19,17 @@ namespace Yoka.Cards.Commons
         {
         }
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<TemporaryThornsPower>()];
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>()
+        ];
+
+        public override bool GainsBlock => true;
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new BlockVar(8m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
-            new PowerVar<Powers.TemporaryThornsNextTurnPower>(3m)
+            new PowerVar<Powers.TemporaryThornsUpNextTurnPower>(3m)
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new
@@ -35,7 +40,7 @@ namespace Yoka.Cards.Commons
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-            await PowerCmd.Apply<Powers.TemporaryThornsNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsNextTurnPower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<Powers.TemporaryThornsUpNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsUpNextTurnPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()

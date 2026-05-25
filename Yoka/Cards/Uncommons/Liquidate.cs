@@ -37,6 +37,11 @@ namespace Yoka.Cards.Uncommons
             Yoka.Cards.Tags.goldRelated
         ]);
 
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            EnergyHoverTip
+        ];
+
         protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, 12);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

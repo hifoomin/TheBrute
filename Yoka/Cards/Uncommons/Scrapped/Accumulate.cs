@@ -28,6 +28,8 @@ namespace Yoka.Cards.Uncommons
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<VigorPower>()];
 
+        public override bool GainsBlock => true;
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<StrengthPower>(1m),

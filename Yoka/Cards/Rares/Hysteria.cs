@@ -36,7 +36,10 @@ namespace Yoka.Cards.Rares
             Yoka.Cards.Tags.maxHpRelated, Yoka.Cards.Tags.goldRelated
         ]);
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [EnergyHoverTip];
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            EnergyHoverTip
+        ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {

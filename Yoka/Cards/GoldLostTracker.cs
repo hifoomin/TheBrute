@@ -21,15 +21,19 @@ namespace Yoka.Cards
 {
     public class GoldLostTracker() : CustomSingletonModel(true, false)
     {
+        public static readonly SpireField<ICombatState, decimal> totalGoldGainedThisCombat = new(() => 0);
         public static readonly SpireField<ICombatState, decimal> totalGoldLostThisCombat = new(() => 0);
+
+        public static readonly SpireField<ICombatState, decimal> timesGoldGainedThisCombat = new(() => 0);
         public static readonly SpireField<ICombatState, decimal> timesGoldLostThisCombat = new(() => 0);
+
         public static readonly SpireField<ICombatState, bool> gainedGoldThisTurn = new(() => false);
         public static readonly SpireField<ICombatState, bool> lostGoldThisTurn = new(() => false);
 
-        public static decimal GetTimesGoldLostThisCombat(Creature creature)
+        public static decimal GetTotalGoldGainedThisCombat(Creature creature)
         {
             var combatState = creature.CombatState;
-            return combatState == null ? 0 : timesGoldLostThisCombat[combatState];
+            return combatState == null ? 0 : totalGoldGainedThisCombat[combatState];
         }
 
         public static decimal GetTotalGoldLostThisCombat(Creature creature)
@@ -38,10 +42,16 @@ namespace Yoka.Cards
             return combatState == null ? 0 : totalGoldLostThisCombat[combatState];
         }
 
-        public static bool GetLostGoldThisTurn(Creature creature)
+        public static decimal GetTimesGoldGainedThisCombat(Creature creature)
         {
             var combatState = creature.CombatState;
-            return combatState != null && lostGoldThisTurn[combatState];
+            return combatState == null ? 0 : timesGoldGainedThisCombat[combatState];
+        }
+
+        public static decimal GetTimesGoldLostThisCombat(Creature creature)
+        {
+            var combatState = creature.CombatState;
+            return combatState == null ? 0 : timesGoldLostThisCombat[combatState];
         }
 
         public static bool GetGainedGoldThisTurn(Creature creature)
@@ -50,9 +60,20 @@ namespace Yoka.Cards
             return combatState != null && gainedGoldThisTurn[combatState];
         }
 
+        public static bool GetLostGoldThisTurn(Creature creature)
+        {
+            var combatState = creature.CombatState;
+            return combatState != null && lostGoldThisTurn[combatState];
+        }
+
         public static bool GetChangedGoldThisTurn(Creature creature)
         {
             return GetLostGoldThisTurn(creature) || GetGainedGoldThisTurn(creature);
+        }
+
+        public static decimal GetTotalChangedGoldThisCombat(Creature creature)
+        {
+            return GetTotalGoldGainedThisCombat(creature) + Math.Abs(GetTotalGoldLostThisCombat(creature));
         }
 
         public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
@@ -72,11 +93,13 @@ namespace Yoka.Cards
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "GainGold")]
     internal class GainGoldPatch
     {
-        private static void Postfix(Task __result, Player player)
+        private static void Postfix(Task __result, decimal amount, Player player)
         {
             var combatState = player.Creature.CombatState;
             if (combatState != null)
             {
+                GoldLostTracker.totalGoldGainedThisCombat[combatState] += amount;
+                GoldLostTracker.timesGoldGainedThisCombat[combatState] += 1;
                 if (combatState.CurrentSide == CombatSide.Player)
                 {
                     GoldLostTracker.gainedGoldThisTurn[combatState] = true;

@@ -1,5 +1,4 @@
-﻿/*
-using MegaCrit.Sts2.Core.Combat;
+﻿using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -29,28 +28,29 @@ namespace Yoka.Cards.Uncommons
             CardKeyword.Exhaust
         ];
 
-        protected override bool ShouldGlowGoldInternal => Utils.TookUnblockedDamageLastTurn(Owner);
-
-        protected override bool ShouldGlowRedInternal => !Utils.TookUnblockedDamageLastTurn(Owner);
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            EnergyHoverTip,
+            HoverTipFactory.FromPower<ThornsPower>()
+        ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new EnergyVar(3)
+            new EnergyVar(2),
+            new PowerVar<ThornsPower>(2m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            if (Utils.TookUnblockedDamageLastTurn(Owner))
-            {
-                await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-                await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
-            }
+            await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+
+            await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
+            await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, DynamicVars["ThornsPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            EnergyCost.UpgradeBy(-1);
+            AddKeyword(CardKeyword.Retain);
         }
     }
 }
-*/

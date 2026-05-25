@@ -31,6 +31,11 @@ namespace Yoka.Cards.Commons
             CardKeyword.Exhaust
         ];
 
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<PlatingPower>()
+        ];
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<PlatingPower>(3m),

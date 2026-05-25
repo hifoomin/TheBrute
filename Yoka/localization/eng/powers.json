@@ -1,16 +1,13 @@
 {
-	"YOKA-TEMPORARY_THORNS_POWER.title": "Temporary Thorns",
-    "YOKA-TEMPORARY_THORNS_POWER.description": "When hit by an attack, deal damage back this turn.",
-    "YOKA-TEMPORARY_THORNS_POWER.smartDescription": "When hit by an attack, deal [blue]{Amount}[/blue] damage back this turn.",
 	"YOKA-VAKUU_NEXT_TURN_POWER.title": "Vakuu Next Turn",
 	"YOKA-VAKUU_NEXT_TURN_POWER.description": "Vakuu will play the next turn for you.",
 	"YOKA-VAKUU_NEXT_TURN_POWER.smartDescription": "Vakuu will play the next turn for you.",
 	"YOKA-PROTOTYPE_POWER.title": "Prototype",
-	"YOKA-PROTOTYPE_POWER.description": "Whenever you gain or inflict a buff or debuff, gain [gold]Temporary Thorns[/gold].",
-	"YOKA-PROTOTYPE_POWER.smartDescription": "Whenever you gain or inflict a buff or debuff, gain [blue]{Amount}[/blue] [gold]Temporary Thorns[/gold].",
-	"YOKA-TEMPORARY_THORNS_NEXT_TURN_POWER.title": "Temporary Thorns Next Turn",
-	"YOKA-TEMPORARY_THORNS_NEXT_TURN_POWER.description": "Next turn, when hit by an attack, deal damage back.",
-	"YOKA-TEMPORARY_THORNS_NEXT_TURN_POWER.smartDescription": "Next turn, when hit by an attack, deal [blue]{Amount}[/blue] damage back.",
+	"YOKA-PROTOTYPE_POWER.description": "Whenever you gain or inflict a buff or debuff, gain temporary [gold]Thorns[/gold].",
+	"YOKA-PROTOTYPE_POWER.smartDescription": "Whenever you gain or inflict a buff or debuff, gain [blue]{Amount}[/blue] temporary [gold]Thorns[/gold].",
+	"YOKA-TEMPORARY_THORNS_UP_NEXT_TURN_POWER.title": "Temporary Thorns Next Turn",
+	"YOKA-TEMPORARY_THORNS_UP_NEXT_TURN_POWER.description": "Gain temporary [gold]Thorns[/gold] at the start of your next turn.",
+	"YOKA-TEMPORARY_THORNS_UP_NEXT_TURN_POWER.smartDescription": "Gain [blue]{Amount}[/blue] temporary [gold]Thorns[/gold] at the start of your next turn.",
 	"YOKA-HYSTERIA_POWER.title": "Hysteria",
 	"YOKA-HYSTERIA_POWER.description": "At the start of your turn, gain [gold]Energy[/gold], and lose Max HP and [gold]Gold[/gold].",
 	"YOKA-HYSTERIA_POWER.smartDescription": "At the start of your turn, gain [blue]{Amount}[/blue] [gold]Energy[/gold], and lose [blue]{MaxHp:diff()}[/blue] Max HP and [blue]{Gold:diff()}[/blue] [gold]Gold[/gold].",
@@ -58,6 +55,9 @@
 	"YOKA-EXPLOSION_POWER.description": "At the start of your turn, deal damage equal to your HP and [gold]Gold[/gold] lost this combat.",
 	"YOKA-EXPLOSION_POWER.smartDescription": "At the start of your turn, deal damage equal to{Amount>2:show: twice|} your HP and [gold]Gold[/gold] lost this combat.",
 	"YOKA-EXTEND_POWER.title": "Extend",
-	"YOKA-EXTEND_POWER.description": "At the start of the next [blue]2[/blue] turns, gain {TemporaryThornsPower:diff()} [gold]Temporary Thorns[/gold].",
-	"YOKA-EXTEND_POWER.smartDescription": "At the start of the next [blue]{Amount} {Amount:plural:turn|turns}[/blue], gain [blue]{TemporaryThornsPower:diff()}[/blue] [gold]Temporary Thorns[/gold]."
+	"YOKA-EXTEND_POWER.description": "At the start of the next [blue]2[/blue] turns, gain {TemporaryThornsUpPower:diff()} temporary [gold]Thorns[/gold].",
+	"YOKA-EXTEND_POWER.smartDescription": "At the start of the next [blue]{Amount} {Amount:plural:turn|turns}[/blue], gain [blue]{TemporaryThornsUpPower:diff()}[/blue] temporary [gold]Thorns[/gold].",
+	"YOKA-TEMPORARY_THORNS_UP_POWER.title": "Temporary Thorns Up",
+	"YOKA-TEMPORARY_THORNS_UP_POWER.description": "Lose [gold]Thorns[/gold] at the start of your next turn.",
+	"YOKA-TEMPORARY_THORNS_UP_POWER.smartDescription": "Lose [blue]{Amount}[/blue] [gold]Thorns[/gold] at the start of your next turn."
 }
