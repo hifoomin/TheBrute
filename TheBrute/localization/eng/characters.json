@@ -1,0 +1,16 @@
+{
+    "THEBRUTE-THE_BRUTE.aromaPrinciple": "[sine][jitter][gold]A dangerous one... This may bring me riches...[/gold][/jitter][/sine]",
+	"THEBRUTE-THE_BRUTE.banter.alive.endTurnPing": "[jitter]End it.[/jitter]",
+	"THEBRUTE-THE_BRUTE.banter.dead.endTurnPing": ". . .",
+	"THEBRUTE-THE_BRUTE.cardsModifierDescription": "The Brute cards will now appear in rewards and shops.",
+	"THEBRUTE-THE_BRUTE.cardsModifierTitle": "The Brute Cards",
+	"THEBRUTE-THE_BRUTE.description": "A lone traveler.\nDefames herself and foes to get what she wants.",
+	"THEBRUTE-THE_BRUTE.eventDeathPrevention": "[jitter]I do not live for others...\naside from strange exceptions...[/jitter]",
+	"THEBRUTE-THE_BRUTE.goldMonologue": "[sine][jitter]Greed is good.[/jitter][/sine]",
+	"THEBRUTE-THE_BRUTE.possessiveAdjective": "her",
+	"THEBRUTE-THE_BRUTE.pronounObject": "her",
+	"THEBRUTE-THE_BRUTE.pronounPossessive": "hers",
+	"THEBRUTE-THE_BRUTE.pronounSubject": "she",
+	"THEBRUTE-THE_BRUTE.title": "The Brute",
+	"THEBRUTE-THE_BRUTE.titleObject": "The Brute"
+}

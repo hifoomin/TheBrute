@@ -1,0 +1,12 @@
+{
+  "id": "TheBrute",
+  "name": "TheBrute",
+  "author": "HIFU",
+  "description": "A character that plays around Max HP, Thorns, and Gold",
+  "version": "0.0.1",
+  "min_game_version": "0.106.1",
+  "has_pck": true,
+  "has_dll": true,
+  "dependencies": ["BaseLib"],
+  "affects_gameplay": true
+}

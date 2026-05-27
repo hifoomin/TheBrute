@@ -10,9 +10,9 @@ config_version=5
 
 [application]
 
-config/name="Yoka"
+config/name="TheBrute"
 config/features=PackedStringArray("4.5", "C#", "Mobile")
-config/icon="res://Assets/Yoka.mod_image.png"
+config/icon="res://Assets/TheBrute.mod_image.png"
 
 [display]
 

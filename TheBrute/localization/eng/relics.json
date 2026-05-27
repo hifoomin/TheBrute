@@ -1,0 +1,17 @@
+{
+    "THEBRUTE-TOXEMIA.title": "Toxemia",
+    "THEBRUTE-TOXEMIA.description": "At the end of combat, gain [blue]{MaxHp}[/blue] Max HP.",
+    "THEBRUTE-TOXEMIA.flavor": "[red]Details for this relic will be revealed in the future...[/red]",
+    "THEBRUTE-BLOOD_EAGLE.title": "Blood Eagle",
+    "THEBRUTE-BLOOD_EAGLE.description": "Whenever you lose Gold, Heal [green]{Heal}[/green] HP.",
+    "THEBRUTE-BLOOD_EAGLE.flavor": "[red]Details for this relic will be revealed in the future...[/red]",
+    "THEBRUTE-INFERNAL_PLASMA.title": "Infernal Plasma",
+    "THEBRUTE-INFERNAL_PLASMA.description": "The first time you lose HP during an event, raise your Max HP by [blue]{MaxHp}[/blue].",
+    "THEBRUTE-INFERNAL_PLASMA.flavor": "[red]Details for this relic will be revealed in the future...[/red]",
+    "THEBRUTE-THORNY_HELMET.title": "Thorny Helmet",
+    "THEBRUTE-THORNY_HELMET.description": "The first time you gain [gold]Thorns[/gold] each combat, double the amount gained.",
+    "THEBRUTE-THORNY_HELMET.flavor": "[red]Details for this relic will be revealed in the future...[/red]",
+    "THEBRUTE-SYMBIOSIS.title": "Symbiosis",
+    "THEBRUTE-SYMBIOSIS.description": "At the end of combat, gain [blue]{MaxHp}[/blue] Max HP.",
+    "THEBRUTE-SYMBIOSIS.flavor": "[red]Details for this relic will be revealed in the future...[/red]"
+}
