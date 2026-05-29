@@ -56,15 +56,15 @@ namespace TheBrute.Cards.Uncommons
                                       card.Id != ModelDb.Card<Amend>().Id
                                       select card, 1, Owner.RunState.Rng.CombatCardGeneration).FirstOrDefault();
 
+                if (IsUpgraded)
+                {
+                    CardCmd.Upgrade(randomThornsCard);
+                }
+
                 // var toTransform = CombatState.CreateCard(randomZeroCostCard, Owner);
                 await CardCmd.Transform(transformableStatusCard, randomThornsCard);
             }
             // holy fuck thiis might affect the trout population
-        }
-
-        protected override void OnUpgrade()
-        {
-            DynamicVars.MaxHp.UpgradeValueBy(-1m);
         }
     }
 }

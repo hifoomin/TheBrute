@@ -46,6 +46,7 @@ namespace TheBrute.Powers
         {
             if (participants.Contains(Owner))
             {
+                Flash();
                 await PowerCmd.Apply<ThornsPower>(new ThrowingPlayerChoiceContext(), Owner, DynamicVars["ThornsPower"].BaseValue, Owner, null);
                 await PowerCmd.Apply<TemporaryThornsUpPower>(new ThrowingPlayerChoiceContext(), Owner, DynamicVars["TemporaryThornsUpPower"].BaseValue, Owner, null);
                 await PowerCmd.Decrement(this);

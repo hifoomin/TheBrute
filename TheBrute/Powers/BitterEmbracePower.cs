@@ -57,6 +57,8 @@ namespace TheBrute.Powers
 
                 await CardPileCmd.AddGeneratedCardsToCombat(array, PileType.Hand, Owner.Player);
             }
+
+            // rip trout population
         }
     }
 }

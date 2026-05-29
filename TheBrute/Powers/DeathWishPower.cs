@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using HarmonyLib;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -27,27 +28,28 @@ namespace TheBrute.Powers
         public override PowerType Type => PowerType.Buff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
+    }
 
-        private int lastMaxHP;
-
-        public override async Task BeforeCardPlayed(CardPlay cardPlay)
+    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd), "LoseMaxHp")]
+    internal class DeathWishPowerLoseMaxHpPatch
+    {
+        private static void Postfix(Task __result, PlayerChoiceContext choiceContext, Creature creature)
         {
-            lastMaxHP = Owner.MaxHp;
-        }
+            var deathWishPower = creature.GetPower<DeathWishPower>();
+            var combatState = creature.CombatState;
 
-        public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
-        {
-            if (cardPlay.Card.Owner == Owner.Player && lastMaxHP > Owner.MaxHp)
+            if (deathWishPower != null && combatState != null && combatState.CurrentSide == CombatSide.Player)
             {
-                CardModel cardModel = CardFactory.GetDistinctForCombat(Owner.Player,
-                                      from c in Owner.Player.Character.CardPool.GetUnlockedCards(Owner.Player.UnlockState, Owner.Player.RunState.CardMultiplayerConstraint)
+                CardModel cardModel = CardFactory.GetDistinctForCombat(creature.Player,
+                                      from c in creature.Player.Character.CardPool.GetUnlockedCards(creature.Player.UnlockState, creature.Player.RunState.CardMultiplayerConstraint)
                                       where c.Type == CardType.Attack
-                                      select c, 1, Owner.Player.RunState.Rng.CombatCardGeneration).FirstOrDefault();
+                                      select c, 1, creature.Player.RunState.Rng.CombatCardGeneration).FirstOrDefault();
 
                 if (cardModel != null)
                 {
+                    deathWishPower.Flash();
                     cardModel.SetToFreeThisTurn();
-                    await CardPileCmd.AddGeneratedCardToCombat(cardModel, PileType.Hand, Owner.Player);
+                    CardPileCmd.AddGeneratedCardToCombat(cardModel, PileType.Hand, creature.Player);
                 }
             }
         }

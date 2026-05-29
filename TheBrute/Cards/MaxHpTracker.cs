@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Gold;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 using System;
 using System.Collections.Generic;
@@ -17,28 +18,38 @@ using TheBrute.Relics.Uncommons;
 
 namespace TheBrute.Cards
 {
-    public class MaxHpLostTracker() : CustomSingletonModel(true, false)
+    public class MaxHpTracker() : CustomSingletonModel(true, false)
     {
-        public static readonly SpireField<ICombatState, decimal> totalMaxHpLostFromCardsThisCombat = new(() => 0);
-        public static readonly SpireField<ICombatState, decimal> timesMaxHpLostFromCardsThisCombat = new(() => 0);
-        public static readonly SpireField<ICombatState, bool> lostMaxHpFromCardThisTurn = new(() => false);
+        public static readonly SpireField<Creature, decimal> totalMaxHpLostFromCardsThisCombat = new(() => 0);
+        public static readonly SpireField<Creature, decimal> timesMaxHpLostFromCardsThisCombat = new(() => 0);
+        public static readonly SpireField<Creature, bool> lostMaxHpFromCardThisTurn = new(() => false);
 
         public static decimal GetTotalMaxHpLostFromCardsThisCombat(Creature creature)
         {
             var combatState = creature.CombatState;
-            return combatState == null ? 0 : totalMaxHpLostFromCardsThisCombat[combatState];
+            return combatState == null ? 0 : totalMaxHpLostFromCardsThisCombat[creature];
         }
 
         public static decimal GetTimesMaxHpLostFromCardsThisCombat(Creature creature)
         {
             var combatState = creature.CombatState;
-            return combatState == null ? 0 : timesMaxHpLostFromCardsThisCombat[combatState];
+            return combatState == null ? 0 : timesMaxHpLostFromCardsThisCombat[creature];
         }
 
         public static bool GetLostMaxHpFromCardThisTurn(Creature creature)
         {
             var combatState = creature.CombatState;
-            return combatState != null && lostMaxHpFromCardThisTurn[combatState];
+            return combatState != null && lostMaxHpFromCardThisTurn[creature];
+        }
+
+        public override async Task AfterCombatEnd(CombatRoom room)
+        {
+            foreach (Creature creature in room.Allies)
+            {
+                totalMaxHpLostFromCardsThisCombat[creature] = 0;
+                timesMaxHpLostFromCardsThisCombat[creature] = 0;
+                lostMaxHpFromCardThisTurn[creature] = false;
+            }
         }
 
         public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
@@ -48,7 +59,7 @@ namespace TheBrute.Cards
             {
                 if (combatState.CurrentSide == CombatSide.Player)
                 {
-                    MaxHpLostTracker.lostMaxHpFromCardThisTurn[combatState] = false;
+                    MaxHpTracker.lostMaxHpFromCardThisTurn[player.Creature] = false;
                 }
             }
         }
@@ -62,11 +73,11 @@ namespace TheBrute.Cards
             var combatState = creature.CombatState;
             if (combatState != null && isFromCard)
             {
-                MaxHpLostTracker.totalMaxHpLostFromCardsThisCombat[combatState] += amount;
-                MaxHpLostTracker.timesMaxHpLostFromCardsThisCombat[combatState] += 1;
+                MaxHpTracker.totalMaxHpLostFromCardsThisCombat[creature] += amount;
+                MaxHpTracker.timesMaxHpLostFromCardsThisCombat[creature] += 1;
                 if (combatState.CurrentSide == CombatSide.Player)
                 {
-                    MaxHpLostTracker.lostMaxHpFromCardThisTurn[combatState] = true;
+                    MaxHpTracker.lostMaxHpFromCardThisTurn[creature] = true;
                 }
             }
         }

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ta3wj33sjrx6"
-path="res://.godot/imported/character_icon_char_name.png-db046f4eddb2d080a9b9050629e704aa.ctex"
+uid="uid://ch4n351ynqg7c"
+path="res://.godot/imported/anastasis.png-7551df9c06bd3c436c439391a39ec4cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheBrute/images/charui/character_icon_char_name.png"
-dest_files=["res://.godot/imported/character_icon_char_name.png-db046f4eddb2d080a9b9050629e704aa.ctex"]
+source_file="res://TheBrute/images/potions/anastasis.png"
+dest_files=["res://.godot/imported/anastasis.png-7551df9c06bd3c436c439391a39ec4cc.ctex"]
 
 [params]
 

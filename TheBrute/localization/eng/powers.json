@@ -1,7 +1,7 @@
 {
-	"THEBRUTE-VAKUU_NEXT_TURN_POWER.title": "Vakuu Next Turn",
-	"THEBRUTE-VAKUU_NEXT_TURN_POWER.description": "Vakuu will play the next turn for you.",
-	"THEBRUTE-VAKUU_NEXT_TURN_POWER.smartDescription": "Vakuu will play the next turn for you.",
+	"THEBRUTE-POSSESSION_POWER.title": "Possession",
+	"THEBRUTE-POSSESSION_POWER.description": "Vakuu will play the next turn for you.",
+	"THEBRUTE-POSSESSION_POWER.smartDescription": "Vakuu will play the next{Amount:cond:==1? |>1? [blue]{}[/blue]|} {Amount:plural:turn|turns} for you.",
 	"THEBRUTE-PROTOTYPE_POWER.title": "Prototype",
 	"THEBRUTE-PROTOTYPE_POWER.description": "Whenever you gain or inflict a buff or debuff, gain temporary [gold]Thorns[/gold].",
 	"THEBRUTE-PROTOTYPE_POWER.smartDescription": "Whenever you gain or inflict a buff or debuff, gain [blue]{Amount}[/blue] temporary [gold]Thorns[/gold].",

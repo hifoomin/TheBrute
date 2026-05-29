@@ -37,16 +37,6 @@ namespace TheBrute.Powers
 
         public override int DisplayAmount => (Owner.MaxHp * Amount) / 100;
 
-        /*
-        protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new DynamicVar("CalculatedDamageButGood", 0m),
-            new DynamicVar("DisplayAmountWhatTheFuckSpaghettiCodeStrikesAgain", 0m)
-        ];
-
-        public void SetDisplayAmount
-        */
-
         public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
         {
             if (Owner.Player != player)
@@ -62,6 +52,8 @@ namespace TheBrute.Powers
                     NFireBurstVfx child = NFireBurstVfx.Create(hittableEnemy, 0.75f);
                     NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(child);
                 }
+
+                Flash();
 
                 // recalculate here somehow maybe?
                 await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), hittableEnemies, DisplayAmount, ValueProp.Unpowered, null, null);

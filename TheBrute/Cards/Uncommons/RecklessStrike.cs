@@ -58,7 +58,7 @@ namespace TheBrute.Cards.Uncommons
                     randomCard.AddKeyword(TheBrute.Cards.Keywords.goldLossKeyword);
 
                     CardCmd.Upgrade(randomCard);
-                    // CardCmd.Preview(randomCard, 1.5f);
+                    CardCmd.Preview(randomCard, 1.2f);
                     break;
 
                     // Main.Logger.Warn("reckless strike onplay: cards new gold value is " + vars["Gold"].BaseValue);

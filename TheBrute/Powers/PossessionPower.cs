@@ -23,7 +23,7 @@ namespace TheBrute.Powers
 {
 #pragma warning disable STS001 // Symbol missing localization
 
-    internal class VakuuNextTurnPower : TheBrutePower
+    internal class PossessionPower : TheBrutePower
 #pragma warning restore STS001 // Symbol missing localization
     {
         public override PowerType Type => PowerType.Debuff;

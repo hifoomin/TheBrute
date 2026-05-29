@@ -56,20 +56,20 @@ namespace TheBrute.Cards.Rares
 
                     if (!card.hasTransmutedKeyword())
                     {
-                        Main.Logger.Warn("added transmuted keyword");
+                        // Main.Logger.Warn("added transmuted keyword");
                         card.AddKeyword(TheBrute.Cards.Keywords.transmutedKeyword);
                     }
 
                     if (cardVars.TryGetValue("Transmuted", out var existingVar) && existingVar is TransmutedVar existingTransmuted)
                     {
-                        Main.Logger.Warn("added ONTO EXISTINGTGFDKHG EGDSAGSD transmuted var to card");
-                        Main.Logger.Warn("Existing transmuted var before: " + existingTransmuted.BaseValue);
+                        // Main.Logger.Warn("added ONTO EXISTINGTGFDKHG EGDSAGSD transmuted var to card");
+                        // Main.Logger.Warn("Existing transmuted var before: " + existingTransmuted.BaseValue);
                         cardVars["Transmuted"] = new TransmutedVar(existingTransmuted.BaseValue + DynamicVars.MaxHp.BaseValue);
-                        Main.Logger.Warn("Existing transmuted var AFTERERERERERER: " + cardVars["Transmuted"].BaseValue);
+                        // Main.Logger.Warn("Existing transmuted var AFTERERERERERER: " + cardVars["Transmuted"].BaseValue);
                     }
                     else
                     {
-                        Main.Logger.Warn("added NEWWW transmuted var to card");
+                        // Main.Logger.Warn("added NEWWW transmuted var to card");
                         cardVars["Transmuted"] = new TransmutedVar(DynamicVars.MaxHp.BaseValue);
                     }
                 }

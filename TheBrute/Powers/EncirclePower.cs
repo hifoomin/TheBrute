@@ -28,6 +28,7 @@ namespace TheBrute.Powers
         {
             if (applier == Owner && amount > 0m && power is ThornsPower)
             {
+                Flash();
                 await CreatureCmd.GainBlock(Owner, Amount, ValueProp.Unpowered | ValueProp.Move, null);
             }
         }

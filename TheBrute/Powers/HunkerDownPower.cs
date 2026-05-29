@@ -30,8 +30,9 @@ namespace TheBrute.Powers
 
         public override async Task AfterBlockGained(Creature creature, decimal amount, ValueProp props, CardModel? cardSource)
         {
-            if (creature == Owner && amount > 0)
+            if (creature == Owner && amount > 0 && creature.CombatState.CurrentSide == CombatSide.Player)
             {
+                Flash();
                 await CardPileCmd.Draw(new ThrowingPlayerChoiceContext(), Amount, Owner.Player);
             }
         }

@@ -1,7 +1,9 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using HarmonyLib;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Gold;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.Factories;
@@ -28,21 +30,34 @@ namespace TheBrute.Powers
         public override PowerType Type => PowerType.Buff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
+    }
 
-        /*
-        private int lastGold = 0;
-
-        public override async Task BeforeCardPlayed(CardPlay cardPlay)
+    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "GainGold")]
+    internal class HighRollerPowerGainGoldPatch
+    {
+        private static void Postfix(Task __result, decimal amount, Player player)
         {
-            lastGold = Owner.Player.Gold;
-        }
-        */
-
-        public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
-        {
-            if (cardPlay.Card.Owner == Owner.Player && GoldLostTracker.GetChangedGoldThisTurn(Owner))
+            var combatState = player.Creature.CombatState;
+            var highRollerPower = player.Creature.GetPower<HighRollerPower>();
+            if (combatState != null && highRollerPower != null)
             {
-                await PowerCmd.Apply<StrengthPower>(choiceContext, Owner, Amount, Owner, null);
+                highRollerPower.Flash();
+                PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), player.Creature, highRollerPower.Amount, player.Creature, null);
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "LoseGold")]
+    internal class HighRollerPowerLoseGoldPatch
+    {
+        private static void Postfix(Task __result, decimal amount, Player player, GoldLossType goldLossType)
+        {
+            var combatState = player.Creature.CombatState;
+            var highRollerPower = player.Creature.GetPower<HighRollerPower>();
+            if (combatState != null && highRollerPower != null)
+            {
+                highRollerPower.Flash();
+                PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), player.Creature, highRollerPower.Amount, player.Creature, null);
             }
         }
     }

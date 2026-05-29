@@ -25,6 +25,7 @@ namespace TheBrute.Powers
         {
             if (applier == Owner && power is not TemporaryThornsUpPower)
             {
+                Flash();
                 await PowerCmd.Apply<TemporaryThornsUpPower>(choiceContext, Owner, 1m, applier, cardSource);
             }
         }

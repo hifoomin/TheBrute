@@ -24,21 +24,12 @@ namespace TheBrute.Cards.Commons
 
         public override bool GainsBlock => true;
 
-        /*
-        private int lastGold;
-
-        private bool changedGoldThisTurn => Owner.Gold != lastGold;
-
-        protected override bool ShouldGlowGoldInternal => Owner.Gold != lastGold;
-
-        */
-
         protected override HashSet<CardTag> CanonicalTags => new
         ([
             TheBrute.Cards.Tags.goldRelated
         ]);
 
-        protected override bool ShouldGlowGoldInternal => GoldLostTracker.GetChangedGoldThisTurn(Owner.Creature);
+        protected override bool ShouldGlowGoldInternal => GoldTracker.GetChangedGoldThisTurn(Owner.Creature);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
@@ -51,7 +42,7 @@ namespace TheBrute.Cards.Commons
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
             int blockGains = 1;
-            if (/*changedGoldThisTurn*/ GoldLostTracker.GetChangedGoldThisTurn(Owner.Creature))
+            if (GoldTracker.GetChangedGoldThisTurn(Owner.Creature))
             {
                 blockGains += DynamicVars.Repeat.IntValue;
             }

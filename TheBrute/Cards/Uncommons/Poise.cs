@@ -51,9 +51,8 @@ namespace TheBrute.Cards.Uncommons
             if (cardModel != null)
             {
                 await CardCmd.Exhaust(choiceContext, cardModel);
+                await PowerCmd.Apply<PlatingPower>(choiceContext, Owner.Creature, DynamicVars["PlatingPower"].IntValue, Owner.Creature, this);
             }
-
-            await PowerCmd.Apply<PlatingPower>(choiceContext, Owner.Creature, DynamicVars["PlatingPower"].IntValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()

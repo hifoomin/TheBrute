@@ -29,6 +29,7 @@ namespace TheBrute.Powers
         {
             if (player == Owner.Player && AmountOnTurnStart != 0)
             {
+                Flash();
                 await PowerCmd.Apply<TemporaryThornsUpPower>(choiceContext, player.Creature, Amount, player.Creature, null);
                 await PowerCmd.Remove(this);
             }

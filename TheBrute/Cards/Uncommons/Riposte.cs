@@ -25,7 +25,8 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(11m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new PowerVar<FreeAttackPower>(1m),
+            new BlockVar(10m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
         ];
 
         public override bool GainsBlock => true;
@@ -33,12 +34,12 @@ namespace TheBrute.Cards.Uncommons
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-            await PowerCmd.Apply<FreeAttackPower>(choiceContext, Owner.Creature, 1m, Owner.Creature, this);
+            await PowerCmd.Apply<FreeAttackPower>(choiceContext, Owner.Creature, DynamicVars["FreeAttackPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Block.UpgradeValueBy(5m);
+            DynamicVars["FreeAttackPower"].UpgradeValueBy(1m);
         }
     }
 }

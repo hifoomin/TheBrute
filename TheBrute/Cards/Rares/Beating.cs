@@ -23,12 +23,12 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(2m, ValueProp.Move),
+            new DamageVar(3m, ValueProp.Move),
             new CalculationBaseVar(0m),
             new CalculationExtraVar(1m),
             new CalculatedVar("CalculatedHits").WithMultiplier((CardModel card, Creature? _) =>
             {
-                return MaxHpLostTracker.GetTimesMaxHpLostFromCardsThisCombat(card.Owner.Creature);
+                return MaxHpTracker.GetTimesMaxHpLostFromCardsThisCombat(card.Owner.Creature);
             })
         ];
 

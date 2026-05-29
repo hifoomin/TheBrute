@@ -34,6 +34,7 @@ namespace TheBrute.Powers
         {
             if (player == Owner.Player)
             {
+                Flash();
                 return currentMaxHandSize - Amount;
             }
             return currentMaxHandSize;

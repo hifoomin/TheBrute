@@ -35,7 +35,7 @@ namespace TheBrute.Cards.Rares
         [
             new GoldVar(12),
             new MaxHpVar(4m),
-            new DamageVar(17m, ValueProp.Move)
+            new DamageVar(18m, ValueProp.Move)
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -62,7 +62,8 @@ namespace TheBrute.Cards.Rares
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(7m);
+            DynamicVars.Gold.UpgradeValueBy(6m);
+            DynamicVars.MaxHp.UpgradeValueBy(2m);
         }
     }
 }

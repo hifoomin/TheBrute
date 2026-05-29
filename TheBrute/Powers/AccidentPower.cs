@@ -38,13 +38,14 @@ namespace TheBrute.Powers
     {
         private static void Postfix(Task __result, Player player)
         {
-            var accidentPower = player.Creature.Powers.OfType<AccidentPower>().FirstOrDefault();
+            var accidentPower = player.Creature.GetPower<AccidentPower>();
             var hittableEnemies = CombatManager.Instance._state?.HittableEnemies;
             if (accidentPower != null && hittableEnemies != null && hittableEnemies.Count != 0)
             {
                 var randomEnemy = player.RunState.Rng.CombatTargets.NextItem(hittableEnemies);
                 if (randomEnemy != null)
                 {
+                    accidentPower.Flash();
                     CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), randomEnemy, accidentPower.Amount, ValueProp.Unpowered, null, null);
                 }
             }

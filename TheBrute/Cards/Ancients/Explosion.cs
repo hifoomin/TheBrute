@@ -38,7 +38,7 @@ namespace TheBrute.Cards.Ancients
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new CalculationBaseVar(0m),
-            new CalculationExtraVar(0.09m),
+            new ExtraDamageVar(0.1m),
             new CalculatedDamageVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
             {
                 return card.Owner.Creature.MaxHp;
@@ -47,12 +47,12 @@ namespace TheBrute.Cards.Ancients
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await PowerCmd.Apply<ExplosionPower>(choiceContext, Owner.Creature, DynamicVars.CalculationExtra.BaseValue * 100m, Owner.Creature, this);
+            await PowerCmd.Apply<ExplosionPower>(choiceContext, Owner.Creature, DynamicVars.ExtraDamage.BaseValue * 100m, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.CalculationExtra.UpgradeValueBy(0.04m);
+            DynamicVars.ExtraDamage.UpgradeValueBy(0.05m);
         }
     }
 }

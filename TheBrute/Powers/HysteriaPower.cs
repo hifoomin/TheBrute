@@ -53,6 +53,7 @@ namespace TheBrute.Powers
                 return;
             }
 
+            Flash();
             await CreatureCmd.LoseMaxHp(choiceContext, Owner, DynamicVars.MaxHp.BaseValue, true);
             await PlayerCmd.LoseGold(DynamicVars["Gold"].IntValue, Owner.Player);
         }

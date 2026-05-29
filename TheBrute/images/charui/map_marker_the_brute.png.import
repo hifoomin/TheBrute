@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dc5agu1fpl0yp"
-path="res://.godot/imported/char_select_char_name.png-c4a5a0b06178a67b90aa2f4bbc83c9af.ctex"
+uid="uid://bpq0pqp4pifsu"
+path="res://.godot/imported/map_marker_the_brute.png-a9ef29b407c6f6f98f2b6c5698745565.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheBrute/images/charui/char_select_char_name.png"
-dest_files=["res://.godot/imported/char_select_char_name.png-c4a5a0b06178a67b90aa2f4bbc83c9af.ctex"]
+source_file="res://TheBrute/images/charui/map_marker_the_brute.png"
+dest_files=["res://.godot/imported/map_marker_the_brute.png-a9ef29b407c6f6f98f2b6c5698745565.ctex"]
 
 [params]
 

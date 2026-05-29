@@ -33,6 +33,7 @@ namespace TheBrute.Powers
         {
             if (participants.Contains(Owner) && AmountOnTurnStart != 0)
             {
+                Flash();
                 await PowerCmd.Apply<ThornsPower>(new ThrowingPlayerChoiceContext(), Owner, Amount, Owner, null);
                 await PowerCmd.Apply<TemporaryThornsUpPower>(new ThrowingPlayerChoiceContext(), Owner, Amount, Owner, null);
                 await PowerCmd.Remove(this);

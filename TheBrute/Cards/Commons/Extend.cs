@@ -26,8 +26,8 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<ThornsPower>(2m),
-            new PowerVar<TemporaryThornsUpPower>(2m),
+            new PowerVar<ThornsPower>(3m),
+            new PowerVar<TemporaryThornsUpPower>(3m),
             new PowerVar<ExtendPower>(2m)
         ];
 

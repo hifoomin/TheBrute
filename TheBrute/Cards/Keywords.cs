@@ -49,7 +49,7 @@ namespace TheBrute.Cards
 
             if (__instance.hasTransmutedKeyword())
             {
-                Main.Logger.Warn("CARD HAS TRANSMUTED KEYWORD, PLAYINGGGGG");
+                // Main.Logger.Warn("CARD HAS TRANSMUTED KEYWORD, PLAYINGGGGG");
                 // await CreatureCmd.LoseMaxHp(choiceContext, __instance.Owner.Creature, __instance.DynamicVars.MaxHp.BaseValue, true);
                 CreatureCmd.LoseMaxHp(choiceContext, __instance.Owner.Creature, __instance.DynamicVars["Transmuted"].BaseValue, true);
             }

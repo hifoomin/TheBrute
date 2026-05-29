@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using HarmonyLib;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -8,6 +9,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using System;
 using System.Collections.Generic;
@@ -22,27 +24,30 @@ namespace TheBrute.Powers
         public override PowerType Type => PowerType.Buff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
+    }
 
-        private int lastMaxHP;
-
-        public override async Task BeforeCardPlayed(CardPlay cardPlay)
+    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd), "LoseMaxHp")]
+    internal class ImmunizePowerLoseMaxHpPatch
+    {
+        private static void Postfix(Task __result, PlayerChoiceContext choiceContext, Creature creature)
         {
-            lastMaxHP = Owner.MaxHp;
-        }
+            var immunizePower = creature.GetPower<ImmunizePower>();
+            var combatState = creature.CombatState;
 
-        public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
-        {
-            if (cardPlay.Card.Owner == Owner.Player && lastMaxHP > Owner.MaxHp)
+            if (immunizePower != null && combatState != null)
             {
-                var alivePlayersExcludingPowerOwner = from c in CombatState.GetTeammatesOf(Owner)
+                var alivePlayersExcludingPowerOwner = from c in combatState.GetTeammatesOf(creature)
                                                       where c != null && c.IsAlive && c.IsPlayer
-                                                      && c != Owner
+                                                      && c != creature
                                                       select c;
 
                 foreach (Creature player in alivePlayersExcludingPowerOwner)
                 {
-                    await CreatureCmd.GainMaxHp(player, Amount);
+                    CreatureCmd.GainMaxHp(player, immunizePower.Amount);
                 }
+
+                immunizePower.Flash();
+                PowerCmd.Apply<ThornsPower>(choiceContext, creature, immunizePower.Amount, null, null);
             }
         }
     }

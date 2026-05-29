@@ -20,7 +20,7 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
-        protected override bool ShouldGlowGoldInternal => GoldLostTracker.GetChangedGoldThisTurn(Owner.Creature);
+        protected override bool ShouldGlowGoldInternal => GoldTracker.GetChangedGoldThisTurn(Owner.Creature);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
@@ -44,7 +44,7 @@ namespace TheBrute.Cards.Uncommons
                 .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
 
-            if (GoldLostTracker.GetChangedGoldThisTurn(Owner.Creature))
+            if (GoldTracker.GetChangedGoldThisTurn(Owner.Creature))
             {
                 await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
             }

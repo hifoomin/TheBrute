@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bgble8d7dq4cn"
-path="res://.godot/imported/char_select_char_name_locked.png-107c538e2dac543c0912127cb46631c9.ctex"
+path="res://.godot/imported/char_select_the_brute_locked.png-f3bd8943dbd4714ea252a87af70ebd54.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheBrute/images/charui/char_select_char_name_locked.png"
-dest_files=["res://.godot/imported/char_select_char_name_locked.png-107c538e2dac543c0912127cb46631c9.ctex"]
+source_file="res://TheBrute/images/charui/char_select_the_brute_locked.png"
+dest_files=["res://.godot/imported/char_select_the_brute_locked.png-f3bd8943dbd4714ea252a87af70ebd54.ctex"]
 
 [params]
 

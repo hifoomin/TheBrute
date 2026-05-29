@@ -24,20 +24,12 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
-        /*
-        private int lastGold;
-
-        private bool changedGoldThisTurn => Owner.Gold != lastGold;
-
-        protected override bool ShouldGlowGoldInternal => Owner.Gold != lastGold;
-        */
-
         protected override HashSet<CardTag> CanonicalTags => new
         ([
             TheBrute.Cards.Tags.goldRelated
         ]);
 
-        protected override bool ShouldGlowGoldInternal => GoldLostTracker.GetChangedGoldThisTurn(Owner.Creature);
+        protected override bool ShouldGlowGoldInternal => GoldTracker.GetChangedGoldThisTurn(Owner.Creature);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
@@ -46,20 +38,12 @@ namespace TheBrute.Cards.Uncommons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            // var hitCount = changedGoldThisTurn ? 2 : 1;
-            var hitCount = GoldLostTracker.GetChangedGoldThisTurn(Owner.Creature) ? 2 : 1;
+            var hitCount = GoldTracker.GetChangedGoldThisTurn(Owner.Creature) ? 2 : 1;
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).TargetingAllOpponents(CombatState).WithHitCount(hitCount)
-                .WithHitFx(null /*"vfx/vfx_giant_horizontal_slash"*/)
+                .WithHitFx("vfx/vfx_giant_horizontal_slash")
                 .Execute(choiceContext);
         }
-
-        /*
-        public override async Task AfterPlayerTurnStartEarly(PlayerChoiceContext choiceContext, Player player)
-        {
-            lastGold = Owner.Gold;
-        }
-        */
 
         protected override void OnUpgrade()
         {

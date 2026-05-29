@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpq0pqp4pifsu"
-path="res://.godot/imported/map_marker_char_name.png-6f1838782bd9fc0e3c4d501e286d7e19.ctex"
+uid="uid://b3pw5735i6axf"
+path="res://.godot/imported/attackframe.png-c03e31e89e45d26445b960d07e71f99f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheBrute/images/charui/map_marker_char_name.png"
-dest_files=["res://.godot/imported/map_marker_char_name.png-6f1838782bd9fc0e3c4d501e286d7e19.ctex"]
+source_file="res://TheBrute/images/cards/attackframe.png"
+dest_files=["res://.godot/imported/attackframe.png-c03e31e89e45d26445b960d07e71f99f.ctex"]
 
 [params]
 

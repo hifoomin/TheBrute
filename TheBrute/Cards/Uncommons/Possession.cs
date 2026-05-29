@@ -55,7 +55,7 @@ namespace TheBrute.Cards.Uncommons
 
             await PlayerCmd.GainGold(DynamicVars.Gold.IntValue, Owner);
 
-            await PowerCmd.Apply<VakuuNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["VakuuNextTurn"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<Powers.PossessionPower>(choiceContext, Owner.Creature, DynamicVars["VakuuNextTurn"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()

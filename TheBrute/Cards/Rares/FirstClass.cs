@@ -22,7 +22,7 @@ namespace TheBrute.Cards.Rares
 {
     internal class FirstClass : TheBruteCard
     {
-        public FirstClass() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        public FirstClass() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
         {
         }
 
@@ -35,9 +35,9 @@ namespace TheBrute.Cards.Rares
         [
             new CalculationBaseVar(0m),
             new ExtraDamageVar(1m),
-            new CalculatedDamageVar(ValueProp.Move).WithMultiplier(delegate(CardModel card, Creature? target)
+            new CalculatedDamageVar(ValueProp.Move).WithMultiplier(delegate(CardModel card, Creature? _)
             {
-                var goldChangedThisCombat = GoldLostTracker.GetTotalChangedGoldThisCombat(card.Owner.Creature);
+                var goldChangedThisCombat = GoldTracker.GetTotalChangedGoldThisCombat(card.Owner.Creature);
 
                 return goldChangedThisCombat;
             })

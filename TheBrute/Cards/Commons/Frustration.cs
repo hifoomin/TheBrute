@@ -23,7 +23,7 @@ namespace TheBrute.Cards.Commons
         {
         }
 
-        protected override bool ShouldGlowGoldInternal => MaxHpLostTracker.GetLostMaxHpFromCardThisTurn(Owner.Creature);
+        protected override bool ShouldGlowGoldInternal => MaxHpTracker.GetLostMaxHpFromCardThisTurn(Owner.Creature);
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
@@ -47,7 +47,7 @@ namespace TheBrute.Cards.Commons
                 .WithHitFx(null /*"vfx/vfx_giant_horizontal_slash"*/)
                 .Execute(choiceContext);
 
-            if (MaxHpLostTracker.GetLostMaxHpFromCardThisTurn(Owner.Creature))
+            if (MaxHpTracker.GetLostMaxHpFromCardThisTurn(Owner.Creature))
             {
                 await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
                 await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars.Strength.BaseValue, Owner.Creature, this);

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bt8ubafjcseem"
-path="res://.godot/imported/vakuu_next_turn_power.png-e6081f92b5cd5f4ead073ee21cf83278.ctex"
+uid="uid://c5ofdfrpbxysl"
+path="res://.godot/imported/frame.png-95a7d584caa753a09c86a70f2fa98c5a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://TheBrute/images/powers/vakuu_next_turn_power.png"
-dest_files=["res://.godot/imported/vakuu_next_turn_power.png-e6081f92b5cd5f4ead073ee21cf83278.ctex"]
+source_file="res://TheBrute/images/cards/frame.png"
+dest_files=["res://.godot/imported/frame.png-95a7d584caa753a09c86a70f2fa98c5a.ctex"]
 
 [params]
 

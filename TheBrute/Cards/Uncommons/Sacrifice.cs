@@ -1,4 +1,5 @@
 ﻿using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -20,19 +21,37 @@ namespace TheBrute.Cards.Uncommons
 {
     internal class Sacrifice : TheBruteCard
     {
-        public Sacrifice() : base(2, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        public Sacrifice() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(4m)
+            new MaxHpVar(2m)
         ];
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
             CardKeyword.Exhaust
         ];
+
+        protected override bool IsPlayable => CombatManager.Instance.History.CardPlaysFinished.LastOrDefault(delegate (CardPlayFinishedEntry e)
+        {
+            HashSet<PileType> fuckingGarbagePiles = [PileType.None, PileType.Exhaust, PileType.Deck];
+            var isValid = e.CardPlay.Card.Owner == Owner && !fuckingGarbagePiles.Contains(e.CardPlay.Card.Pile.Type);
+            bool what = isValid;
+            if (what)
+            {
+                var cardType = e.CardPlay.Card.Type;
+                var isAttackOrSkill = (uint)(cardType - 1) <= 1u;
+                what = isAttackOrSkill;
+            }
+            return what;
+        })?.CardPlay.Card != null;
+
+        protected override bool ShouldGlowRedInternal => !IsPlayable;
+
+        // holy fuck lol
 
         protected override HashSet<CardTag> CanonicalTags => new
         ([
@@ -41,17 +60,25 @@ namespace TheBrute.Cards.Uncommons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            var allCards = Utils.GetAllCardsExceptExhaustPile(Owner)
-            .Where(card => card != this)
-            .ToList();
-
-            var card = Owner.RunState.Rng.CombatCardSelection.NextItem(allCards);
-            if (card != null)
+            var lastUsedAttackOrSkill = CombatManager.Instance.History.CardPlaysFinished.LastOrDefault(delegate (CardPlayFinishedEntry e)
             {
-                await CardCmd.Exhaust(choiceContext, card);
-            }
+                HashSet<PileType> fuckingGarbagePiles = [PileType.None, PileType.Exhaust, PileType.Deck];
+                var isValid = e.CardPlay.Card.Owner == Owner && !fuckingGarbagePiles.Contains(e.CardPlay.Card.Pile.Type);
+                bool what = isValid;
+                if (what)
+                {
+                    var cardType = e.CardPlay.Card.Type;
+                    var isAttackOrSkill = (uint)(cardType - 1) <= 1u;
+                    what = isAttackOrSkill;
+                }
+                return what;
+            })?.CardPlay.Card;
 
-            await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
+            if (lastUsedAttackOrSkill != null)
+            {
+                await CardCmd.Exhaust(choiceContext, lastUsedAttackOrSkill);
+                await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
+            }
         }
 
         protected override void OnUpgrade()

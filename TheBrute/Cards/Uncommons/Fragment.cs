@@ -49,7 +49,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars["ThornsPower"].UpgradeValueBy(1m);
+            DynamicVars["ThornsPower"].UpgradeValueBy(2m);
         }
     }
 }

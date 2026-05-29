@@ -1,0 +1,8 @@
+{
+	"THEBRUTE-GOLD_POTION.title": "Gold Potion",
+	"THEBRUTE-GOLD_POTION.description": "Gain {Gold:diff()} [gold]Gold[/gold].",
+	"THEBRUTE-CRYSTALLIZED_PARASITES.title": "Crystallized Parasites",
+	"THEBRUTE-CRYSTALLIZED_PARASITES.description": "Gain {ThornsPower:diff()} temporary [gold]Thorns[/gold].",
+	"THEBRUTE-ANASTASIS.title": "Anastasis",
+	"THEBRUTE-ANASTASIS.description": "Add 1 random [gold]Thorns[/gold] related, 1 random [gold]Gold[/gold] related, and 1 random [gold]Max HP[/gold] related card into your [gold]Hand[/gold]. They're free to play this turn."
+}

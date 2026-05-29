@@ -45,7 +45,8 @@ namespace TheBrute.Cards.Commons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Block.UpgradeValueBy(3m);
+            DynamicVars.Block.UpgradeValueBy(1m);
+            DynamicVars["TemporaryThornsUpNextTurnPower"].UpgradeValueBy(2m);
         }
     }
 }

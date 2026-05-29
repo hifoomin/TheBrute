@@ -19,11 +19,13 @@ public class TheBrute : PlaceholderCharacterModel
 {
     public const string CharacterId = "TheBrute";
 
-    public static readonly Color Color = new("ffffff");
+    public static readonly Color Color = new("b6aa3e");
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Feminine;
     public override int StartingHp => 70;
+
+    public override Color MapDrawingColor => Color;
 
     public override IEnumerable<CardModel> StartingDeck =>
     [
@@ -68,9 +70,9 @@ public class TheBrute : PlaceholderCharacterModel
         }
     }
 
-    public override string CustomIconTexturePath => "character_icon_char_name.png".CharacterUiPath();
-    public override string CustomCharacterSelectIconPath => "char_select_char_name.png".CharacterUiPath();
-    public override string CustomCharacterSelectLockedIconPath => "char_select_char_name_locked.png".CharacterUiPath();
-    public override string CustomMapMarkerPath => "map_marker_char_name.png".CharacterUiPath();
+    public override string CustomIconTexturePath => "character_icon_the_brute.png".CharacterUiPath();
+    public override string CustomCharacterSelectIconPath => "char_select_the_brute.png".CharacterUiPath();
+    public override string CustomCharacterSelectLockedIconPath => "char_select_the_brute_locked.png".CharacterUiPath();
+    public override string CustomMapMarkerPath => "map_marker_the_brute.png".CharacterUiPath();
     // public override string CustomCharacterSelectBg => "res://character_select.tscn";
 }

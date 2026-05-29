@@ -19,9 +19,11 @@ namespace TheBrute.Cards.Rares
         {
         }
 
-        private int currentGoldLoss = 1;
+        private int currentGoldLoss = 7;
+        private int currentMaxHpGain = 1;
 
         private int increasedGoldLoss;
+        private int increasedMaxHpGain;
 
         [SavedProperty]
         public int CurrentGoldLoss
@@ -38,13 +40,30 @@ namespace TheBrute.Cards.Rares
             }
         }
 
-        protected override bool ShouldGlowRedInternal => Utils.HasGold(Owner, DynamicVars.Gold.IntValue);
+        [SavedProperty]
+        public int CurrentMaxHpGain
+        {
+            get
+            {
+                return currentMaxHpGain;
+            }
+            set
+            {
+                AssertMutable();
+                currentMaxHpGain = value;
+                DynamicVars.MaxHp.BaseValue = currentMaxHpGain;
+            }
+        }
+
+        // protected override bool ShouldGlowRedInternal => Utils.HasGold(Owner, DynamicVars.Gold.IntValue);
+        // fucking piece of shit garbage trump code
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(1m),
+            new MaxHpVar(CurrentMaxHpGain),
             new GoldVar(CurrentGoldLoss),
-            new IntVar("Increase", 2m)
+            new IntVar("GoldCostIncrease", 7m),
+            new IntVar("MaxHpGainIncrease", 1m)
         ];
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
@@ -71,17 +90,32 @@ namespace TheBrute.Cards.Rares
             }
         }
 
+        [SavedProperty]
+        public int IncreasedMaxHpGain
+        {
+            get
+            {
+                return increasedMaxHpGain;
+            }
+            set
+            {
+                AssertMutable();
+                increasedMaxHpGain = value;
+            }
+        }
+
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             if (Utils.HasGold(Owner, DynamicVars.Gold.IntValue))
             {
                 await PlayerCmd.LoseGold(DynamicVars.Gold.BaseValue, Owner);
 
-                int intValue = DynamicVars["Increase"].IntValue;
-                BuffFromPlay(intValue);
-                (DeckVersion as Disinter)?.BuffFromPlay(intValue);
+                await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
 
-                CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
+                var goldCostIncrease = DynamicVars["GoldCostIncrease"].IntValue;
+                var maxHpGainIncrease = DynamicVars["MaxHpGainIncrease"].IntValue;
+                BuffFromPlay(goldCostIncrease, maxHpGainIncrease);
+                (DeckVersion as Disinter)?.BuffFromPlay(goldCostIncrease, maxHpGainIncrease);
             }
         }
 
@@ -92,18 +126,20 @@ namespace TheBrute.Cards.Rares
 
         protected override void AfterDowngraded()
         {
-            UpdateGoldLoss();
+            UpdateCurrentValues();
         }
 
-        private void BuffFromPlay(int extraGoldLoss)
+        private void BuffFromPlay(int extraGoldLoss, int extraMaxHpGain)
         {
             IncreasedGoldLoss += extraGoldLoss;
-            UpdateGoldLoss();
+            IncreasedMaxHpGain += extraMaxHpGain;
+            UpdateCurrentValues();
         }
 
-        private void UpdateGoldLoss()
+        private void UpdateCurrentValues()
         {
-            CurrentGoldLoss = 1 + IncreasedGoldLoss;
+            CurrentGoldLoss = 7 + IncreasedGoldLoss;
+            CurrentMaxHpGain = 1 + IncreasedMaxHpGain;
         }
     }
 }

@@ -32,6 +32,7 @@ namespace TheBrute.Powers
         {
             if (Owner.Player == player)
             {
+                Flash();
                 await PowerCmd.Apply<ThornsPower>(choiceContext, Owner, Amount, Owner, null);
             }
         }

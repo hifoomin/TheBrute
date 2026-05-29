@@ -10,6 +10,15 @@ public static class StringExtensions
         return Path.Join(Main.ResPath, "images", path);
     }
 
+    public static string PotionImagePath(this string path)
+    {
+        path = Path.Join(Main.ResPath, "images", "potions", path);
+        if (ResourceLoader.Exists(path)) return path;
+
+        Main.Logger.Info("Could not find potion image path: " + path);
+        return Path.Join(Main.ResPath, "images", "card_portraits", "potion.png");
+    }
+
     public static string CardImagePath(this string path)
     {
         path = Path.Join(Main.ResPath, "images", "card_portraits", path);

@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Gold;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 using System;
 using System.Collections.Generic;
@@ -19,51 +20,51 @@ using TheBrute.Relics.Uncommons;
 
 namespace TheBrute.Cards
 {
-    public class GoldLostTracker() : CustomSingletonModel(true, false)
+    public class GoldTracker() : CustomSingletonModel(true, false)
     {
-        public static readonly SpireField<ICombatState, decimal> totalGoldGainedThisCombat = new(() => 0);
-        public static readonly SpireField<ICombatState, decimal> totalGoldLostThisCombat = new(() => 0);
+        public static readonly SpireField<Creature, decimal> totalGoldGainedThisCombat = new(() => 0);
+        public static readonly SpireField<Creature, decimal> totalGoldLostThisCombat = new(() => 0);
 
-        public static readonly SpireField<ICombatState, decimal> timesGoldGainedThisCombat = new(() => 0);
-        public static readonly SpireField<ICombatState, decimal> timesGoldLostThisCombat = new(() => 0);
+        public static readonly SpireField<Creature, decimal> timesGoldGainedThisCombat = new(() => 0);
+        public static readonly SpireField<Creature, decimal> timesGoldLostThisCombat = new(() => 0);
 
-        public static readonly SpireField<ICombatState, bool> gainedGoldThisTurn = new(() => false);
-        public static readonly SpireField<ICombatState, bool> lostGoldThisTurn = new(() => false);
+        public static readonly SpireField<Creature, bool> gainedGoldThisTurn = new(() => false);
+        public static readonly SpireField<Creature, bool> lostGoldThisTurn = new(() => false);
 
         public static decimal GetTotalGoldGainedThisCombat(Creature creature)
         {
             var combatState = creature.CombatState;
-            return combatState == null ? 0 : totalGoldGainedThisCombat[combatState];
+            return combatState == null ? 0 : totalGoldGainedThisCombat[creature];
         }
 
         public static decimal GetTotalGoldLostThisCombat(Creature creature)
         {
             var combatState = creature.CombatState;
-            return combatState == null ? 0 : totalGoldLostThisCombat[combatState];
+            return combatState == null ? 0 : totalGoldLostThisCombat[creature];
         }
 
         public static decimal GetTimesGoldGainedThisCombat(Creature creature)
         {
             var combatState = creature.CombatState;
-            return combatState == null ? 0 : timesGoldGainedThisCombat[combatState];
+            return combatState == null ? 0 : timesGoldGainedThisCombat[creature];
         }
 
         public static decimal GetTimesGoldLostThisCombat(Creature creature)
         {
             var combatState = creature.CombatState;
-            return combatState == null ? 0 : timesGoldLostThisCombat[combatState];
+            return combatState == null ? 0 : timesGoldLostThisCombat[creature];
         }
 
         public static bool GetGainedGoldThisTurn(Creature creature)
         {
             var combatState = creature.CombatState;
-            return combatState != null && gainedGoldThisTurn[combatState];
+            return combatState != null && gainedGoldThisTurn[creature];
         }
 
         public static bool GetLostGoldThisTurn(Creature creature)
         {
             var combatState = creature.CombatState;
-            return combatState != null && lostGoldThisTurn[combatState];
+            return combatState != null && lostGoldThisTurn[creature];
         }
 
         public static bool GetChangedGoldThisTurn(Creature creature)
@@ -76,6 +77,21 @@ namespace TheBrute.Cards
             return GetTotalGoldGainedThisCombat(creature) + Math.Abs(GetTotalGoldLostThisCombat(creature));
         }
 
+        public override async Task AfterCombatEnd(CombatRoom room)
+        {
+            foreach (Creature creature in room.Allies)
+            {
+                totalGoldGainedThisCombat[creature] = 0;
+                totalGoldLostThisCombat[creature] = 0;
+
+                timesGoldGainedThisCombat[creature] = 0;
+                timesGoldLostThisCombat[creature] = 0;
+
+                gainedGoldThisTurn[creature] = false;
+                lostGoldThisTurn[creature] = false;
+            }
+        }
+
         public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
         {
             var combatState = player.Creature.CombatState;
@@ -83,8 +99,8 @@ namespace TheBrute.Cards
             {
                 if (combatState.CurrentSide == CombatSide.Player)
                 {
-                    GoldLostTracker.gainedGoldThisTurn[combatState] = false;
-                    GoldLostTracker.lostGoldThisTurn[combatState] = false;
+                    GoldTracker.gainedGoldThisTurn[player.Creature] = false;
+                    GoldTracker.lostGoldThisTurn[player.Creature] = false;
                 }
             }
         }
@@ -98,11 +114,11 @@ namespace TheBrute.Cards
             var combatState = player.Creature.CombatState;
             if (combatState != null)
             {
-                GoldLostTracker.totalGoldGainedThisCombat[combatState] += amount;
-                GoldLostTracker.timesGoldGainedThisCombat[combatState] += 1;
+                GoldTracker.totalGoldGainedThisCombat[player.Creature] += amount;
+                GoldTracker.timesGoldGainedThisCombat[player.Creature] += 1;
                 if (combatState.CurrentSide == CombatSide.Player)
                 {
-                    GoldLostTracker.gainedGoldThisTurn[combatState] = true;
+                    GoldTracker.gainedGoldThisTurn[player.Creature] = true;
                 }
             }
         }
@@ -116,11 +132,11 @@ namespace TheBrute.Cards
             var combatState = player.Creature.CombatState;
             if (combatState != null)
             {
-                GoldLostTracker.totalGoldLostThisCombat[combatState] += amount;
-                GoldLostTracker.timesGoldLostThisCombat[combatState] += 1;
+                GoldTracker.totalGoldLostThisCombat[player.Creature] += amount;
+                GoldTracker.timesGoldLostThisCombat[player.Creature] += 1;
                 if (combatState.CurrentSide == CombatSide.Player)
                 {
-                    GoldLostTracker.lostGoldThisTurn[combatState] = true;
+                    GoldTracker.lostGoldThisTurn[player.Creature] = true;
                 }
             }
         }
