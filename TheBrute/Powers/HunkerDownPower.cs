@@ -28,13 +28,25 @@ namespace TheBrute.Powers
 
         public override PowerStackType StackType => PowerStackType.Counter;
 
+        private bool shouldRun = true;
+
         public override async Task AfterBlockGained(Creature creature, decimal amount, ValueProp props, CardModel? cardSource)
         {
-            if (creature == Owner && amount > 0 && creature.CombatState.CurrentSide == CombatSide.Player)
+            if (creature == Owner && amount > 0 && shouldRun)
             {
                 Flash();
                 await CardPileCmd.Draw(new ThrowingPlayerChoiceContext(), Amount, Owner.Player);
             }
+        }
+
+        public override async Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
+        {
+            shouldRun = true;
+        }
+
+        public override async Task BeforeSideTurnEndVeryEarly(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+        {
+            shouldRun = false;
         }
     }
 }

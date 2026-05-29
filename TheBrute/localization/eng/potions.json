@@ -1,6 +1,6 @@
 {
-	"THEBRUTE-GOLD_POTION.title": "Gold Potion",
-	"THEBRUTE-GOLD_POTION.description": "Gain {Gold:diff()} [gold]Gold[/gold].",
+	"THEBRUTE-GOLD_DUST.title": "Gold Dust",
+	"THEBRUTE-GOLD_DUST.description": "Gain {Gold:diff()} [gold]Gold[/gold].",
 	"THEBRUTE-CRYSTALLIZED_PARASITES.title": "Crystallized Parasites",
 	"THEBRUTE-CRYSTALLIZED_PARASITES.description": "Gain {ThornsPower:diff()} temporary [gold]Thorns[/gold].",
 	"THEBRUTE-ANASTASIS.title": "Anastasis",
