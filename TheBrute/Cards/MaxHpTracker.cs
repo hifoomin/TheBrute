@@ -59,6 +59,11 @@ namespace TheBrute.Cards
             {
                 if (combatState.CurrentSide == CombatSide.Player)
                 {
+                    if (player.PlayerCombatState.TurnNumber == 1)
+                    {
+                        MaxHpTracker.totalMaxHpLostFromCardsThisCombat[player.Creature] = 0;
+                        MaxHpTracker.timesMaxHpLostFromCardsThisCombat[player.Creature] = 0;
+                    }
                     MaxHpTracker.lostMaxHpFromCardThisTurn[player.Creature] = false;
                 }
             }

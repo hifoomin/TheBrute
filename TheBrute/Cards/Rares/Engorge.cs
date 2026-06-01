@@ -23,7 +23,7 @@ namespace TheBrute.Cards.Rares
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
-           CardKeyword.Exhaust
+            CardKeyword.Exhaust
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new
@@ -34,7 +34,7 @@ namespace TheBrute.Cards.Rares
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new GoldVar(12),
-            new MaxHpVar(4m),
+            new MaxHpVar(3m),
             new DamageVar(18m, ValueProp.Move)
         ];
 
@@ -63,7 +63,7 @@ namespace TheBrute.Cards.Rares
         protected override void OnUpgrade()
         {
             DynamicVars.Gold.UpgradeValueBy(6m);
-            DynamicVars.MaxHp.UpgradeValueBy(2m);
+            DynamicVars.MaxHp.UpgradeValueBy(1m);
         }
     }
 }

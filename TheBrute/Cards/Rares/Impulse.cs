@@ -3,9 +3,13 @@ using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheBrute.Cards.Rares
@@ -15,36 +19,55 @@ namespace TheBrute.Cards.Rares
     internal class Impulse : TheBruteCard
 #pragma warning restore STS001 // Symbol missing localization
     {
-        public Impulse() : base(4, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        public Impulse() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
         {
         }
 
-        protected override IEnumerable<DynamicVar> CanonicalVars =>
+        public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
-            new DamageVar(45m, ValueProp.Move),
-            new EnergyVar(2)
+            CardKeyword.Exhaust
         ];
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            HoverTipFactory.Static(StaticHoverTip.Fatal),
-            EnergyHoverTip
+            new PowerVar<VulnerablePower>(2m),
+            new CalculationBaseVar(0m),
+            new ExtraDamageVar(2m),
+            new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) => GetAllSkills(card.Owner).Count())
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-            if ((await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_attack_slash", null, "slash_attack.mp3")
-                .Execute(choiceContext)).Results.SelectMany((List<DamageResult> r) => r).Any((DamageResult r) => r.WasTargetKilled))
+            var damage = DynamicVars.CalculatedDamage.Calculate(cardPlay.Target);
+
+            var cachedFastMode = SaveManager.Instance.PrefsSave.FastMode;
+            SaveManager.Instance.PrefsSave.FastMode = MegaCrit.Sts2.Core.Settings.FastModeType.Instant;
+
+            var allSkills = GetAllSkills(Owner).ToList();
+
+            foreach (var card in allSkills)
             {
-                await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
+                await CardCmd.Exhaust(choiceContext, card);
             }
+
+            SaveManager.Instance.PrefsSave.FastMode = cachedFastMode;
+
+            await DamageCmd.Attack(damage).FromCard(this)
+                .Targeting(cardPlay.Target)
+                .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
+                .Execute(choiceContext);
+
+            await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
+        }
+
+        private static IEnumerable<CardModel> GetAllSkills(Player owner)
+        {
+            return owner.PlayerCombatState.AllCards.Where((CardModel c) => c.Type == CardType.Skill && c.Pile.Type != PileType.Exhaust);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(10m);
+            DynamicVars.ExtraDamage.UpgradeValueBy(1m);
         }
     }
 }

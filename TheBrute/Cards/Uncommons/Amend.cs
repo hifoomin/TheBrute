@@ -33,7 +33,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(2),
+            new MaxHpVar(1m),
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new

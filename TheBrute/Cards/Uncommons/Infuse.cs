@@ -31,7 +31,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(2m),
+            new MaxHpVar(1m),
             new CardsVar(5)
         ];
 
@@ -67,7 +67,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.MaxHp.UpgradeValueBy(-1m);
+            DynamicVars.Cards.UpgradeValueBy(2m);
         }
     }
 }

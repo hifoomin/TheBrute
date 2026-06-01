@@ -14,35 +14,34 @@ using System.Threading.Tasks;
 
 namespace TheBrute.Cards.Uncommons
 {
-    internal class Rush : TheBruteCard
+    internal class Quip : TheBruteCard
     {
-        public Rush() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        public Quip() : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
         {
         }
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new DamageVar(9m, ValueProp.Move),
             new CardsVar(1),
-            new PowerVar<StrengthPower>(1m)
-        ];
-
-        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromPower<StrengthPower>()
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            CardModel cardModel = (await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner)).FirstOrDefault();
-            if (cardModel != null && cardModel.Type == CardType.Attack)
-            {
-                await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars["StrengthPower"].BaseValue, Owner.Creature, this);
-            }
+            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
+            .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
+            .Execute(choiceContext);
+
+            await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
+
+            EnergyCost.AddThisCombat(1);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars["StrengthPower"].UpgradeValueBy(1m);
+            DynamicVars.Damage.UpgradeValueBy(3m);
         }
     }
 }

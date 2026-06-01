@@ -25,12 +25,12 @@ namespace TheBrute.Cards.Rares
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
-           CardKeyword.Exhaust
+            CardKeyword.Exhaust
         ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new GoldVar(15)
+            new GoldVar(12)
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new

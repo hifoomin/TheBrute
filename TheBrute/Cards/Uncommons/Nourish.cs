@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.ValueProps;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,9 @@ using System.Threading.Tasks;
 
 namespace TheBrute.Cards.Uncommons
 {
-    internal class Sacrifice : TheBruteCard
+    internal class Nourish : TheBruteCard
     {
-        public Sacrifice() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        public Nourish() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
@@ -37,16 +38,16 @@ namespace TheBrute.Cards.Uncommons
 
         protected override bool IsPlayable => CombatManager.Instance.History.CardPlaysFinished.LastOrDefault(delegate (CardPlayFinishedEntry e)
         {
-            HashSet<PileType> fuckingGarbagePiles = [PileType.None, PileType.Exhaust, PileType.Deck];
-            var isValid = e.CardPlay.Card.Owner == Owner && !fuckingGarbagePiles.Contains(e.CardPlay.Card.Pile.Type);
-            bool what = isValid;
-            if (what)
+            if (e.CardPlay.Card.Pile == null)
             {
-                var cardType = e.CardPlay.Card.Type;
-                var isAttackOrSkill = (uint)(cardType - 1) <= 1u;
-                what = isAttackOrSkill;
+                return false;
             }
-            return what;
+
+            HashSet<PileType> fuckingGarbagePiles = [PileType.None, PileType.Exhaust, PileType.Deck];
+            var isValid = e.CardPlay.Card.Owner == Owner && !fuckingGarbagePiles.Contains(e.CardPlay.Card.Pile.Type) &&
+            e.CardPlay.Card.Type == CardType.Attack || e.CardPlay.Card.Type == CardType.Skill;
+
+            return isValid;
         })?.CardPlay.Card != null;
 
         protected override bool ShouldGlowRedInternal => !IsPlayable;

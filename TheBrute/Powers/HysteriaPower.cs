@@ -33,18 +33,11 @@ namespace TheBrute.Powers
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(1),
+            new MaxHpVar(1m),
             new GoldVar(4)
         ];
 
-        public override decimal ModifyMaxEnergy(Player player, decimal amount)
-        {
-            if (player != Owner.Player)
-            {
-                return amount;
-            }
-            return amount + (decimal)Amount;
-        }
+        private int turnCounter = 0;
 
         public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
         {
@@ -53,9 +46,29 @@ namespace TheBrute.Powers
                 return;
             }
 
-            Flash();
-            await CreatureCmd.LoseMaxHp(choiceContext, Owner, DynamicVars.MaxHp.BaseValue, true);
-            await PlayerCmd.LoseGold(DynamicVars["Gold"].IntValue, Owner.Player);
+            if (player.PlayerCombatState != null && player.PlayerCombatState.TurnNumber <= 1)
+            {
+                return;
+            }
+
+            turnCounter++;
+
+            if (turnCounter % 2 == 0)
+            {
+                Flash();
+                await CreatureCmd.LoseMaxHp(choiceContext, Owner, DynamicVars.MaxHp.BaseValue, true);
+                await PlayerCmd.LoseGold(DynamicVars["Gold"].IntValue, Owner.Player);
+                turnCounter = 0;
+            }
+        }
+
+        public override decimal ModifyMaxEnergy(Player player, decimal amount)
+        {
+            if (player != Owner.Player)
+            {
+                return amount;
+            }
+            return amount + (decimal)Amount;
         }
     }
 }

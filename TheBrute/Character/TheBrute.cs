@@ -19,7 +19,7 @@ public class TheBrute : PlaceholderCharacterModel
 {
     public const string CharacterId = "TheBrute";
 
-    public static readonly Color Color = new("b6aa3e");
+    public static readonly Color Color = new("726c10");
 
     public override Color NameColor => Color;
     public override CharacterGender Gender => CharacterGender.Feminine;

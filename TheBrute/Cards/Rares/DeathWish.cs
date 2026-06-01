@@ -19,7 +19,7 @@ namespace TheBrute.Cards.Rares
 {
     internal class DeathWish : TheBruteCard
     {
-        public DeathWish() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+        public DeathWish() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
         {
         }
 

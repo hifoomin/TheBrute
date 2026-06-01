@@ -37,7 +37,7 @@ namespace TheBrute.Cards.Commons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<VulnerablePower>(2m),
-            new GoldVar(1)
+            new GoldVar(2)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

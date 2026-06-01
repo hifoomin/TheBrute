@@ -32,16 +32,9 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.Static(StaticHoverTip.ReplayStatic)];
 
-        /*
-        public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [
-            CardKeyword.Exhaust
-        ];
-        */
-
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(2)
+            new MaxHpVar(2m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

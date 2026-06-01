@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using MegaCrit.Sts2.Core.CardSelection;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -15,27 +16,35 @@ namespace TheBrute.Cards.Commons
     internal class RearHook : TheBruteCard
 #pragma warning restore STS001 // Symbol missing localization
     {
-        public RearHook() : base(0, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
+        public RearHook() : base(1, CardType.Attack, CardRarity.Common, TargetType.AnyEnemy)
         {
         }
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(4m, ValueProp.Move),
-            new RepeatVar(2)
+            new DamageVar(9m, ValueProp.Move),
+            new CardsVar(1)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount(DynamicVars.Repeat.IntValue).FromCard(this)
+            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
+
+            var card = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: base.Owner, filter: null, source: this)).FirstOrDefault();
+            if (card != null)
+            {
+                await CardCmd.Exhaust(choiceContext, card);
+            }
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(2m);
+            DynamicVars.Damage.UpgradeValueBy(3m);
         }
     }
 }

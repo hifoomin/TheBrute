@@ -1,5 +1,7 @@
-﻿using BaseLib.Extensions;
+﻿/*
+using BaseLib.Extensions;
 using BaseLib.Utils;
+using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Combat;
@@ -36,47 +38,77 @@ using TheBrute.Relics;
 
 namespace TheBrute.Powers
 {
-    // mostly copied from Eka/yikestile, thank you!!!
     internal class EmbarassPower : TheBrutePower
     {
         public override PowerType Type => PowerType.Debuff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
 
-        /*
         public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
         {
             if (dealer != Owner)
             {
+                // Main.Logger.Warn("co jest kurwa");
                 return 1m;
             }
+
+            Main.Logger.Warn("ModifyDamageMultiplicative: damage before changes is " + amount);
+
+            decimal result = 1m;
+
+            for (int i = 0; i < Amount; i++)
+            {
+                result *= 0.5m;
+            }
+
+            Main.Logger.Warn("ModifyDamageMultiplicative: damage after changes is " + result);
+            Main.Logger.Warn("ModifyDamageMultiplicative: damage after changes AND CEILING is " + Math.Ceiling(result));
+
+            return Math.Ceiling(result);
+
+            /*
 
             var monster = Owner.Monster;
             var currentMove = monster.NextMove;
 
             var attackIntent = currentMove.Intents.OfType<AttackIntent>().FirstOrDefault();
 
+            Main.Logger.Warn("EMBARASS POWER     , , , attack intent hit count is " + attackIntent.Repeats);
+
             int originalHits = attackIntent.Repeats - 1;
-            decimal originalDamage = amount;
+            Main.Logger.Warn("EMBARASS POWER     , , , OROGINAL HITS is " + originalHits);
+            decimal originalDamage = (amount * 2);
+            Main.Logger.Warn("EMBARASS POWER     , , , OROGINAL DAMAGEEEEEE is " + originalDamage);
 
             int newHits = originalHits + Amount;
 
+            Main.Logger.Warn("EMBARASS POWER     , , , NEW HITS AMOUNT is " + newHits);
+
             decimal originalTotal = originalHits * originalDamage;
+
+            Main.Logger.Warn("EMBARASS POWER     , , , ORIGINAL FINAAAAAAAAAL DAMAGE is " + originalTotal);
 
             decimal newDamage = originalTotal / newHits;
 
-            return newDamage / amount;
-        }
-        */
+            Main.Logger.Warn("EMBARASS POWER     , , , WE ARE RETURNING is " + (newDamage / amount));
 
-        //public override int ModifyAttackHitCount(AttackCommand attack, int hitCount)
-        //{
-        //    if (attack.Attacker.IsEnemy /*&& attack.DamageProps.IsPoweredAttack()*/)
-        //    {
-        //        Main.Logger.Warn("setting hit count to " + (hitCount + Amount));
-        //        return hitCount + Amount;
-        //    }
-        //    return hitCount;
-        //}
+            return newDamage / amount;
+
+            */
+// }
+
+/*
+
+    public override int ModifyAttackHitCount(AttackCommand attack, int hitCount)
+    {
+        Main.Logger.Warn("ModifyAttackHitCount: hit count before changes is " + hitCount);
+        if (attack.Attacker.IsEnemy && attack.DamageProps.IsPoweredAttack())
+        {
+            Main.Logger.Warn("ModifyAttackHitCount: hit count after changes is " + hitCount);
+            return hitCount + Amount;
+        }
+        return hitCount;
     }
 }
+}
+*/

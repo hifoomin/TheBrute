@@ -27,8 +27,8 @@ namespace TheBrute.Cards.Rares
         [
             new EnergyVar(1),
             new PowerVar<HysteriaPower>(1m),
-            new MaxHpVar(1),
-            new GoldVar(4)
+            new MaxHpVar(1m),
+            new GoldVar(5)
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new

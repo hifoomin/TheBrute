@@ -20,7 +20,7 @@ using TheBrute.Relics.Uncommons;
 
 namespace TheBrute.Cards
 {
-    public class GoldTracker() : CustomSingletonModel(true, false)
+    public class GoldTracker() : CustomSingletonModel(HookType.Combat)
     {
         public static readonly SpireField<Creature, decimal> totalGoldGainedThisCombat = new(() => 0);
         public static readonly SpireField<Creature, decimal> totalGoldLostThisCombat = new(() => 0);
@@ -77,10 +77,12 @@ namespace TheBrute.Cards
             return GetTotalGoldGainedThisCombat(creature) + Math.Abs(GetTotalGoldLostThisCombat(creature));
         }
 
+        /*
         public override async Task AfterCombatEnd(CombatRoom room)
         {
             foreach (Creature creature in room.Allies)
             {
+                Main.Logger.Warn("after combat end resetting all gold tracker values for " + creature.Name);
                 totalGoldGainedThisCombat[creature] = 0;
                 totalGoldLostThisCombat[creature] = 0;
 
@@ -91,6 +93,7 @@ namespace TheBrute.Cards
                 lostGoldThisTurn[creature] = false;
             }
         }
+        */
 
         public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
         {
@@ -99,6 +102,14 @@ namespace TheBrute.Cards
             {
                 if (combatState.CurrentSide == CombatSide.Player)
                 {
+                    if (player.PlayerCombatState.TurnNumber == 1)
+                    {
+                        GoldTracker.totalGoldGainedThisCombat[player.Creature] = 0;
+                        GoldTracker.timesGoldGainedThisCombat[player.Creature] = 0;
+
+                        GoldTracker.totalGoldLostThisCombat[player.Creature] = 0;
+                        GoldTracker.timesGoldLostThisCombat[player.Creature] = 0;
+                    }
                     GoldTracker.gainedGoldThisTurn[player.Creature] = false;
                     GoldTracker.lostGoldThisTurn[player.Creature] = false;
                 }
@@ -112,7 +123,7 @@ namespace TheBrute.Cards
         private static void Postfix(Task __result, decimal amount, Player player)
         {
             var combatState = player.Creature.CombatState;
-            if (combatState != null)
+            if (combatState != null && combatState.IsLiveCombat())
             {
                 GoldTracker.totalGoldGainedThisCombat[player.Creature] += amount;
                 GoldTracker.timesGoldGainedThisCombat[player.Creature] += 1;
@@ -130,7 +141,7 @@ namespace TheBrute.Cards
         private static void Postfix(Task __result, decimal amount, Player player, GoldLossType goldLossType)
         {
             var combatState = player.Creature.CombatState;
-            if (combatState != null)
+            if (combatState != null && combatState.IsLiveCombat())
             {
                 GoldTracker.totalGoldLostThisCombat[player.Creature] += amount;
                 GoldTracker.timesGoldLostThisCombat[player.Creature] += 1;
