@@ -25,7 +25,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<AccidentPower>(6m),
+            new PowerVar<AccidentPower>(7m),
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new

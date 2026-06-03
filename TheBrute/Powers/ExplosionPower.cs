@@ -55,8 +55,7 @@ namespace TheBrute.Powers
 
                 Flash();
 
-                // recalculate here somehow maybe?
-                await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), hittableEnemies, DisplayAmount, ValueProp.Unpowered, null, null);
+                await CreatureCmd.Damage(choiceContext, hittableEnemies, DisplayAmount, ValueProp.Unpowered, null, null);
             }
         }
     }

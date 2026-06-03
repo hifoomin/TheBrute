@@ -34,7 +34,7 @@ namespace TheBrute.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new GoldVar(8),
-            new PowerVar<StrengthPower>(2m),
+            new PowerVar<StrengthPower>(3m),
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -54,7 +54,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Strength.UpgradeValueBy(1m);
+            EnergyCost.UpgradeBy(-1);
         }
     }
 }

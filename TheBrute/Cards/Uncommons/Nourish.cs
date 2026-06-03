@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Random;
 using MegaCrit.Sts2.Core.ValueProps;
@@ -17,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheBrute.Cards.Tokens;
 
 namespace TheBrute.Cards.Uncommons
 {
@@ -31,55 +33,74 @@ namespace TheBrute.Cards.Uncommons
             new MaxHpVar(2m)
         ];
 
-        public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [
-            CardKeyword.Exhaust
-        ];
-
-        protected override bool IsPlayable => CombatManager.Instance.History.CardPlaysFinished.LastOrDefault(delegate (CardPlayFinishedEntry e)
-        {
-            if (e.CardPlay.Card.Pile == null)
-            {
-                return false;
-            }
-
-            HashSet<PileType> fuckingGarbagePiles = [PileType.None, PileType.Exhaust, PileType.Deck];
-            var isValid = e.CardPlay.Card.Owner == Owner && !fuckingGarbagePiles.Contains(e.CardPlay.Card.Pile.Type) &&
-            e.CardPlay.Card.Type == CardType.Attack || e.CardPlay.Card.Type == CardType.Skill;
-
-            return isValid;
-        })?.CardPlay.Card != null;
-
-        protected override bool ShouldGlowRedInternal => !IsPlayable;
-
-        // holy fuck lol
-
         protected override HashSet<CardTag> CanonicalTags => new
         ([
             TheBrute.Cards.Tags.maxHpRelated
         ]);
 
+        public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        [
+            CardKeyword.Exhaust
+        ];
+
+        private CardModel? lastAttackOrSkill;
+
+        private CardModel? GetLastAttackOrSkill()
+        {
+            HashSet<PileType> fuckingGarbagePiles =
+            [
+                PileType.None,
+                PileType.Exhaust,
+                PileType.Deck
+            ];
+
+            return CombatManager.Instance.History.CardPlaysFinished
+                   .Select(e => e.CardPlay.Card)
+                   .LastOrDefault(c =>
+                   c.Owner == Owner &&
+                   c.Pile != null &&
+                   !fuckingGarbagePiles.Contains(c.Pile.Type) &&
+                   (c.Type == CardType.Attack || c.Type == CardType.Skill));
+        }
+
+        protected override IEnumerable<IHoverTip> ExtraHoverTips
+        {
+            get
+            {
+                var lastAttackOrSkill = GetLastAttackOrSkill();
+                if (lastAttackOrSkill == null)
+                {
+                    return [];
+                }
+
+                // var canonical = lastAttackOrSkill.CanonicalInstance;
+
+                List<IHoverTip> hoverTips = new();
+                hoverTips.Add(HoverTipFactory.FromCard(lastAttackOrSkill, lastAttackOrSkill.IsUpgraded));
+                // hoverTips.AddRange(canonical.HoverTips);
+
+                // I'll settle for this for now, this creates confusion because it can display more than one card if lastAttackOrSkill has a FromCard hover tip as well
+                // the downside of not having this is that lastAttackOrSkill's hover tips won't show but oh well, maybe I';ll revisit it  later ,, ,
+
+                return hoverTips;
+            }
+        }
+
+        protected override bool IsPlayable => GetLastAttackOrSkill() != null;
+
+        protected override bool ShouldGlowRedInternal => !IsPlayable;
+
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            var lastUsedAttackOrSkill = CombatManager.Instance.History.CardPlaysFinished.LastOrDefault(delegate (CardPlayFinishedEntry e)
-            {
-                HashSet<PileType> fuckingGarbagePiles = [PileType.None, PileType.Exhaust, PileType.Deck];
-                var isValid = e.CardPlay.Card.Owner == Owner && !fuckingGarbagePiles.Contains(e.CardPlay.Card.Pile.Type);
-                bool what = isValid;
-                if (what)
-                {
-                    var cardType = e.CardPlay.Card.Type;
-                    var isAttackOrSkill = (uint)(cardType - 1) <= 1u;
-                    what = isAttackOrSkill;
-                }
-                return what;
-            })?.CardPlay.Card;
+            lastAttackOrSkill = GetLastAttackOrSkill();
 
-            if (lastUsedAttackOrSkill != null)
+            if (lastAttackOrSkill == null)
             {
-                await CardCmd.Exhaust(choiceContext, lastUsedAttackOrSkill);
-                await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
+                return;
             }
+
+            await CardCmd.Exhaust(choiceContext, lastAttackOrSkill);
+            await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
         }
 
         protected override void OnUpgrade()

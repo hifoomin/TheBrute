@@ -30,9 +30,9 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<VulnerablePower>(2m),
+            new PowerVar<VulnerablePower>(4m),
             new CalculationBaseVar(0m),
-            new ExtraDamageVar(2m),
+            new ExtraDamageVar(4m),
             new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) => GetAllSkills(card.Owner).Count())
         ];
 
@@ -67,7 +67,8 @@ namespace TheBrute.Cards.Rares
 
         protected override void OnUpgrade()
         {
-            DynamicVars.ExtraDamage.UpgradeValueBy(1m);
+            DynamicVars.ExtraDamage.UpgradeValueBy(2m);
+            DynamicVars.Vulnerable.UpgradeValueBy(2m);
         }
     }
 }

@@ -77,24 +77,6 @@ namespace TheBrute.Cards
             return GetTotalGoldGainedThisCombat(creature) + Math.Abs(GetTotalGoldLostThisCombat(creature));
         }
 
-        /*
-        public override async Task AfterCombatEnd(CombatRoom room)
-        {
-            foreach (Creature creature in room.Allies)
-            {
-                Main.Logger.Warn("after combat end resetting all gold tracker values for " + creature.Name);
-                totalGoldGainedThisCombat[creature] = 0;
-                totalGoldLostThisCombat[creature] = 0;
-
-                timesGoldGainedThisCombat[creature] = 0;
-                timesGoldLostThisCombat[creature] = 0;
-
-                gainedGoldThisTurn[creature] = false;
-                lostGoldThisTurn[creature] = false;
-            }
-        }
-        */
-
         public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
         {
             var combatState = player.Creature.CombatState;

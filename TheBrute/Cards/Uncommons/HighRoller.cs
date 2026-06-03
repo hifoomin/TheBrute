@@ -24,7 +24,6 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<StrengthPower>(0m),
             new PowerVar<HighRollerPower>(1m)
         ];
 
@@ -47,7 +46,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Strength.UpgradeValueBy(1m);
+            DynamicVars["HighRollerPower"].UpgradeValueBy(1m);
         }
     }
 }

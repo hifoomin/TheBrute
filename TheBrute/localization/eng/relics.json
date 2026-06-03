@@ -13,5 +13,11 @@
     "THEBRUTE-THORNY_HELMET.flavor": "[red]Details for this relic will be revealed in the future...[/red]",
     "THEBRUTE-SYMBIOSIS.title": "Symbiosis",
     "THEBRUTE-SYMBIOSIS.description": "At the end of combat, gain [blue]{MaxHp}[/blue] Max HP.",
-    "THEBRUTE-SYMBIOSIS.flavor": "[red]Details for this relic will be revealed in the future...[/red]"
+    "THEBRUTE-SYMBIOSIS.flavor": "[red]Details for this relic will be revealed in the future...[/red]",
+	"THEBRUTE-FESTERING_HUNGER.title": "Festering Hunger",
+	"THEBRUTE-FESTERING_HUNGER.description": "At the start of each combat, add [blue]{Amount}[/blue] Gnaws into your [gold]Hand[/gold].",
+	"THEBRUTE-FESTERING_HUNGER.flavor": "Severing mortality...",
+	"THEBRUTE-CROOKED_SIGNET.title": "Crooked Signet",
+	"THEBRUTE-CROOKED_SIGNET.description": "While your Gold is at or below [blue]{GoldThreshold}[/blue], you have [blue]{StrengthPower}[/blue] additional [gold]Strength[/gold].",
+	"THEBRUTE-CROOKED_SIGNET.flavor": "[red]Details for this relic will be revealed in the future...[/red]"
 }

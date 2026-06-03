@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TheBrute.Cards.Tokens;
 using TheBrute.Powers;
 
 namespace TheBrute.Cards.Uncommons
@@ -28,12 +29,16 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(StaticHoverTip.Transform)
+            HoverTipFactory.FromCard<Ridicule>(IsUpgraded),
+            HoverTipFactory.Static(StaticHoverTip.Transform),
+            HoverTipFactory.FromPower<VulnerablePower>(),
+            HoverTipFactory.FromPower<WeakPower>()
         ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(1m),
+            new CardsVar(1)
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new
@@ -47,24 +52,16 @@ namespace TheBrute.Cards.Uncommons
 
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
-            var transformableCards = PileType.Hand.GetPile(Owner).Cards.Where((CardModel c) => c != null && c.IsTransformable && (c.Type == CardType.Status || c.Type == CardType.Curse || c.Type == CardType.Quest)).ToList();
-            foreach (CardModel transformableStatusCard in transformableCards)
+            var card = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.TransformSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: base.Owner, filter: null, source: this)).FirstOrDefault();
+            if (card != null)
             {
-                var randomThornsCard = CardFactory.GetDistinctForCombat(Owner,
-                                      from card in Owner.Character.CardPool.GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint)
-                                      where card.Tags.Contains(TheBrute.Cards.Tags.thornsRelated) &&
-                                      card.Id != ModelDb.Card<Amend>().Id
-                                      select card, 1, Owner.RunState.Rng.CombatCardGeneration).FirstOrDefault();
-
+                var ridicule = CombatState.CreateCard<Tokens.Ridicule>(Owner);
                 if (IsUpgraded)
                 {
-                    CardCmd.Upgrade(randomThornsCard);
+                    CardCmd.Upgrade(ridicule);
                 }
-
-                // var toTransform = CombatState.CreateCard(randomZeroCostCard, Owner);
-                await CardCmd.Transform(transformableStatusCard, randomThornsCard);
+                await CardCmd.Transform(card, ridicule);
             }
-            // holy fuck thiis might affect the trout population
         }
     }
 }

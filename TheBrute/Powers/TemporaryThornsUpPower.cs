@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using System;
 using System.Collections.Generic;
@@ -33,16 +34,12 @@ namespace TheBrute.Powers
             // Main.Logger.Warn("after side turn end called");
             if (participants.Contains(Owner))
             {
-                // Main.Logger.Warn("participants contains owner");
-                for (int i = 0; i < Amount; i++)
+                var thornsPower = Owner.GetPower<ThornsPower>();
+                if (thornsPower != null && thornsPower.Amount > 0)
                 {
-                    // Main.Logger.Warn("decrementing thorns power");
-                    var thornsPower = Owner.GetPower<ThornsPower>();
-                    if (thornsPower != null && thornsPower.Amount > 0)
-                    {
-                        await PowerCmd.Decrement(thornsPower);
-                    }
+                    await PowerCmd.ModifyAmount(new ThrowingPlayerChoiceContext(), thornsPower, -Amount, null, null);
                 }
+
                 // Main.Logger.Warn("removing TEMP thorns power");
                 await PowerCmd.Remove(this);
             }

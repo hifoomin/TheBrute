@@ -9,6 +9,8 @@ using MegaCrit.Sts2.Core.Models.Relics;
 using TheBrute.Cards.Starters;
 using TheBrute.Relics;
 using TheBrute.Relics.Starters;
+using HarmonyLib;
+using MegaCrit.Sts2.Core.Localization;
 
 namespace TheBrute.Character;
 
@@ -76,3 +78,16 @@ public class TheBrute : PlaceholderCharacterModel
     public override string CustomMapMarkerPath => "map_marker_the_brute.png".CharacterUiPath();
     // public override string CustomCharacterSelectBg => "res://character_select.tscn";
 }
+
+/*
+[HarmonyPatch(typeof(CharacterModel), "AddDetailsTo")]
+internal class WhatTheFuck
+{
+    public static void Postfix(CharacterModel __instance, LocString locString)
+    {
+        Main.Logger.Warn("base.Id.Entry is " + __instance.Id.Entry);
+    }
+}
+*/
+
+// HAHAJEKIFDASJJKLFSKADJFGAHK OF COURSE I CANT EVEN FUCKING WRITE A HARMONY APATCH TO SEE WHAT THE FUCK IS WRONG WITH COLORFUL PHILOSOPHERS FUCKING GARBAGE GAME WITH ZERO USEFUL LOGGING

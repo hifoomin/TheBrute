@@ -20,14 +20,31 @@ namespace TheBrute.Cards
 {
     public class MaxHpTracker() : CustomSingletonModel(true, false)
     {
+        public static readonly SpireField<Creature, decimal> totalMaxHpGainedThisCombat = new(() => 0);
         public static readonly SpireField<Creature, decimal> totalMaxHpLostFromCardsThisCombat = new(() => 0);
+
+        public static readonly SpireField<Creature, decimal> timesMaxHpGainedThisCombat = new(() => 0);
         public static readonly SpireField<Creature, decimal> timesMaxHpLostFromCardsThisCombat = new(() => 0);
+
+        public static readonly SpireField<Creature, bool> gainedMaxHpThisTurn = new(() => false);
         public static readonly SpireField<Creature, bool> lostMaxHpFromCardThisTurn = new(() => false);
+
+        public static decimal GetTotalMaxHpGainedThisCombat(Creature creature)
+        {
+            var combatState = creature.CombatState;
+            return combatState == null ? 0 : totalMaxHpGainedThisCombat[creature];
+        }
 
         public static decimal GetTotalMaxHpLostFromCardsThisCombat(Creature creature)
         {
             var combatState = creature.CombatState;
             return combatState == null ? 0 : totalMaxHpLostFromCardsThisCombat[creature];
+        }
+
+        public static decimal GetTimesMaxHpGainedThisCombat(Creature creature)
+        {
+            var combatState = creature.CombatState;
+            return combatState == null ? 0 : timesMaxHpGainedThisCombat[creature];
         }
 
         public static decimal GetTimesMaxHpLostFromCardsThisCombat(Creature creature)
@@ -36,20 +53,26 @@ namespace TheBrute.Cards
             return combatState == null ? 0 : timesMaxHpLostFromCardsThisCombat[creature];
         }
 
+        public static bool GetGainedMaxHpThisTurn(Creature creature)
+        {
+            var combatState = creature.CombatState;
+            return combatState != null && lostMaxHpFromCardThisTurn[creature];
+        }
+
         public static bool GetLostMaxHpFromCardThisTurn(Creature creature)
         {
             var combatState = creature.CombatState;
             return combatState != null && lostMaxHpFromCardThisTurn[creature];
         }
 
-        public override async Task AfterCombatEnd(CombatRoom room)
+        public static bool GetChangedMaxHpThisTurn(Creature creature)
         {
-            foreach (Creature creature in room.Allies)
-            {
-                totalMaxHpLostFromCardsThisCombat[creature] = 0;
-                timesMaxHpLostFromCardsThisCombat[creature] = 0;
-                lostMaxHpFromCardThisTurn[creature] = false;
-            }
+            return GetGainedMaxHpThisTurn(creature) || GetLostMaxHpFromCardThisTurn(creature);
+        }
+
+        public static decimal GetTotalChangedGoldThisCombat(Creature creature)
+        {
+            return GetTotalMaxHpGainedThisCombat(creature) + Math.Abs(GetTotalMaxHpLostFromCardsThisCombat(creature));
         }
 
         public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
@@ -61,10 +84,32 @@ namespace TheBrute.Cards
                 {
                     if (player.PlayerCombatState.TurnNumber == 1)
                     {
+                        MaxHpTracker.totalMaxHpGainedThisCombat[player.Creature] = 0;
+                        MaxHpTracker.timesMaxHpGainedThisCombat[player.Creature] = 0;
+
                         MaxHpTracker.totalMaxHpLostFromCardsThisCombat[player.Creature] = 0;
                         MaxHpTracker.timesMaxHpLostFromCardsThisCombat[player.Creature] = 0;
                     }
+                    MaxHpTracker.gainedMaxHpThisTurn[player.Creature] = false;
                     MaxHpTracker.lostMaxHpFromCardThisTurn[player.Creature] = false;
+                }
+            }
+        }
+    }
+
+    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd), "GainMaxHp")]
+    internal class GainMaxHpPatch
+    {
+        private static void Postfix(Task __result, Creature creature, decimal amount)
+        {
+            var combatState = creature.CombatState;
+            if (combatState != null)
+            {
+                MaxHpTracker.totalMaxHpGainedThisCombat[creature] += amount;
+                MaxHpTracker.timesMaxHpGainedThisCombat[creature] += 1;
+                if (combatState.CurrentSide == CombatSide.Player)
+                {
+                    MaxHpTracker.gainedMaxHpThisTurn[creature] = true;
                 }
             }
         }
