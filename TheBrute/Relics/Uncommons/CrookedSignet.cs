@@ -70,21 +70,21 @@ namespace TheBrute.Relics.Uncommons
             return Task.CompletedTask;
         }
 
-        private async Task ModifyStrengthIfNecessary()
+        public async Task ModifyStrengthIfNecessary()
         {
-            var passesThreshold = Owner.Gold > DynamicVars["GoldThreshold"].BaseValue;
+            var doesntPassThreshold = Owner.Gold > DynamicVars["GoldThreshold"].BaseValue;
 
-            Status = (!passesThreshold) ? RelicStatus.Active : RelicStatus.Normal;
+            Status = (!doesntPassThreshold) ? RelicStatus.Active : RelicStatus.Normal;
 
             var strengthAmount = DynamicVars.Strength.BaseValue;
 
-            if (passesThreshold && StrengthApplied)
+            if (doesntPassThreshold && StrengthApplied)
             {
                 Flash();
                 await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), Owner.Creature, -strengthAmount, Owner.Creature, null);
                 StrengthApplied = false;
             }
-            else if (!passesThreshold && !StrengthApplied)
+            else if (!doesntPassThreshold && !StrengthApplied)
             {
                 Flash();
                 await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), Owner.Creature, strengthAmount, Owner.Creature, null);
@@ -92,8 +92,22 @@ namespace TheBrute.Relics.Uncommons
             }
         }
 
+        public override async Task AfterGoldGained(Player player)
+        {
+            if (player != Owner)
+            {
+                return;
+            }
+            if (CombatManager.Instance.IsInProgress)
+            {
+                await ModifyStrengthIfNecessary();
+            }
+        }
+    }
+
+    /*
         [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "GainGold")]
-        internal class GainGoldPatch
+        internal class CrookedSignetGainGoldPatch
         {
             private static void Postfix(Task __result, Player player)
             {
@@ -109,22 +123,22 @@ namespace TheBrute.Relics.Uncommons
                 }
             }
         }
+        */
 
-        [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "LoseGold")]
-        internal class LoseGoldPatch
+    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "LoseGold")]
+    internal class CrookedSignetLoseGoldPatch
+    {
+        private static void Postfix(Task __result, Player player)
         {
-            private static void Postfix(Task __result, Player player)
-            {
-                _ = PostfixAsync(player);
-            }
+            _ = PostfixAsync(player);
+        }
 
-            private static async Task PostfixAsync(Player player)
+        private static async Task PostfixAsync(Player player)
+        {
+            var crookedSignet = player.GetRelic<CrookedSignet>();
+            if (crookedSignet != null && CombatManager.Instance.IsInProgress)
             {
-                var crookedSignet = player.GetRelic<CrookedSignet>();
-                if (crookedSignet != null && CombatManager.Instance.IsInProgress)
-                {
-                    await crookedSignet.ModifyStrengthIfNecessary();
-                }
+                await crookedSignet.ModifyStrengthIfNecessary();
             }
         }
     }

@@ -35,7 +35,7 @@ namespace TheBrute.Cards.Uncommons
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-                .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
+                .WithHitFx("vfx/vfx_flying_slash")
                 .Execute(choiceContext);
 
             for (int i = 0; i < 50; i++)

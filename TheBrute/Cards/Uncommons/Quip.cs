@@ -1,5 +1,7 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿/*
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -16,32 +18,31 @@ namespace TheBrute.Cards.Uncommons
 {
     internal class Quip : TheBruteCard
     {
-        public Quip() : base(0, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        public Quip() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
         {
         }
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(9m, ValueProp.Move),
-            new CardsVar(1),
+            new CalculationBaseVar(0m),
+            new ExtraDamageVar(2m),
+            new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
+            card.Owner.PlayerCombatState.AllCards.Count((CardModel c) => c.Type == CardType.Attack && c != card))
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-            .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
-            .Execute(choiceContext);
-
-            await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
-
-            EnergyCost.AddThisCombat(1);
+            await DamageCmd.Attack(base.DynamicVars.CalculatedDamage).Targeting(cardPlay.Target)
+                .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
+                .Execute(choiceContext);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(3m);
+            EnergyCost.UpgradeBy(-1);
         }
     }
 }
+*/

@@ -25,44 +25,34 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
-        public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [
-            CardKeyword.Exhaust
-        ];
-
         protected override HashSet<CardTag> CanonicalTags => new
         ([
             TheBrute.Cards.Tags.thornsRelated
         ]);
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
-            HoverTipFactory.FromPower<StrengthPower>(),
-            HoverTipFactory.FromPower<ThornsPower>()
+            CardKeyword.Exhaust
         ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<StrengthPower>(0m),
-            new CalculationBaseVar(0m),
-            new CalculationExtraVar(0.25m),
-            new CalculatedVar("CalculatedStrength").WithMultiplier((card, _) =>
-            {
-                var creature = card.Owner.Creature;
-                var totalThorns = creature.GetPowerAmount<ThornsPower>();
+            new PowerVar<WeaponizePower>(2m)
+        ];
 
-                return totalThorns;
-            }),
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>()
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, ((CalculatedVar)DynamicVars["CalculatedStrength"]).Calculate(Owner.Creature) + DynamicVars.Strength.BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<WeaponizePower>(choiceContext, Owner.Creature, DynamicVars["WeaponizePower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.CalculationExtra.UpgradeValueBy(0.081m); // so that a third of 3 thorns gives you 1 strength lol
+            DynamicVars["WeaponizePower"].UpgradeValueBy(1m);
         }
     }
 }

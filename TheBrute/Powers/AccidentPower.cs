@@ -31,10 +31,33 @@ namespace TheBrute.Powers
         public override PowerType Type => PowerType.Buff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
+
+        /*
+        public override async Task AfterGoldGained(Player player)
+        {
+            if (player != Owner.Player)
+            {
+                return;
+            }
+
+            var hittableEnemies = CombatManager.Instance._state?.HittableEnemies;
+            if (hittableEnemies != null && hittableEnemies.Count > 0)
+            {
+                var randomEnemy = player.RunState.Rng.CombatTargets.NextItem(hittableEnemies);
+                if (randomEnemy != null)
+                {
+                    Flash();
+                    await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), randomEnemy, Amount, ValueProp.Unpowered, null, null);
+                }
+            }
+        }
+        */
+
+        // DONT USE THIS SHIT THE GAME DOESNT CALL IT OF COURSE HAHAFDSFHTATSHTA
     }
 
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "GainGold")]
-    internal class GainGoldPatch
+    internal class AccidentPowerGainGoldPatch
     {
         private static void Postfix(Task __result, Player player)
         {
@@ -58,7 +81,7 @@ namespace TheBrute.Powers
     }
 
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "LoseGold")]
-    internal class LoseGoldPatch
+    internal class AccidentPowerLoseGoldPatch
     {
         private static void Postfix(Task __result, Player player)
         {

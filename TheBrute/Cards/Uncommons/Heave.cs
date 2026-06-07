@@ -30,7 +30,7 @@ namespace TheBrute.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new CardsVar(1),
-            new GoldVar(4)
+            new GoldVar(2)
         ];
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
@@ -60,17 +60,20 @@ namespace TheBrute.Cards.Uncommons
                 select c)
             ];
 
-            foreach (var card in await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue * exhaustRepeats)))
+            if (cardsIn.Count > 0)
             {
-                if (card != null)
+                foreach (var card in await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue * exhaustRepeats)))
                 {
-                    await CardCmd.Exhaust(choiceContext, card);
+                    if (card != null)
+                    {
+                        await CardCmd.Exhaust(choiceContext, card);
+                    }
                 }
-            }
 
-            for (int i = 0; i < goldLossRepeats; i++)
-            {
-                await PlayerCmd.LoseGold(DynamicVars.Gold.BaseValue, Owner);
+                for (int i = 0; i < goldLossRepeats; i++)
+                {
+                    await PlayerCmd.LoseGold(DynamicVars.Gold.BaseValue, Owner);
+                }
             }
         }
     }

@@ -49,6 +49,7 @@ namespace TheBrute.Cards.Uncommons
             {
                 await PowerCmd.Apply<StrengthPower>(choiceContext, cardPlay.Target, -DynamicVars.Strength.BaseValue, Owner.Creature, this);
                 await PlayerCmd.LoseGold(DynamicVars["Gold"].IntValue, Owner);
+                VfxCmd.PlayOnCreature(cardPlay.Target, "vfx/vfx_slime_impact");
             }
         }
 

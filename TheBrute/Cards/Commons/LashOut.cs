@@ -28,7 +28,7 @@ namespace TheBrute.Cards.Commons
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).TargetingRandomOpponents(CombatState)
-                .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
+                .WithHitFx("vfx/vfx_bloody_impact")
                 .Execute(choiceContext);
 
             await PowerCmd.Apply<PlatingPower>(choiceContext, Owner.Creature, DynamicVars["PlatingPower"].BaseValue, Owner.Creature, this);

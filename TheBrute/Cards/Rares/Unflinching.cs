@@ -33,6 +33,7 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new DynamicVar("ExtraAsPercent", 75m),
             new CalculationBaseVar(0m),
             new CalculationExtraVar(0.75m),
             new CalculatedVar("CalculatedPlating").WithMultiplier((card, _) =>
@@ -57,6 +58,7 @@ namespace TheBrute.Cards.Rares
         protected override void OnUpgrade()
         {
             DynamicVars.CalculationExtra.UpgradeValueBy(0.25m);
+            DynamicVars["ExtraAsPercent"].UpgradeValueBy(25m);
         }
     }
 }

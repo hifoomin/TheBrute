@@ -47,7 +47,7 @@ namespace TheBrute.Powers
     }
 
     [HarmonyPatch(typeof(PowerModel), "SetAmount")]
-    public class JustInCasePatch
+    public class TemporaryThornsUpPowerJustInCasePatch
     {
         private static void Prefix(PowerModel __instance, ref int amount)
         {

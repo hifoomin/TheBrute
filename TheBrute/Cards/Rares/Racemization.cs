@@ -2,6 +2,7 @@
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -15,48 +16,32 @@ using System.Text;
 using System.Threading.Tasks;
 using TheBrute.Cards;
 
-namespace TheBrute.Cards.Commons
+namespace TheBrute.Cards.Rares
 {
-    internal class Frustration : TheBruteCard
+    internal class Racemization : TheBruteCard
     {
-        public Frustration() : base(1, CardType.Attack, CardRarity.Common, TargetType.AllEnemies)
+        public Racemization() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AllEnemies)
         {
         }
 
-        protected override bool ShouldGlowGoldInternal => MaxHpTracker.GetLostMaxHpFromCardThisTurn(Owner.Creature);
-
-        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromPower<StrengthPower>()
-        ];
-
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(8m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
-            new PowerVar<StrengthPower>(1m),
+            new DamageVar(28m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new PowerVar<DexterityPower>(3m)
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.maxHpRelated
-        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            await PowerCmd.Apply<DexterityPower>(choiceContext, Owner.Creature, -DynamicVars.Dexterity.BaseValue, Owner.Creature, this);
+
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).TargetingAllOpponents(CombatState)
                 .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3")
                 .Execute(choiceContext);
-
-            if (MaxHpTracker.GetLostMaxHpFromCardThisTurn(Owner.Creature))
-            {
-                await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-                await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars.Strength.BaseValue, Owner.Creature, this);
-            }
         }
 
         protected override void OnUpgrade()
         {
-            EnergyCost.UpgradeBy(-1);
+            DynamicVars.Damage.UpgradeValueBy(8m);
         }
     }
 }

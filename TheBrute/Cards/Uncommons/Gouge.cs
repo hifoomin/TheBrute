@@ -27,7 +27,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(1m),
+            // new MaxHpVar(1m),
             new DamageVar(3m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
             new RepeatVar(3)
         ];
@@ -36,7 +36,7 @@ namespace TheBrute.Cards.Uncommons
         {
             var hittableEnemies = CombatManager.Instance._state?.HittableEnemies;
 
-            await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
+            // await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
             foreach (var hittableEnemy in hittableEnemies)
             {
@@ -44,7 +44,7 @@ namespace TheBrute.Cards.Uncommons
             }
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).TargetingAllOpponents(CombatState).WithHitCount(DynamicVars.Repeat.IntValue)
-                .WithHitFx("vfx/vfx_giant_horizontal_slash")
+                .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3")
                 .Execute(choiceContext);
         }
 

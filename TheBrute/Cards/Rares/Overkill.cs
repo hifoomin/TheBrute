@@ -24,7 +24,8 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(18m, ValueProp.Move),
+            new DamageVar(9m, ValueProp.Move),
+            new RepeatVar(2),
             new PowerVar<WeakPower>(3m),
             new PowerVar<StrengthPower>(2m)
         ];
@@ -40,12 +41,12 @@ namespace TheBrute.Cards.Rares
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            bool shouldTriggerFatal = cardPlay.Target.Powers.All((PowerModel p) => p.ShouldOwnerDeathTriggerFatal());
             AttackCommand attackCommand = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_bite", null, "blunt_attack.mp3")
+                .WithHitCount(DynamicVars.Repeat.IntValue)
+                .WithHitFx("vfx/vfx_heavy_blunt", null, "heavy_attack.mp3")
                 .Execute(choiceContext);
 
-            if (shouldTriggerFatal && attackCommand.Results.SelectMany((List<DamageResult> r) => r).Any((DamageResult r) => r.WasTargetKilled) && CombatState != null)
+            if (attackCommand.Results.SelectMany((List<DamageResult> r) => r).Any((DamageResult r) => r.WasTargetKilled) && CombatState != null)
             {
                 for (int i = 0; i < CombatState.Enemies.Count; i++)
                 {
@@ -58,7 +59,7 @@ namespace TheBrute.Cards.Rares
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(6m);
+            DynamicVars.Damage.UpgradeValueBy(3m);
             DynamicVars.Weak.UpgradeValueBy(2m);
         }
     }

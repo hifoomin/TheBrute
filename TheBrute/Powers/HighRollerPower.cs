@@ -30,8 +30,28 @@ namespace TheBrute.Powers
         public override PowerType Type => PowerType.Buff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
+
+        /*
+        public override async Task AfterGoldGained(Player player)
+        {
+            if (player != Owner.Player)
+            {
+                return;
+            }
+
+            var combatState = player.Creature.CombatState;
+            if (combatState != null)
+            {
+                Flash();
+                await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), player.Creature, Amount, player.Creature, null);
+            }
+        }
+        */
+
+        // DONT USE THIS SHIT THE GAME DOESNT CALL IT OF COURSE HAHAFDSFHTATSHTA
     }
 
+    /*
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "GainGold")]
     internal class HighRollerPowerGainGoldPatch
     {
@@ -46,6 +66,7 @@ namespace TheBrute.Powers
             }
         }
     }
+    */
 
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "LoseGold")]
     internal class HighRollerPowerLoseGoldPatch

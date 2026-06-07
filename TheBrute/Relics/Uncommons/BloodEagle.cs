@@ -32,7 +32,7 @@ namespace TheBrute.Relics.Uncommons
     }
 
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "LoseGold")]
-    internal class LoseGoldPatch
+    internal class BloodEagleLoseGoldPatch
     {
         private static void Postfix(Task __result, Player player)
         {

@@ -37,12 +37,15 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new MaxHpVar(1m),
             new BlockVar(6m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
             new PowerVar<ThornsPower>(2m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
+
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
             await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, DynamicVars["ThornsPower"].BaseValue, Owner.Creature, this);
 
@@ -51,7 +54,7 @@ namespace TheBrute.Cards.Commons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Block.UpgradeValueBy(3m);
+            DynamicVars.Block.UpgradeValueBy(2m);
         }
     }
 }

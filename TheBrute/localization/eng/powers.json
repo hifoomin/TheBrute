@@ -65,5 +65,8 @@
     "THEBRUTE-DECEIVE_POWER.smartDescription": "Add [blue]{Amount}[/blue] {Amount:plural:copy|copies} of the third Skill you play each turn into your [gold]Hand[/gold].",
 	"THEBRUTE-CRYBLOOD_POWER.title": "Cryblood",
 	"THEBRUTE-CRYBLOOD_POWER.description": "At the start of your turn, gain [gold]Block[/gold] equal to a percentage of your Max HP.",
-	"THEBRUTE-CRYBLOOD_POWER.smartDescription": "At the start of your turn, gain [gold]Block[/gold] equal to [blue]{Amount}%[/blue] of your Max HP."
+	"THEBRUTE-CRYBLOOD_POWER.smartDescription": "At the start of your turn, gain [gold]Block[/gold] equal to [blue]{Amount}%[/blue] of your Max HP.",
+	"THEBRUTE-WEAPONIZE_POWER.title": "Weaponize",
+	"THEBRUTE-WEAPONIZE_POWER.description": "Whenever you attack an enemy this turn, gain [gold]Thorns[/gold].",
+	"THEBRUTE-WEAPONIZE_POWER.smartDescription": "Whenever you attack an enemy this turn, gain [blue]{Amount}[/blue] [gold]Thorns[/gold]."
 }

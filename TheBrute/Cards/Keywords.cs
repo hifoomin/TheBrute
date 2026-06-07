@@ -39,7 +39,7 @@ namespace TheBrute.Cards
     }
 
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Models.CardModel), "OnPlayWrapper")]
-    public class OnPlayWrapperPatch
+    public class KeywordsOnPlayWrapperPatch
     {
         private static async Task Postfix(Task __result, PlayerChoiceContext choiceContext, CardModel __instance)
         {

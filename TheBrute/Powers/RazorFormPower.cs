@@ -28,7 +28,7 @@ namespace TheBrute.Powers
     }
 
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd), "LoseMaxHp")]
-    internal class LoseMaxHpPatch
+    internal class RazorFormPowerLoseMaxHpPatch
     {
         private static void Postfix(Task __result, PlayerChoiceContext choiceContext, Creature creature)
         {

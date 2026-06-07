@@ -41,13 +41,13 @@ namespace TheBrute.Cards.Uncommons
             var hitCount = GoldTracker.GetChangedGoldThisTurn(Owner.Creature) ? 2 : 1;
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).TargetingAllOpponents(CombatState).WithHitCount(hitCount)
-                .WithHitFx("vfx/vfx_giant_horizontal_slash")
+                .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3")
                 .Execute(choiceContext);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(4m);
+            DynamicVars.Damage.UpgradeValueBy(3m);
         }
     }
 }

@@ -37,9 +37,10 @@ namespace TheBrute.Cards.Ancients
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new DynamicVar("ExtraAsPercent", 10m),
             new CalculationBaseVar(0m),
             new ExtraDamageVar(0.1m),
-            new CalculatedDamageVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
+            new CalculatedDamageVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Unpowered).WithMultiplier((CardModel card, Creature? _) =>
             {
                 return card.Owner.Creature.MaxHp;
             }),
@@ -53,6 +54,7 @@ namespace TheBrute.Cards.Ancients
         protected override void OnUpgrade()
         {
             DynamicVars.ExtraDamage.UpgradeValueBy(0.05m);
+            DynamicVars["ExtraAsPercent"].UpgradeValueBy(5m);
         }
     }
 }

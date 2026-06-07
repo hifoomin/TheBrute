@@ -26,7 +26,7 @@ namespace TheBrute.Cards.Rares
 {
     internal class Cryblood : TheBruteCard
     {
-        public Cryblood() : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        public Cryblood() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
         {
         }
 
@@ -37,22 +37,24 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new DynamicVar("ExtraAsPercent", 6m),
             new CalculationBaseVar(0m),
-            new CalculationExtraVar(0.05m),
-            new CalculatedBlockVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
+            new CalculationExtraVar(0.06m),
+            new CalculatedBlockVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Unpowered).WithMultiplier((CardModel card, Creature? _) =>
             {
                 return card.Owner.Creature.MaxHp;
             }),
         ];
 
-        protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
-        {
-            await PowerCmd.Apply<CrybloodPower>(choiceContext, Owner.Creature, DynamicVars.CalculationExtra.BaseValue * 100m, Owner.Creature, this);
-        }
-
         protected override void OnUpgrade()
         {
             DynamicVars.CalculationExtra.UpgradeValueBy(0.02m);
+            DynamicVars["ExtraAsPercent"].UpgradeValueBy(2m);
+        }
+
+        protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+        {
+            await PowerCmd.Apply<CrybloodPower>(choiceContext, Owner.Creature, DynamicVars.CalculationExtra.BaseValue * 100m, Owner.Creature, this);
         }
     }
 }

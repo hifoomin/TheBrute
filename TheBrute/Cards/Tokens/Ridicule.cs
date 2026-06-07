@@ -26,22 +26,22 @@ namespace TheBrute.Cards.Tokens
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.FromPower<VulnerablePower>(),
-            HoverTipFactory.FromPower<WeakPower>()
+            HoverTipFactory.FromPower<WeakPower>(),
+            HoverTipFactory.FromPower<VulnerablePower>()
         ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<VulnerablePower>(1m),
-            new PowerVar<WeakPower>(1m)
+            new PowerVar<WeakPower>(1m),
+            new PowerVar<VulnerablePower>(1m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
             await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()

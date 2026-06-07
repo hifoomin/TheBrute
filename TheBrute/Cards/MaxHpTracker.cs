@@ -98,7 +98,7 @@ namespace TheBrute.Cards
     }
 
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd), "GainMaxHp")]
-    internal class GainMaxHpPatch
+    internal class MaxHpTrackerGainMaxHpPatch
     {
         private static void Postfix(Task __result, Creature creature, decimal amount)
         {
@@ -116,7 +116,7 @@ namespace TheBrute.Cards
     }
 
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd), "LoseMaxHp")]
-    internal class LoseMaxHpPatch
+    internal class MaxHpTrackerLoseMaxHpPatch
     {
         private static void Postfix(Task __result, Creature creature, decimal amount, bool isFromCard)
         {

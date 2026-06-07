@@ -24,7 +24,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(14m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move)
+            new BlockVar(13m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

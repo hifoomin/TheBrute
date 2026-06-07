@@ -41,30 +41,27 @@ namespace TheBrute.Cards.Rares
         {
             foreach (CardModel card in await CardSelectCmd.FromHand(choiceContext, Owner, new CardSelectorPrefs(SelectionScreenPrompt, 1), null, this))
             {
-                if (!card.EnergyCost.CostsX && card.EnergyCost.GetWithModifiers(CostModifiers.None) >= 0)
+                var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
+
+                var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(card.DynamicVars);
+
+                if (!card.hasTransmutedKeyword())
                 {
-                    var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
+                    // Main.Logger.Warn("added transmuted keyword");
+                    card.AddKeyword(TheBrute.Cards.Keywords.transmutedKeyword);
+                }
 
-                    var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(card.DynamicVars);
-
-                    if (!card.hasTransmutedKeyword())
-                    {
-                        // Main.Logger.Warn("added transmuted keyword");
-                        card.AddKeyword(TheBrute.Cards.Keywords.transmutedKeyword);
-                    }
-
-                    if (cardVars.TryGetValue("Transmuted", out var existingVar) && existingVar is TransmutedVar existingTransmuted)
-                    {
-                        // Main.Logger.Warn("added ONTO EXISTINGTGFDKHG EGDSAGSD transmuted var to card");
-                        // Main.Logger.Warn("Existing transmuted var before: " + existingTransmuted.BaseValue);
-                        cardVars["Transmuted"] = new TransmutedVar(existingTransmuted.BaseValue + DynamicVars.MaxHp.BaseValue);
-                        // Main.Logger.Warn("Existing transmuted var AFTERERERERERER: " + cardVars["Transmuted"].BaseValue);
-                    }
-                    else
-                    {
-                        // Main.Logger.Warn("added NEWWW transmuted var to card");
-                        cardVars["Transmuted"] = new TransmutedVar(DynamicVars.MaxHp.BaseValue);
-                    }
+                if (cardVars.TryGetValue("Transmuted", out var existingVar) && existingVar is TransmutedVar existingTransmuted)
+                {
+                    // Main.Logger.Warn("added ONTO EXISTINGTGFDKHG EGDSAGSD transmuted var to card");
+                    // Main.Logger.Warn("Existing transmuted var before: " + existingTransmuted.BaseValue);
+                    cardVars["Transmuted"] = new TransmutedVar(existingTransmuted.BaseValue + DynamicVars.MaxHp.BaseValue);
+                    // Main.Logger.Warn("Existing transmuted var AFTERERERERERER: " + cardVars["Transmuted"].BaseValue);
+                }
+                else
+                {
+                    // Main.Logger.Warn("added NEWWW transmuted var to card");
+                    cardVars["Transmuted"] = new TransmutedVar(DynamicVars.MaxHp.BaseValue);
                 }
 
                 card.BaseReplayCount++;

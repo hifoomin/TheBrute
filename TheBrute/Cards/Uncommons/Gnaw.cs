@@ -54,11 +54,11 @@ namespace TheBrute.Cards.Uncommons
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-            .WithHitVfxNode((Creature t) => NScratchVfx.Create(t, goingRight: true))
+            .WithHitFx("vfx/vfx_bite", null, "blunt_attack.mp3")
             .Execute(choiceContext);
 
             var card = CreateClone();
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, Owner), 2.2f);
+            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, Owner), 1.6f);
 
             var gnaws = Owner.PlayerCombatState.AllCards.OfType<Gnaw>();
             decimal baseValue = DynamicVars["DamageIncrease"].BaseValue;

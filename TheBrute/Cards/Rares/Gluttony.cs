@@ -30,7 +30,7 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new GoldVar(12)
+            new GoldVar(11)
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new

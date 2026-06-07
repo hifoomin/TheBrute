@@ -40,6 +40,8 @@ namespace TheBrute.Cards.Uncommons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            await PowerCmd.Apply<PlatingPower>(choiceContext, Owner.Creature, DynamicVars["PlatingPower"].IntValue, Owner.Creature, this);
+
             List<CardModel> cardsIn =
             [..
                 (from c in PileType.Draw.GetPile(Owner).Cards
@@ -51,7 +53,6 @@ namespace TheBrute.Cards.Uncommons
             if (cardModel != null)
             {
                 await CardCmd.Exhaust(choiceContext, cardModel);
-                await PowerCmd.Apply<PlatingPower>(choiceContext, Owner.Creature, DynamicVars["PlatingPower"].IntValue, Owner.Creature, this);
             }
         }
 

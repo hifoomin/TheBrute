@@ -100,7 +100,7 @@ namespace TheBrute.Cards
     }
 
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "GainGold")]
-    internal class GainGoldPatch
+    internal class GoldTrackerGainGoldPatch
     {
         private static void Postfix(Task __result, decimal amount, Player player)
         {
@@ -118,7 +118,7 @@ namespace TheBrute.Cards
     }
 
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "LoseGold")]
-    internal class LoseGoldPatch
+    internal class GoldTrackerLoseGoldPatch
     {
         private static void Postfix(Task __result, decimal amount, Player player, GoldLossType goldLossType)
         {

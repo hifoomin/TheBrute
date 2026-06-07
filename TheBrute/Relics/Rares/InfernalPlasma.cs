@@ -30,26 +30,43 @@ namespace TheBrute.Relics.Rares
             new MaxHpVar(3m)
         ];
 
-        private bool shouldRun = false;
+        private bool _usedThisEvent;
 
-        public override async Task AfterRoomEntered(AbstractRoom _)
+        private bool UsedThisEvent
+        {
+            get
+            {
+                return _usedThisEvent;
+            }
+            set
+            {
+                AssertMutable();
+                _usedThisEvent = value;
+            }
+        }
+
+        public override async Task AfterRoomEntered(AbstractRoom room)
         {
             if (!Owner.Creature.IsDead)
             {
-                if (Owner.RunState.CurrentRoom.RoomType == RoomType.Event)
+                if (room != null && room.RoomType == RoomType.Event)
                 {
-                    shouldRun = true;
+                    UsedThisEvent = false;
+                }
+                else
+                {
+                    UsedThisEvent = true;
                 }
             }
         }
 
         public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
         {
-            if (shouldRun)
+            if (Owner.RunState.CurrentRoom != null && Owner.RunState.CurrentRoom.RoomType == RoomType.Event && target == Owner.Creature && !UsedThisEvent)
             {
                 Flash();
                 await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
-                shouldRun = false;
+                UsedThisEvent = true;
             }
         }
     }

@@ -24,6 +24,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new DynamicVar("ExtraAsPercent", 200m),
             new MaxHpVar(1m),
             new CalculationBaseVar(0m),
             new ExtraDamageVar(2m),
@@ -55,6 +56,7 @@ namespace TheBrute.Cards.Uncommons
         protected override void OnUpgrade()
         {
             DynamicVars.ExtraDamage.UpgradeValueBy(1m);
+            DynamicVars["ExtraAsPercent"].UpgradeValueBy(100m);
         }
     }
 }
