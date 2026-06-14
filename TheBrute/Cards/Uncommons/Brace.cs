@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static BaseLib.Utils.BetaMainCompatibility;
 
 namespace TheBrute.Cards.Uncommons
 {
@@ -24,6 +25,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new CardsVar(1),
             new BlockVar(13m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move)
         ];
 
@@ -31,9 +33,23 @@ namespace TheBrute.Cards.Uncommons
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
-            CardSelectorPrefs prefs = new CardSelectorPrefs(SelectionScreenPrompt, 1);
-            CardPile pile = PileType.Discard.GetPile(Owner);
-            CardModel cardModel = (await CardSelectCmd.FromSimpleGrid(choiceContext, pile.Cards, Owner, prefs)).FirstOrDefault();
+            var pile = PileType.Discard.GetPile(Owner);
+            var cards = (await CardSelectCmd.FromSimpleGrid(choiceContext, pile.Cards, Owner, new CardSelectorPrefs(SelectionScreenPrompt, DynamicVars.Cards.IntValue)));
+            foreach (var card in cards)
+            {
+                if (card.Pile == null)
+                {
+                    continue;
+                }
+
+                if (card.Pile.Type != PileType.Discard)
+                {
+                    continue;
+                }
+
+                await CardPileCmd.Add(card, PileType.Draw, CardPilePosition.Top);
+            }
+            /*
             bool flag = cardModel != null;
             bool flag2 = flag;
             if (flag2)
@@ -56,6 +72,7 @@ namespace TheBrute.Cards.Uncommons
             {
                 await CardPileCmd.Add(cardModel, PileType.Draw, CardPilePosition.Top);
             }
+            */
         }
 
         protected override void OnUpgrade()

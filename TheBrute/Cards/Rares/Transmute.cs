@@ -1,7 +1,14 @@
-﻿using HarmonyLib;
+﻿using BaseLib.Abstracts;
+using BaseLib.Extensions;
+using Godot;
+using HarmonyLib;
+using MegaCrit.Sts2.Core.Assets;
 using MegaCrit.Sts2.Core.CardSelection;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -34,16 +41,23 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new CardsVar(1),
             new MaxHpVar(2m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            foreach (CardModel card in await CardSelectCmd.FromHand(choiceContext, Owner, new CardSelectorPrefs(SelectionScreenPrompt, 1), null, this))
+            var cards = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(SelectionScreenPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: Owner, filter: null, source: this));
+
+            foreach (var card in cards)
             {
                 var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
 
                 var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(card.DynamicVars);
+                if (cardVars == null)
+                {
+                    return;
+                }
 
                 if (!card.hasTransmutedKeyword())
                 {

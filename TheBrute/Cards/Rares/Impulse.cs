@@ -38,6 +38,8 @@ namespace TheBrute.Cards.Rares
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+
             var damage = DynamicVars.CalculatedDamage.Calculate(cardPlay.Target);
 
             var cachedFastMode = SaveManager.Instance.PrefsSave.FastMode;
@@ -62,7 +64,7 @@ namespace TheBrute.Cards.Rares
 
         private static IEnumerable<CardModel> GetAllSkills(Player owner)
         {
-            return owner.PlayerCombatState.AllCards.Where((CardModel c) => c.Type == CardType.Skill && c.Pile.Type != PileType.Exhaust);
+            return owner.PlayerCombatState.AllCards.Where((CardModel c) => c.Type == CardType.Skill && c.Pile != null && c.Pile.Type != PileType.Exhaust);
         }
 
         protected override void OnUpgrade()

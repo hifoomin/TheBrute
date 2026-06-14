@@ -36,8 +36,8 @@ namespace TheBrute.Cards.Starters
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<ThornsPower>(5m),
-            new PowerVar<Powers.TemporaryThornsUpPower>(5m)
+            new PowerVar<ThornsPower>(6m),
+            new PowerVar<Powers.TemporaryThornsUpPower>(6m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

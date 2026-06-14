@@ -31,6 +31,7 @@ namespace TheBrute.Cards.Rares
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+
             await PowerCmd.Apply<BitterEmbracePower>(choiceContext, Owner.Creature, DynamicVars["BitterEmbracePower"].BaseValue, Owner.Creature, this);
         }
 

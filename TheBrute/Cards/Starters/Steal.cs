@@ -20,7 +20,7 @@ namespace TheBrute.Cards.Starters
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(9m, ValueProp.Move),
+            new DamageVar(10m, ValueProp.Move),
             new GoldVar(1)
         ];
 

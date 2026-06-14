@@ -19,7 +19,7 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
-        protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, 8);
+        protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, DynamicVars.Gold.IntValue);
 
         protected override HashSet<CardTag> CanonicalTags => new
         ([
@@ -45,10 +45,12 @@ namespace TheBrute.Cards.Uncommons
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-            if (Utils.HasGold(Owner, 8))
+            if (Utils.HasGold(Owner, DynamicVars.Gold.IntValue))
             {
                 await PowerCmd.Apply<StrengthPower>(choiceContext, cardPlay.Target, -DynamicVars.Strength.BaseValue, Owner.Creature, this);
-                await PlayerCmd.LoseGold(DynamicVars["Gold"].IntValue, Owner);
+
+                await PlayerCmd.LoseGold(DynamicVars.Gold.IntValue, Owner);
+
                 VfxCmd.PlayOnCreature(cardPlay.Target, "vfx/vfx_slime_impact");
             }
         }

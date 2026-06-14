@@ -51,7 +51,6 @@ namespace TheBrute.Powers
         // DONT USE THIS SHIT THE GAME DOESNT CALL IT OF COURSE HAHAFDSFHTATSHTA
     }
 
-    /*
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "GainGold")]
     internal class HighRollerPowerGainGoldPatch
     {
@@ -66,7 +65,6 @@ namespace TheBrute.Powers
             }
         }
     }
-    */
 
     [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "LoseGold")]
     internal class HighRollerPowerLoseGoldPatch

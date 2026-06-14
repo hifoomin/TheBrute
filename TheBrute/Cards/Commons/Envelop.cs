@@ -16,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheBrute.Cards;
+using static BaseLib.Utils.BetaMainCompatibility;
 using static Godot.OpenXRCompositionLayer;
 
 namespace TheBrute.Cards.Commons
@@ -38,6 +39,7 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new CardsVar(1),
             new PowerVar<PlatingPower>(3m),
         ];
 
@@ -45,11 +47,10 @@ namespace TheBrute.Cards.Commons
         {
             await PowerCmd.Apply<PlatingPower>(choiceContext, Owner.Creature, DynamicVars["PlatingPower"].BaseValue, Owner.Creature, this);
 
-            CardModel cardModel = (await CardSelectCmd.FromHand(choiceContext, Owner, new CardSelectorPrefs(SelectionScreenPrompt, 1), null, this)).FirstOrDefault();
-
-            if (cardModel != null)
+            var cards = (await CardSelectCmd.FromHand(choiceContext, Owner, new CardSelectorPrefs(SelectionScreenPrompt, DynamicVars.Cards.IntValue), null, this));
+            foreach (var card in cards)
             {
-                await CardPileCmd.Add(cardModel, PileType.Draw, CardPilePosition.Top);
+                await CardPileCmd.Add(card, PileType.Draw, CardPilePosition.Top);
             }
         }
 

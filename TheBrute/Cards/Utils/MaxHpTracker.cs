@@ -18,7 +18,7 @@ using TheBrute.Relics.Uncommons;
 
 namespace TheBrute.Cards
 {
-    public class MaxHpTracker() : CustomSingletonModel(true, false)
+    public class MaxHpTracker() : CustomSingletonModel(HookType.Combat)
     {
         public static readonly SpireField<Creature, decimal> totalMaxHpGainedThisCombat = new(() => 0);
         public static readonly SpireField<Creature, decimal> totalMaxHpLostFromCardsThisCombat = new(() => 0);

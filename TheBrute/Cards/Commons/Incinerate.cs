@@ -35,19 +35,21 @@ namespace TheBrute.Cards.Commons
             TheBrute.Cards.Tags.goldRelated
         ]);
 
-        protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, 4);
+        protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, DynamicVars.Gold.IntValue);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            if (Utils.HasGold(Owner, 4))
+            if (Utils.HasGold(Owner, DynamicVars.Gold.IntValue))
             {
                 await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
                 .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
+
                 VfxCmd.PlayOnCreatureCenter(Owner.Creature, "vfx/vfx_coin_explosion_regular");
-                await PlayerCmd.LoseGold(DynamicVars["Gold"].IntValue, Owner);
+
+                await PlayerCmd.LoseGold(DynamicVars.Gold.IntValue, Owner);
             }
         }
 

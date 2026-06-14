@@ -49,10 +49,10 @@ namespace TheBrute.Cards.Uncommons
                 select c)
             ];
 
-            CardModel cardModel = (await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue))).FirstOrDefault();
-            if (cardModel != null)
+            var cards = (await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue)));
+            foreach (var card in cards)
             {
-                await CardCmd.Exhaust(choiceContext, cardModel);
+                await CardCmd.Exhaust(choiceContext, card);
             }
         }
 

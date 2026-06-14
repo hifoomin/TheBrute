@@ -50,6 +50,7 @@ namespace TheBrute.Cards.Rares
             await DamageCmd.Attack(DynamicVars.CalculatedDamage).FromCard(this).Targeting(cardPlay.Target)
             .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
             .Execute(choiceContext);
+
             VfxCmd.PlayOnCreatureCenter(Owner.Creature, "vfx/vfx_coin_explosion_regular");
         }
 

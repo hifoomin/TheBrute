@@ -34,7 +34,7 @@ namespace TheBrute.Cards.Uncommons
         [
             new MaxHpVar(2m),
             new GoldVar(10),
-            new DynamicVar("VakuuNextTurn", 1m)
+            new PowerVar<PossessionPower>(1m)
         ];
 
         protected override HashSet<CardTag> CanonicalTags => new
@@ -55,7 +55,7 @@ namespace TheBrute.Cards.Uncommons
 
             await PlayerCmd.GainGold(DynamicVars.Gold.IntValue, Owner);
 
-            await PowerCmd.Apply<Powers.PossessionPower>(choiceContext, Owner.Creature, DynamicVars["VakuuNextTurn"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<Powers.PossessionPower>(choiceContext, Owner.Creature, DynamicVars["PossessionPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()

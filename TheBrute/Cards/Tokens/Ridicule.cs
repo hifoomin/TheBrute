@@ -1,19 +1,20 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using BaseLib.Utils;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace TheBrute.Cards.Tokens
 {
-#pragma warning disable STS001 // Symbol missing localization
-
+    [Pool(typeof(TokenCardPool))]
     internal class Ridicule : TheBruteCard
-#pragma warning restore STS001 // Symbol missing localization
     {
         public Ridicule() : base(1, CardType.Skill, CardRarity.Token, TargetType.AnyEnemy)
         {
@@ -41,6 +42,7 @@ namespace TheBrute.Cards.Tokens
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
             await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
+
             await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
         }
 

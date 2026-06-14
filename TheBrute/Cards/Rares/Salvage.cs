@@ -41,7 +41,9 @@ namespace TheBrute.Cards.Rares
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+
             await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
+
             await PowerCmd.Apply<SalvagePower>(choiceContext, Owner.Creature, DynamicVars["SalvagePower"].BaseValue, Owner.Creature, this);
         }
 

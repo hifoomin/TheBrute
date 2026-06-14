@@ -42,7 +42,6 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(3m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Unpowered),
             new PowerVar<Powers.EncirclePower>(3m)
         ];
 

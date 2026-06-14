@@ -17,7 +17,7 @@ using TheBrute.Cards.Ancients;
 using TheBrute.Cards.Starters;
 using TheBrute.Relics.Uncommons;
 
-namespace TheBrute
+namespace TheBrute.Cards
 {
     public static class Utils
     {

@@ -16,7 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TheBrute
+namespace TheBrute.Cards
 {
     public class HolyFuckingShitSchizo() : CustomSingletonModel(true, false)
     {

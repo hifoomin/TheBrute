@@ -36,8 +36,8 @@ namespace TheBrute.Cards.Commons
             .WithHitFx("vfx/vfx_molten_fist", null, "blunt_attack.mp3")
             .Execute(choiceContext);
 
-            var card = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: base.Owner, filter: null, source: this)).FirstOrDefault();
-            if (card != null)
+            var cards = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: base.Owner, filter: null, source: this));
+            foreach (var card in cards)
             {
                 await CardCmd.Exhaust(choiceContext, card);
             }

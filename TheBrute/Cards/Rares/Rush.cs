@@ -43,14 +43,8 @@ namespace TheBrute.Cards.Rares
         {
             await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
 
-            if (DynamicVars.Cards.BaseValue == 1m)
-            {
-                await Cmd.Wait(0.25f);
-            }
-            else
-            {
-                await Cmd.Wait(0.5f);
-            }
+            var waitTime = DynamicVars.Cards.IntValue * 0.4f;
+            await Cmd.Wait(waitTime);
 
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 

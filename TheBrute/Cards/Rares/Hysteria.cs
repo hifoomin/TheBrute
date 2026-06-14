@@ -44,7 +44,8 @@ namespace TheBrute.Cards.Rares
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-            await PowerCmd.Apply<HysteriaPower>(choiceContext, Owner.Creature, DynamicVars["HysteriaPower"].BaseValue, Owner.Creature, this);
+
+            (await PowerCmd.Apply<HysteriaPower>(choiceContext, Owner.Creature, DynamicVars["HysteriaPower"].BaseValue, Owner.Creature, this))?.SetLossAmounts(DynamicVars.MaxHp.BaseValue, DynamicVars.Gold.IntValue);
         }
 
         protected override void OnUpgrade()

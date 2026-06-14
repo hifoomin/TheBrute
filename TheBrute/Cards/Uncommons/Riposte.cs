@@ -34,6 +34,7 @@ namespace TheBrute.Cards.Uncommons
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+
             await PowerCmd.Apply<FreeAttackPower>(choiceContext, Owner.Creature, DynamicVars["FreeAttackPower"].BaseValue, Owner.Creature, this);
         }
 

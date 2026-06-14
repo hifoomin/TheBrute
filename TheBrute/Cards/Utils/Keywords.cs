@@ -57,7 +57,7 @@ namespace TheBrute.Cards
             if (__instance.hasGoldLossKeyword())
             {
                 // await PlayerCmd.LoseGold(__instance.DynamicVars["Gold"].IntValue, __instance.Owner);
-                PlayerCmd.LoseGold(__instance.DynamicVars["Gold"].IntValue, __instance.Owner);
+                PlayerCmd.LoseGold(__instance.DynamicVars.Gold.IntValue, __instance.Owner);
             }
         }
     }

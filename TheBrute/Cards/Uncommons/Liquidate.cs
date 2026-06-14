@@ -42,17 +42,17 @@ namespace TheBrute.Cards.Uncommons
             EnergyHoverTip
         ];
 
-        protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, 12);
+        protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, DynamicVars.Gold.IntValue);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            if (Utils.HasGold(Owner, 12))
+            if (Utils.HasGold(Owner, DynamicVars.Gold.IntValue))
             {
                 await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
                 await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
                 await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
                 VfxCmd.PlayOnCreatureCenter(Owner.Creature, "vfx/vfx_coin_explosion_regular");
-                await PlayerCmd.LoseGold(DynamicVars["Gold"].IntValue, Owner);
+                await PlayerCmd.LoseGold(DynamicVars.Gold.IntValue, Owner);
             }
         }
 

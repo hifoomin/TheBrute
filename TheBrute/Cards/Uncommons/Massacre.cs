@@ -33,12 +33,13 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(13m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move)
+            new DamageVar(13m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new RepeatVar(2)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            var hitCount = GoldTracker.GetChangedGoldThisTurn(Owner.Creature) ? 2 : 1;
+            var hitCount = GoldTracker.GetChangedGoldThisTurn(Owner.Creature) ? DynamicVars.Repeat.IntValue : 1;
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).TargetingAllOpponents(CombatState).WithHitCount(hitCount)
                 .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3")

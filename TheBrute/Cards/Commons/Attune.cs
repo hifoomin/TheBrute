@@ -31,7 +31,9 @@ namespace TheBrute.Cards.Commons
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+
             await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
+
             await PowerCmd.Apply<AttunePower>(choiceContext, Owner.Creature, DynamicVars["AttunePower"].BaseValue, Owner.Creature, this);
         }
 

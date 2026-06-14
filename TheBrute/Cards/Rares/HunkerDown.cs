@@ -23,6 +23,11 @@ namespace TheBrute.Cards.Rares
         {
         }
 
+        public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        [
+            CardKeyword.Ethereal
+        ];
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<HunkerDownPower>(1m)
@@ -36,12 +41,13 @@ namespace TheBrute.Cards.Rares
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+
             await PowerCmd.Apply<HunkerDownPower>(choiceContext, Owner.Creature, DynamicVars["HunkerDownPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            EnergyCost.UpgradeBy(-1);
+            RemoveKeyword(CardKeyword.Ethereal);
         }
     }
 }

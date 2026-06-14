@@ -36,7 +36,7 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<VulnerablePower>(2m),
+            new PowerVar<VulnerablePower>(3m),
             new GoldVar(2)
         ];
 
@@ -45,7 +45,8 @@ namespace TheBrute.Cards.Commons
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
             await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
-            await PlayerCmd.GainGold(DynamicVars["Gold"].IntValue, Owner);
+
+            await PlayerCmd.GainGold(DynamicVars.Gold.IntValue, Owner);
         }
 
         protected override void OnUpgrade()

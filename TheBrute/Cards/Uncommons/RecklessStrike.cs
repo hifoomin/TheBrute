@@ -26,8 +26,9 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new CardsVar(1),
             new DamageVar(13m, ValueProp.Move),
-            new GoldVar(3)
+            new GoldVar(3),
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -38,32 +39,24 @@ namespace TheBrute.Cards.Uncommons
                 .WithHitFx("vfx/vfx_flying_slash")
                 .Execute(choiceContext);
 
-            for (int i = 0; i < 50; i++)
+            static bool filter(CardModel c) => c.IsUpgradable;
+            var cards = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: Owner, filter: filter, source: this));
+            foreach (var card in cards)
             {
-                var cardsInHand = PileType.Hand.GetPile(Owner).Cards;
-                var randomCard = Owner.RunState.Rng.CombatCardSelection.NextItem(cardsInHand);
-                if (randomCard == null || !randomCard.IsUpgradable)
-                {
-                    continue;
-                }
+                var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
 
-                if (randomCard != null && (!randomCard.DynamicVars.TryGetValue("Gold", out var gold) || gold.BaseValue <= 0))
-                {
-                    var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
+                var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(card.DynamicVars);
 
-                    var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(randomCard.DynamicVars);
+                cardVars["Gold"] = new GoldVar(DynamicVars.Gold.IntValue);
+                // Main.Logger.Warn("reckless strike onplay: trying to add keyword and gold");
+                card.AddKeyword(TheBrute.Cards.Keywords.goldLossKeyword);
 
-                    cardVars["Gold"] = new GoldVar(DynamicVars.Gold.IntValue);
-                    // Main.Logger.Warn("reckless strike onplay: trying to add keyword and gold");
-                    randomCard.AddKeyword(TheBrute.Cards.Keywords.goldLossKeyword);
-
-                    CardCmd.Upgrade(randomCard);
-                    CardCmd.Preview(randomCard, 1.2f);
-                    break;
-
-                    // Main.Logger.Warn("reckless strike onplay: cards new gold value is " + vars["Gold"].BaseValue);
-                }
+                CardCmd.Upgrade(card);
             }
+
+            // (!randomCard.DynamicVars.TryGetValue("Gold", out var gold) || gold.BaseValue <= 0)
+            // keep just in case some mod pops up that has infinite upgrades and stacking upgrades with reckless strike breaks the gold cost or whatever
+            // well im sure it would but im just lazy to fix this rn
         }
 
         protected override void OnUpgrade()

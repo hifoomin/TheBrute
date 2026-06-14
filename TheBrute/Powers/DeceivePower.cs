@@ -1,4 +1,6 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿using BaseLib.Abstracts;
+using BaseLib.Extensions;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -23,7 +25,7 @@ using System.Threading.Tasks;
 
 namespace TheBrute.Powers
 {
-    internal class DeceivePower : TheBrutePower
+    internal class DeceivePower : TheBrutePower, IHasSecondAmount
     {
         public override PowerType Type => PowerType.Buff;
 
@@ -42,6 +44,7 @@ namespace TheBrute.Powers
         public override Task AfterApplied(Creature? applier, CardModel? cardSource)
         {
             GetInternalData<Data>().skillsPlayedThisTurn = CombatManager.Instance.History.CardPlaysStarted.Count((CardPlayStartedEntry e) => e.CardPlay.Card.Type == CardType.Skill && e.CardPlay.Card.Owner.Creature == Owner && e.HappenedThisTurn(CombatState));
+            this.InvokeSecondAmountChanged();
             return Task.CompletedTask;
         }
 
@@ -52,6 +55,7 @@ namespace TheBrute.Powers
                 return;
             }
             GetInternalData<Data>().skillsPlayedThisTurn++;
+            this.InvokeSecondAmountChanged();
             if (GetInternalData<Data>().skillsPlayedThisTurn == 3)
             {
                 Flash();
@@ -68,7 +72,14 @@ namespace TheBrute.Powers
             if (participants.Contains(Owner))
             {
                 GetInternalData<Data>().skillsPlayedThisTurn = 0;
+                this.InvokeSecondAmountChanged();
             }
+        }
+
+        public string GetSecondAmount()
+        {
+            var normalized = Math.Max(0, 3 - GetInternalData<Data>().skillsPlayedThisTurn);
+            return $"{normalized}";
         }
     }
 }

@@ -37,6 +37,7 @@ namespace TheBrute.Cards.Commons
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_flying_slash")
                 .Execute(choiceContext);

@@ -32,7 +32,7 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(9m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new DamageVar(10m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
             new PowerVar<TemporaryThornsUpNextTurnPower>(3m)
         ];
 

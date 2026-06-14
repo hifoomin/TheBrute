@@ -100,6 +100,7 @@ namespace TheBrute.Cards.Uncommons
             }
 
             await CardCmd.Exhaust(choiceContext, lastAttackOrSkill);
+
             await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
         }
 
