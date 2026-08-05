@@ -24,10 +24,10 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar("ExtraAsPercent", 200m),
+            new DynamicVar("ExtraAsPercent", 150m),
             new MaxHpVar(1m),
             new CalculationBaseVar(0m),
-            new ExtraDamageVar(2m),
+            new ExtraDamageVar(1.5m),
             new CalculatedDamageVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
             {
                 return card.Owner.Creature.GetPowerAmount<ThornsPower>();
@@ -39,24 +39,19 @@ namespace TheBrute.Cards.Uncommons
             HoverTipFactory.FromPower<ThornsPower>()
         ];
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.thornsRelated, TheBrute.Cards.Tags.maxHpRelated
-        ]);
-
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
-            await DamageCmd.Attack(((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(Owner.Creature)).FromCard(this).Targeting(cardPlay.Target)
+            await DamageCmd.Attack(((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(Owner.Creature)).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.ExtraDamage.UpgradeValueBy(1m);
-            DynamicVars["ExtraAsPercent"].UpgradeValueBy(100m);
+            DynamicVars.ExtraDamage.UpgradeValueBy(0.5m);
+            DynamicVars["ExtraAsPercent"].UpgradeValueBy(50m);
         }
     }
 }

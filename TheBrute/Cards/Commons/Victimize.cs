@@ -15,19 +15,16 @@ namespace TheBrute.Cards.Commons
     internal class Victimize : TheBruteCard
 #pragma warning restore STS001 // Symbol missing localization
     {
-        public Victimize() : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
+        public Victimize() : base(0, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
         {
         }
 
+        /*
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
             CardKeyword.Exhaust
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated
-        ]);
+        */
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
@@ -36,7 +33,7 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<VulnerablePower>(3m),
+            new PowerVar<VulnerablePower>(1m),
             new GoldVar(2)
         ];
 

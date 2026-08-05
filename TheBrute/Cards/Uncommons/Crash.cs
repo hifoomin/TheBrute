@@ -20,13 +20,8 @@ namespace TheBrute.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(1m),
-            new DamageVar(22m, ValueProp.Move)
+            new DamageVar(25m, ValueProp.Move)
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.maxHpRelated
-        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
@@ -34,7 +29,7 @@ namespace TheBrute.Cards.Uncommons
 
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
         }

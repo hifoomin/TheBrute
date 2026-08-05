@@ -35,11 +35,6 @@ namespace TheBrute.Cards.Uncommons
             HoverTipFactory.FromPower<ThornsPower>()
         ];
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.thornsRelated
-        ]);
-
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<Powers.EncirclePower>(3m)
@@ -52,7 +47,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            AddKeyword(CardKeyword.Innate);
+            DynamicVars["EncirclePower"].UpgradeValueBy(1m);
         }
     }
 }

@@ -25,11 +25,6 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.thornsRelated
-        ]);
-
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
             CardKeyword.Exhaust

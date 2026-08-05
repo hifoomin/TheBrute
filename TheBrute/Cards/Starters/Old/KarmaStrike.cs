@@ -48,7 +48,7 @@ namespace TheBrute.Cards.Starters
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount((int)((CalculatedVar)DynamicVars["CalculatedHits"]).Calculate(cardPlay.Target)).FromCard(this)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount((int)((CalculatedVar)DynamicVars["CalculatedHits"]).Calculate(cardPlay.Target)).FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx(null)
             .Execute(choiceContext);

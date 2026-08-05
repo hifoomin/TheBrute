@@ -25,7 +25,7 @@ namespace TheBrute.Powers
     internal class TemporaryThornsUpPower : TheBrutePower
 #pragma warning restore STS001 // Symbol missing localization
     {
-        public override PowerType Type => PowerType.Debuff;
+        public override PowerType Type => PowerType.Buff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
 

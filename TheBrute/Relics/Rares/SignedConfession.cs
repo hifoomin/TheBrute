@@ -1,0 +1,135 @@
+﻿using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Relics;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Map;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Screens.GameOverScreen;
+using MegaCrit.Sts2.Core.Nodes.Screens.Map;
+using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Runs;
+using MegaCrit.Sts2.Core.Saves.Runs;
+using MegaCrit.Sts2.Core.ValueProps;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
+using TheBrute.Relics;
+using static BaseLib.Utils.BetaMainCompatibility;
+
+namespace TheBrute.Relics.Rares
+{
+    internal class SignedConfession : TheBruteRelic
+    {
+        public override RelicRarity Rarity => RelicRarity.Rare;
+
+        public override Task AfterObtained()
+        {
+            var runState = Owner.RunState;
+
+            if (runState?.Map == null)
+            {
+                return Task.CompletedTask;
+            }
+
+            int count = runState.Players.Count(p => p.GetRelic<SignedConfession>() != null);
+
+            runState.Map = new SignedConfessionMap(count, runState.Map);
+
+            NMapScreen.Instance?.SetMap(runState.Map, runState.Rng.Seed, clearDrawings: false);
+
+            Flash();
+
+            return Task.CompletedTask;
+        }
+
+        public override ActMap ModifyGeneratedMap(IRunState runState, ActMap map, int actIndex)
+        {
+            var signedConfessionCount = runState.Players.Count(player => player.GetRelic<SignedConfession>() != null);
+            if (signedConfessionCount <= 0)
+            {
+                return map;
+            }
+
+            Flash();
+
+            return new SignedConfessionMap(signedConfessionCount, map);
+        }
+    }
+
+    internal class SignedConfessionMap : ActMap
+    {
+        private readonly MapPoint? _secondBoss;
+        public override MapPoint? SecondBossMapPoint => _secondBoss;
+        public override MapPoint BossMapPoint { get; }
+        public override MapPoint StartingMapPoint { get; }
+        protected override MapPoint?[,] Grid { get; }
+
+        public SignedConfessionMap(int signedConfessionCount, ActMap original)
+        {
+            var oldRows = original.GetRowCount();
+            Grid = new MapPoint?[7, oldRows + signedConfessionCount];
+
+            for (var row = 1; row < oldRows; row++)
+            {
+                for (int column = 0; column < 7; column++)
+                {
+                    var point = original.GetPoint(column, row);
+
+                    if (point == null)
+                    {
+                        continue;
+                    }
+
+                    Grid[column, row] = point;
+                }
+            }
+
+            StartingMapPoint = original.StartingMapPoint;
+
+            BossMapPoint = original.BossMapPoint;
+            BossMapPoint.coord.row += signedConfessionCount;
+
+            _secondBoss = original.SecondBossMapPoint;
+
+            if (_secondBoss != null)
+            {
+                _secondBoss.coord.row += signedConfessionCount;
+            }
+
+            var parents = BossMapPoint.parents.ToList();
+
+            foreach (var parent in parents)
+            {
+                parent.RemoveChildPoint(BossMapPoint);
+
+                var previous = parent;
+
+                for (int i = 0; i < signedConfessionCount; i++)
+                {
+                    var shop = new MapPoint(parent.coord.col, parent.coord.row + i + 1)
+                    {
+                        PointType = MapPointType.Shop,
+                        CanBeModified = false
+                    };
+
+                    Grid[shop.coord.col, shop.coord.row] = shop;
+
+                    previous.AddChildPoint(shop);
+
+                    previous = shop;
+                }
+
+                previous.AddChildPoint(BossMapPoint);
+            }
+        }
+    }
+}

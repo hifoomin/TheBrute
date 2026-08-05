@@ -21,11 +21,6 @@ namespace TheBrute.Cards.Uncommons
 
         protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, DynamicVars.Gold.IntValue);
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated
-        ]);
-
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
             CardKeyword.Exhaust
@@ -33,7 +28,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new GoldVar(8),
+            new GoldVar(6),
             new PowerVar<StrengthPower>(3m),
         ];
 

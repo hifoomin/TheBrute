@@ -67,7 +67,7 @@ namespace TheBrute.Powers
         private static async Task PostfixAsync(Player player)
         {
             var accidentPower = player.Creature.GetPower<AccidentPower>();
-            var hittableEnemies = CombatManager.Instance._state?.HittableEnemies;
+            var hittableEnemies = CombatManager.Instance._turnState?.State.HittableEnemies;
             if (accidentPower != null && hittableEnemies != null && hittableEnemies.Count > 0)
             {
                 var randomEnemy = player.RunState.Rng.CombatTargets.NextItem(hittableEnemies);
@@ -91,7 +91,7 @@ namespace TheBrute.Powers
         private static async Task PostfixAsync(Player player)
         {
             var accidentPower = player.Creature.GetPower<AccidentPower>();
-            var hittableEnemies = CombatManager.Instance._state?.HittableEnemies;
+            var hittableEnemies = CombatManager.Instance._turnState?.State.HittableEnemies;
             if (accidentPower != null && hittableEnemies != null && hittableEnemies.Count > 0)
             {
                 var randomEnemy = player.RunState.Rng.CombatTargets.NextItem(hittableEnemies);

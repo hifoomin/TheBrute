@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -18,24 +19,30 @@ namespace TheBrute.Cards.Commons
         {
         }
 
-        public override bool GainsBlock => true;
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<WeakPower>()
+        ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(7m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
-            new PowerVar<DrawCardsNextTurnPower>(1m)
+            new PowerVar<WeakPower>(1m),
+            new PowerVar<EnergyNextTurnPower>(1m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+            foreach (Creature enemy in CombatState.HittableEnemies)
+            {
+                await PowerCmd.Apply<WeakPower>(choiceContext, enemy, DynamicVars.Weak.BaseValue, Owner.Creature, this);
+            }
 
-            await PowerCmd.Apply<DrawCardsNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["DrawCardsNextTurnPower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<EnergyNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["EnergyNextTurnPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Block.UpgradeValueBy(3m);
+            DynamicVars.Weak.UpgradeValueBy(1m);
         }
     }
 }

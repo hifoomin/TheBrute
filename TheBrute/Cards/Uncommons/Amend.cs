@@ -23,14 +23,13 @@ namespace TheBrute.Cards.Uncommons
 {
     internal class Amend : TheBruteCard
     {
-        public Amend() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        public Amend() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.FromCard<Ridicule>(IsUpgraded),
-            HoverTipFactory.Static(StaticHoverTip.Transform),
+            HoverTipFactory.FromCard<Ridicule>(),
             HoverTipFactory.FromPower<VulnerablePower>(),
             HoverTipFactory.FromPower<WeakPower>()
         ];
@@ -40,11 +39,6 @@ namespace TheBrute.Cards.Uncommons
             new MaxHpVar(1m),
             new CardsVar(1)
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.maxHpRelated
-        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
@@ -56,12 +50,14 @@ namespace TheBrute.Cards.Uncommons
             if (card != null)
             {
                 var ridicule = CombatState.CreateCard<Tokens.Ridicule>(Owner);
-                if (IsUpgraded)
-                {
-                    CardCmd.Upgrade(ridicule);
-                }
+
                 await CardCmd.Transform(card, ridicule);
             }
+        }
+
+        protected override void OnUpgrade()
+        {
+            EnergyCost.UpgradeBy(-1);
         }
     }
 }

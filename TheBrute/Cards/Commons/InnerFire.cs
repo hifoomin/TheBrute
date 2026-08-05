@@ -26,11 +26,6 @@ namespace TheBrute.Cards.Commons
             new BlockVar(11m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move)
         ];
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.maxHpRelated
-        ]);
-
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);

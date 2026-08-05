@@ -24,24 +24,29 @@ namespace TheBrute.Cards.Rares
         {
         }
 
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<DexterityPower>()
+        ];
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(28m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
-            new PowerVar<DexterityPower>(3m)
+            new DamageVar(30m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new PowerVar<DexterityPower>(2m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await PowerCmd.Apply<DexterityPower>(choiceContext, Owner.Creature, -DynamicVars.Dexterity.BaseValue, Owner.Creature, this);
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).TargetingAllOpponents(CombatState)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState)
                 .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3")
                 .Execute(choiceContext);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(8m);
+            DynamicVars.Damage.UpgradeValueBy(6m);
         }
     }
 }

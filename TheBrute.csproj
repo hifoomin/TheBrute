@@ -42,11 +42,14 @@
     </ItemGroup>
 
     <ItemGroup>
+        <AdditionalFiles Remove="CharMod\**" />
         <Compile Remove="CharMod/**" />
+        <Compile Remove="CharMod\**" />
         <Compile Remove="materials/**" />
         <Compile Remove="shaders/**" />
         <Compile Remove="images/**" />
         <EmbeddedResource Remove="CharMod/**" />
+        <EmbeddedResource Remove="CharMod\**" />
         <EmbeddedResource Remove="materials/**" />
         <EmbeddedResource Remove="shaders/**" />
         <EmbeddedResource Remove="images/**" />
@@ -59,12 +62,6 @@
         <None Include="CharMod.json" />
         <None Include="project.godot" />
         <None Include="CharMod/**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="CharMod\images\card_portraits\big\" />
-      <Folder Include="CharMod\images\powers\big\" />
-      <Folder Include="CharMod\images\relics\big\" />
     </ItemGroup>
     
     <Target Name="CheckDependencyPaths">
@@ -88,6 +85,11 @@
     
     <ItemGroup>
         <GodotResourceFiles Include="CharMod/**" />
+    </ItemGroup>
+    
+    <ItemGroup>
+      <GodotResourceFiles Remove="CharMod\**" />
+      <None Remove="CharMod\**" />
     </ItemGroup>
     
     <ItemGroup>

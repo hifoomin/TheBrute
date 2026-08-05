@@ -16,7 +16,7 @@ namespace TheBrute.Cards.Tokens
     [Pool(typeof(TokenCardPool))]
     internal class Ridicule : TheBruteCard
     {
-        public Ridicule() : base(1, CardType.Skill, CardRarity.Token, TargetType.AnyEnemy)
+        public Ridicule() : base(0, CardType.Skill, CardRarity.Token, TargetType.AnyEnemy)
         {
         }
 
@@ -48,7 +48,8 @@ namespace TheBrute.Cards.Tokens
 
         protected override void OnUpgrade()
         {
-            EnergyCost.UpgradeBy(-1);
+            DynamicVars.Weak.UpgradeValueBy(1m);
+            DynamicVars.Vulnerable.UpgradeValueBy(1m);
         }
     }
 }

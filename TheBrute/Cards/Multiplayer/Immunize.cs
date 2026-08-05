@@ -21,7 +21,7 @@ namespace TheBrute.Cards.Multiplayer
 {
     internal class Immunize : TheBruteCard
     {
-        public Immunize() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+        public Immunize() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
         {
         }
 

@@ -30,11 +30,6 @@ namespace TheBrute.Cards.Commons
             HoverTipFactory.FromPower<ThornsPower>()
         ];
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.thornsRelated
-        ]);
-
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(1m),
@@ -55,7 +50,7 @@ namespace TheBrute.Cards.Commons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Block.UpgradeValueBy(2m);
+            DynamicVars.Block.UpgradeValueBy(3m);
         }
     }
 }

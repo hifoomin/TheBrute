@@ -24,7 +24,7 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new CardsVar(1),
+            new BlockVar(7m, ValueProp.Move),
             new PowerVar<AttunePower>(1m)
         ];
 
@@ -32,14 +32,14 @@ namespace TheBrute.Cards.Commons
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-            await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
+            await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
             await PowerCmd.Apply<AttunePower>(choiceContext, Owner.Creature, DynamicVars["AttunePower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Cards.UpgradeValueBy(1m);
+            DynamicVars.Block.UpgradeValueBy(3m);
         }
     }
 }

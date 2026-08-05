@@ -38,7 +38,7 @@ namespace TheBrute.Powers
             if (razorFormPower != null && combatState != null)
             {
                 razorFormPower.Flash();
-                PowerCmd.Apply<ThornsPower>(choiceContext, creature, razorFormPower.Amount, null, null);
+                PowerCmd.Apply<ThornsPower>(choiceContext, creature, razorFormPower.Amount, creature, null);
             }
         }
     }

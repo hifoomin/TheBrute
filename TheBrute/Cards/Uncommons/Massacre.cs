@@ -24,11 +24,6 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated
-        ]);
-
         protected override bool ShouldGlowGoldInternal => GoldTracker.GetChangedGoldThisTurn(Owner.Creature);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -41,7 +36,7 @@ namespace TheBrute.Cards.Uncommons
         {
             var hitCount = GoldTracker.GetChangedGoldThisTurn(Owner.Creature) ? DynamicVars.Repeat.IntValue : 1;
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).TargetingAllOpponents(CombatState).WithHitCount(hitCount)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState).WithHitCount(hitCount)
                 .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3")
                 .Execute(choiceContext);
         }

@@ -19,7 +19,7 @@ namespace TheBrute.Cards.Rares
 {
     internal class BitterEmbrace : TheBruteCard
     {
-        public BitterEmbrace() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
+        public BitterEmbrace() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
         {
         }
 

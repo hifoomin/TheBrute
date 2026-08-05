@@ -29,14 +29,9 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(2m),
-            new PowerVar<SalvagePower>(3m)
+            new MaxHpVar(3m),
+            new PowerVar<ReducedMaximumHandSizePower>(3m)
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.maxHpRelated
-        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
@@ -44,7 +39,7 @@ namespace TheBrute.Cards.Rares
 
             await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
 
-            await PowerCmd.Apply<SalvagePower>(choiceContext, Owner.Creature, DynamicVars["SalvagePower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<ReducedMaximumHandSizePower>(choiceContext, Owner.Creature, DynamicVars["ReducedMaximumHandSizePower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()

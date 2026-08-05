@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -19,7 +20,7 @@ namespace TheBrute.Cards.Rares
     internal class Impulse : TheBruteCard
 #pragma warning restore STS001 // Symbol missing localization
     {
-        public Impulse() : base(2, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        public Impulse() : base(3, CardType.Skill, CardRarity.Rare, TargetType.Self)
         {
         }
 
@@ -28,49 +29,44 @@ namespace TheBrute.Cards.Rares
             CardKeyword.Exhaust
         ];
 
-        protected override IEnumerable<DynamicVar> CanonicalVars =>
-        [
-            new PowerVar<VulnerablePower>(4m),
-            new CalculationBaseVar(0m),
-            new ExtraDamageVar(4m),
-            new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) => GetAllSkills(card.Owner).Count())
-        ];
-
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-
-            var damage = DynamicVars.CalculatedDamage.Calculate(cardPlay.Target);
-
-            var cachedFastMode = SaveManager.Instance.PrefsSave.FastMode;
-            SaveManager.Instance.PrefsSave.FastMode = MegaCrit.Sts2.Core.Settings.FastModeType.Instant;
-
-            var allSkills = GetAllSkills(Owner).ToList();
-
-            foreach (var card in allSkills)
+            var cardsInHand = PileType.Hand.GetPile(Owner).Cards.ToList();
+            foreach (CardModel card in cardsInHand)
             {
+                // burning sticks lol
+                if (card == this)
+                {
+                    continue;
+                }
+
                 await CardCmd.Exhaust(choiceContext, card);
             }
 
-            SaveManager.Instance.PrefsSave.FastMode = cachedFastMode;
+            var attacksInDiscardPile = PileType.Discard.GetPile(Owner).Cards.Where((CardModel c) => c.Type == CardType.Attack && !c.Keywords.Contains(CardKeyword.Unplayable)).ToList().StableShuffle(Owner.RunState.Rng.Shuffle);
 
-            await DamageCmd.Attack(damage).FromCard(this)
-                .Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
-                .Execute(choiceContext);
-
-            await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
-        }
-
-        private static IEnumerable<CardModel> GetAllSkills(Player owner)
-        {
-            return owner.PlayerCombatState.AllCards.Where((CardModel c) => c.Type == CardType.Skill && c.Pile != null && c.Pile.Type != PileType.Exhaust);
+            foreach (CardModel card in attacksInDiscardPile)
+            {
+                if (!CombatManager.Instance.IsOverOrEnding)
+                {
+                    if (card.TargetType == TargetType.AnyEnemy)
+                    {
+                        var randomTarget = Owner.RunState.Rng.CombatTargets.NextItem(CombatState.HittableEnemies);
+                        await CardCmd.AutoPlay(choiceContext, card, randomTarget);
+                    }
+                    else
+                    {
+                        await CardCmd.AutoPlay(choiceContext, card, null);
+                    }
+                    continue;
+                }
+                break;
+            }
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.ExtraDamage.UpgradeValueBy(2m);
-            DynamicVars.Vulnerable.UpgradeValueBy(2m);
+            EnergyCost.UpgradeBy(-1);
         }
     }
 }

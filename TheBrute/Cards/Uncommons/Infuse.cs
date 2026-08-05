@@ -20,25 +20,26 @@ namespace TheBrute.Cards.Uncommons
 {
     internal class Infuse : TheBruteCard
     {
-        public Infuse() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        public Infuse() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
+        /*
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
             CardKeyword.Exhaust
         ];
+        */
+
+        protected override bool ShouldGlowRedInternal => PileType.Draw.GetPile(Owner).Cards
+                                  .Where(card => card.IsUpgradable && card != this)
+                                  .ToList().Count <= 0;
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(1m),
             new CardsVar(5)
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.maxHpRelated
-        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
@@ -67,7 +68,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Cards.UpgradeValueBy(2m);
+            AddKeyword(CardKeyword.Innate);
         }
     }
 }

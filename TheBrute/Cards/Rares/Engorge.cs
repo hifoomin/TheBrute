@@ -26,11 +26,6 @@ namespace TheBrute.Cards.Rares
             CardKeyword.Exhaust
         ];
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated, TheBrute.Cards.Tags.maxHpRelated
-        ]);
-
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new GoldVar(12),
@@ -49,7 +44,7 @@ namespace TheBrute.Cards.Rares
 
             bool shouldTriggerFatal = cardPlay.Target.Powers.All((PowerModel p) => p.ShouldOwnerDeathTriggerFatal());
 
-            AttackCommand attackCommand = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
+            AttackCommand attackCommand = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_bite", null, "blunt_attack.mp3")
                 .Execute(choiceContext);
 
@@ -65,8 +60,9 @@ namespace TheBrute.Cards.Rares
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Gold.UpgradeValueBy(6m);
+            DynamicVars.Gold.UpgradeValueBy(3m);
             DynamicVars.MaxHp.UpgradeValueBy(1m);
+            DynamicVars.Damage.UpgradeValueBy(4m);
         }
     }
 }

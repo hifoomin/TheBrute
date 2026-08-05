@@ -33,14 +33,9 @@ namespace TheBrute.Cards.Multiplayer
             HoverTipFactory.FromPower<ThornsPower>()
         ];
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.thornsRelated
-        ]);
-
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(5m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new BlockVar(6m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
             new PowerVar<ThornsPower>(1m)
         ];
 

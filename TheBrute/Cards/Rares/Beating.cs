@@ -23,23 +23,18 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(3m, ValueProp.Move),
+            new DamageVar(5m, ValueProp.Move),
             new CalculationBaseVar(0m),
             new CalculationExtraVar(1m),
             new CalculatedVar("CalculatedHits").WithMultiplier((CardModel card, Creature? _) =>
             {
-                return MaxHpTracker.GetTimesMaxHpLostFromCardsThisCombat(card.Owner.Creature);
+                return MaxHpTracker.GetTimesMaxHpLostThisCombat(card.Owner.Creature);
             })
         ];
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.maxHpRelated
-        ]);
-
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount((int)((CalculatedVar)DynamicVars["CalculatedHits"]).Calculate(Owner.Creature)).FromCard(this)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount((int)((CalculatedVar)DynamicVars["CalculatedHits"]).Calculate(Owner.Creature)).FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_thrash")
             .Execute(choiceContext);
@@ -47,7 +42,7 @@ namespace TheBrute.Cards.Rares
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(1m);
+            DynamicVars.Damage.UpgradeValueBy(2m);
         }
     }
 }

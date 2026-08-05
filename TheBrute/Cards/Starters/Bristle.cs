@@ -24,11 +24,6 @@ namespace TheBrute.Cards.Starters
             CardKeyword.Retain
         ];
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.thornsRelated
-        ]);
-
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
             HoverTipFactory.FromPower<ThornsPower>()
@@ -36,20 +31,24 @@ namespace TheBrute.Cards.Starters
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new BlockVar(4m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
             new PowerVar<ThornsPower>(6m),
             new PowerVar<Powers.TemporaryThornsUpPower>(6m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
+
             await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, DynamicVars["ThornsPower"].BaseValue, Owner.Creature, this);
+
             await PowerCmd.Apply<Powers.TemporaryThornsUpPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsUpPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars["ThornsPower"].UpgradeValueBy(2m);
-            DynamicVars["TemporaryThornsUpPower"].UpgradeValueBy(2m);
+            DynamicVars["ThornsPower"].UpgradeValueBy(3m);
+            DynamicVars["TemporaryThornsUpPower"].UpgradeValueBy(3m);
         }
     }
 }

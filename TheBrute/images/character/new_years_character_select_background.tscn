@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://c5usyymku8r51"]
+
+[ext_resource type="Texture2D" uid="uid://bgeaji4754mbr" path="res://TheBrute/images/character/new_years_character_select_background.png" id="1_lxpif"]
+
+[node name="NewYearsCharacterSelectBackground" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_as_relative = false
+texture = ExtResource("1_lxpif")

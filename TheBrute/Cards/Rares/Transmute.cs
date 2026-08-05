@@ -42,7 +42,7 @@ namespace TheBrute.Cards.Rares
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new CardsVar(1),
-            new MaxHpVar(2m)
+            new MaxHpVar(3m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -51,6 +51,7 @@ namespace TheBrute.Cards.Rares
 
             foreach (var card in cards)
             {
+                /*
                 var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
 
                 var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(card.DynamicVars);
@@ -77,6 +78,11 @@ namespace TheBrute.Cards.Rares
                     // Main.Logger.Warn("added NEWWW transmuted var to card");
                     cardVars["Transmuted"] = new TransmutedVar(DynamicVars.MaxHp.BaseValue);
                 }
+                */
+
+                // card.AddModifier(Cards.MaxHpLossModifier.);
+
+                MaxHpLossModifier.AddTo(card, DynamicVars.MaxHp.BaseValue);
 
                 card.BaseReplayCount++;
             }
@@ -84,7 +90,7 @@ namespace TheBrute.Cards.Rares
 
         protected override void OnUpgrade()
         {
-            EnergyCost.UpgradeBy(-1);
+            DynamicVars.MaxHp.UpgradeValueBy(-1m);
         }
     }
 }

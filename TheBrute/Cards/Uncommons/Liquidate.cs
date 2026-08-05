@@ -20,22 +20,18 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
+        /*
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
             CardKeyword.Exhaust
         ];
+        */
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new EnergyVar(2),
-            new CardsVar(2),
-            new GoldVar(12)
+            new PowerVar<EnergyNextTurnPower>(2m),
+            new GoldVar(7)
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated
-        ]);
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
@@ -49,16 +45,18 @@ namespace TheBrute.Cards.Uncommons
             if (Utils.HasGold(Owner, DynamicVars.Gold.IntValue))
             {
                 await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-                await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
-                await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
+
+                await PowerCmd.Apply<EnergyNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["EnergyNextTurnPower"].BaseValue, Owner.Creature, this);
+
                 VfxCmd.PlayOnCreatureCenter(Owner.Creature, "vfx/vfx_coin_explosion_regular");
+
                 await PlayerCmd.LoseGold(DynamicVars.Gold.IntValue, Owner);
             }
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Energy.UpgradeValueBy(1m);
+            DynamicVars["EnergyNextTurnPower"].UpgradeValueBy(1m);
         }
     }
 }

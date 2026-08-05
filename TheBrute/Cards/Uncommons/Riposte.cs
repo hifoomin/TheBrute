@@ -1,10 +1,12 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿/*
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Cards;
@@ -25,8 +27,9 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<FreeAttackPower>(1m),
-            new BlockVar(10m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new BlockVar(8m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new PowerVar<RipostePower>(1m),
+            new PowerVar<NoBlockPower>(1m)
         ];
 
         public override bool GainsBlock => true;
@@ -35,12 +38,15 @@ namespace TheBrute.Cards.Uncommons
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
-            await PowerCmd.Apply<FreeAttackPower>(choiceContext, Owner.Creature, DynamicVars["FreeAttackPower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<RipostePower>(choiceContext, Owner.Creature, DynamicVars["RipostePower"].BaseValue, Owner.Creature, this);
+
+            await PowerCmd.Apply<NoBlockPower>(choiceContext, Owner.Creature, DynamicVars["NoBlockPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars["FreeAttackPower"].UpgradeValueBy(1m);
+            DynamicVars.Block.UpgradeValueBy(2m);
         }
     }
 }
+*/

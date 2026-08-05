@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpsvg7yeip1xe"]
+
+[ext_resource type="Texture2D" uid="uid://co6c83j4f3056" path="res://TheBrute/images/character/the_brute_static_sketch_color.png" id="1_wljx7"]
+
+[node name="TheBruteStaticSketchColor" type="Node2D"]
+
+[node name="Visuals" type="Sprite2D" parent="."]
+position = Vector2(-111, -333)
+scale = Vector2(0.55, 0.55)
+texture = ExtResource("1_wljx7")
+centered = false
+
+[node name="Bounds" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -111.0
+offset_top = -333.0
+offset_right = 118.0
+offset_bottom = -1.0
+
+[node name="IntentPosition" type="Marker2D" parent="."]
+position = Vector2(4, -379)
+
+[node name="TalkPos" type="Marker2D" parent="."]
+position = Vector2(97, -344)
+
+[node name="CenterPos" type="Marker2D" parent="."]
+position = Vector2(0, -173)

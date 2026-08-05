@@ -27,10 +27,12 @@ namespace TheBrute.Cards.Commons
         {
         }
 
+        /*
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
             CardKeyword.Exhaust
         ];
+        */
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
@@ -40,7 +42,8 @@ namespace TheBrute.Cards.Commons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new CardsVar(1),
-            new PowerVar<PlatingPower>(3m),
+            // new PowerVar<PlatingPower>(3m),
+            new PowerVar<PlatingPower>(2m),
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -56,7 +59,8 @@ namespace TheBrute.Cards.Commons
 
         protected override void OnUpgrade()
         {
-            RemoveKeyword(CardKeyword.Exhaust);
+            DynamicVars["PlatingPower"].UpgradeValueBy(1m);
+            // RemoveKeyword(CardKeyword.Exhaust);
         }
     }
 }

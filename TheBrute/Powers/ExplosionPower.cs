@@ -44,18 +44,17 @@ namespace TheBrute.Powers
                 return;
             }
 
-            var hittableEnemies = CombatManager.Instance._state?.HittableEnemies;
+            var hittableEnemies = CombatState.HittableEnemies;
             if (hittableEnemies != null)
             {
                 foreach (var hittableEnemy in hittableEnemies)
                 {
                     NFireBurstVfx child = NFireBurstVfx.Create(hittableEnemy, 0.75f);
                     NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(child);
+                    await CreatureCmd.Damage(choiceContext, hittableEnemy, DisplayAmount, ValueProp.Unpowered, null, null);
                 }
 
                 Flash();
-
-                await CreatureCmd.Damage(choiceContext, hittableEnemies, DisplayAmount, ValueProp.Unpowered, null, null);
             }
         }
     }

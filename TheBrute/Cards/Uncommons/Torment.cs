@@ -25,34 +25,25 @@ namespace TheBrute.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(11m, ValueProp.Move),
-            new PowerVar<WeakPower>(2m)
+            new GoldVar(3)
         ];
-
-        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromPower<WeakPower>()
-        ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated
-        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_molten_fist", null, "blunt_attack.mp3")
                 .Execute(choiceContext);
 
             if (GoldTracker.GetChangedGoldThisTurn(Owner.Creature))
             {
-                await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
+                await PlayerCmd.GainGold(DynamicVars.Gold.BaseValue, Owner);
             }
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Weak.UpgradeValueBy(1m);
+            DynamicVars.Damage.UpgradeValueBy(2m);
+            DynamicVars.Gold.UpgradeValueBy(1m);
         }
     }
 }

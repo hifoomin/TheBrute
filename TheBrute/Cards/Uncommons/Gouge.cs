@@ -25,6 +25,11 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.Static(StaticHoverTip.Block)
+        ];
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             // new MaxHpVar(1m),
@@ -34,16 +39,16 @@ namespace TheBrute.Cards.Uncommons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            var hittableEnemies = CombatManager.Instance._state?.HittableEnemies;
+            var hittableEnemies = CombatState.HittableEnemies;
 
             // await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
             foreach (var hittableEnemy in hittableEnemies)
             {
-                await CreatureCmd.LoseBlock(hittableEnemy, hittableEnemy.Block);
+                await CreatureCmd.LoseBlock(choiceContext, hittableEnemy, hittableEnemy.Block, Owner.Creature);
             }
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).TargetingAllOpponents(CombatState).WithHitCount(DynamicVars.Repeat.IntValue)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState).WithHitCount(DynamicVars.Repeat.IntValue)
                 .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3")
                 .Execute(choiceContext);
         }

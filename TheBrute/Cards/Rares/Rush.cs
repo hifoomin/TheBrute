@@ -23,10 +23,9 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new CardsVar(1),
-            new CalculationBaseVar(0m),
-            new CalculationExtraVar(1m),
-            new CalculatedVar("CalculatedStrength").WithMultiplier((CardModel card, Creature? _) => PileType.Hand.GetPile(card.Owner).Cards.Count((CardModel c) => c.Type == CardType.Attack))
+            new MaxHpVar(2m),
+            new EnergyVar(2),
+            new CardsVar(2),
         ];
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
@@ -36,26 +35,22 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.FromPower<StrengthPower>()
+            EnergyHoverTip
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
+
+            await PlayerCmd.GainEnergy(DynamicVars.Energy.BaseValue, Owner);
+
             await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
-
-            var waitTime = DynamicVars.Cards.IntValue * 0.4f;
-            await Cmd.Wait(waitTime);
-
-            await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
-
-            var strengthGain = ((CalculatedVar)DynamicVars["CalculatedStrength"]).Calculate(cardPlay.Target);
-
-            await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, strengthGain, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
             DynamicVars.Cards.UpgradeValueBy(1m);
+            DynamicVars.Energy.UpgradeValueBy(1m);
         }
     }
 }

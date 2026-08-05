@@ -34,7 +34,7 @@ namespace TheBrute.Powers
         {
             if (participants.Contains(Owner))
             {
-                await CreatureCmd.LoseMaxHp(choiceContext, Owner, Amount, false);
+                await CreatureCmd.LoseMaxHp(choiceContext, Owner, Amount, true);
             }
         }
     }

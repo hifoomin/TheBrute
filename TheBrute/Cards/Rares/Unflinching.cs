@@ -1,15 +1,17 @@
-﻿using MegaCrit.Sts2.Core.CardSelection;
+﻿using BaseLib.Cards;
+using BaseLib.Hooks;
+using BaseLib.Patches.Hooks;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-using MegaCrit.Sts2.Core.Nodes.Vfx;
+using MegaCrit.Sts2.Core.Nodes.Cards;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,44 +23,28 @@ namespace TheBrute.Cards.Rares
 {
     internal class Unflinching : TheBruteCard
     {
-        public Unflinching() : base(3, CardType.Power, CardRarity.Rare, TargetType.Self)
+        public Unflinching() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
         {
         }
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromPower<ThornsPower>(),
-            HoverTipFactory.FromPower<PlatingPower>()
-        ];
-
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar("ExtraAsPercent", 75m),
-            new CalculationBaseVar(0m),
-            new CalculationExtraVar(0.75m),
-            new CalculatedVar("CalculatedPlating").WithMultiplier((card, _) =>
-            {
-                var creature = card.Owner.Creature;
-                var totalThorns = creature.GetPowerAmount<ThornsPower>();
-
-                return totalThorns;
-            })
+            new PowerVar<PlatingPower>(7m),
+            new PowerVar<ReducedMaximumHandSizePower>(3m)
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.thornsRelated
-        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await PowerCmd.Apply<PlatingPower>(choiceContext, Owner.Creature, ((CalculatedVar)DynamicVars["CalculatedPlating"]).Calculate(Owner.Creature), Owner.Creature, this);
+            await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
+
+            await PowerCmd.Apply<PlatingPower>(choiceContext, Owner.Creature, DynamicVars["PlatingPower"].BaseValue, Owner.Creature, this);
+
+            await PowerCmd.Apply<ReducedMaximumHandSizePower>(choiceContext, Owner.Creature, DynamicVars["ReducedMaximumHandSizePower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.CalculationExtra.UpgradeValueBy(0.25m);
-            DynamicVars["ExtraAsPercent"].UpgradeValueBy(25m);
+            DynamicVars["PlatingPower"].UpgradeValueBy(2m);
         }
     }
 }

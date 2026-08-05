@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://5ayiqv1ohmr4"]
+
+[ext_resource type="Texture2D" uid="uid://dfu1lj5rjf31b" path="res://TheBrute/images/character/default_character_select_background.png" id="1_12bid"]
+
+[node name="DefaultCharacterSelectBackground" type="Node2D"]
+
+[node name="DefaultCharacterSelectBackground" type="Sprite2D" parent="."]
+position = Vector2(1433, 709)
+texture = ExtResource("1_12bid")

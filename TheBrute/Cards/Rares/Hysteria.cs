@@ -31,11 +31,6 @@ namespace TheBrute.Cards.Rares
             new GoldVar(5)
         ];
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.maxHpRelated, TheBrute.Cards.Tags.goldRelated
-        ]);
-
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
             EnergyHoverTip

@@ -26,18 +26,16 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new DynamicVar("ThornsPower2", 1m),
             new PowerVar<ThornsPower>(4m),
             new PowerVar<TemporaryThornsUpPower>(4m),
             new PowerVar<ExtendPower>(2m)
         ];
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.thornsRelated
-        ]);
-
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, DynamicVars["ThornsPower2"].BaseValue, Owner.Creature, this);
+
             (await PowerCmd.Apply<ExtendPower>(choiceContext, Owner.Creature, DynamicVars["ExtendPower"].BaseValue, Owner.Creature, this))?.SetTemporaryThornsUpAmount(DynamicVars["TemporaryThornsUpPower"].BaseValue);
         }
 

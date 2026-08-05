@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://dkxhrcislhkx8"]
+
+[ext_resource type="Texture2D" uid="uid://ci4kkw0hit5vs" path="res://TheBrute/images/character/default_character_select_background_v2.png" id="1_wirc3"]
+
+[node name="DefaultCharacterSelectBackgroundV2" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_as_relative = false
+texture = ExtResource("1_wirc3")

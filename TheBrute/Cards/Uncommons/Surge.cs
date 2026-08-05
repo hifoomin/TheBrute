@@ -26,7 +26,7 @@ namespace TheBrute.Cards.Uncommons
 {
     internal class Surge : TheBruteCard
     {
-        public Surge() : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        public Surge() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
@@ -35,11 +35,6 @@ namespace TheBrute.Cards.Uncommons
             new MaxHpVar(5m),
             new PowerVar<SurgePower>(1m)
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.maxHpRelated
-        ]);
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [

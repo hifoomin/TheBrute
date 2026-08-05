@@ -32,15 +32,10 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(2m),
+            new MaxHpVar(3m),
             new GoldVar(10),
             new PowerVar<PossessionPower>(1m)
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated, TheBrute.Cards.Tags.maxHpRelated
-        ]);
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
@@ -61,7 +56,7 @@ namespace TheBrute.Cards.Uncommons
         protected override void OnUpgrade()
         {
             DynamicVars.MaxHp.UpgradeValueBy(1m);
-            DynamicVars.Gold.UpgradeValueBy(5m);
+            DynamicVars.Gold.UpgradeValueBy(3m);
         }
     }
 }

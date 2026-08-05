@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -22,31 +23,34 @@ namespace TheBrute.Cards.Commons
         {
         }
 
+        protected override bool ShouldGlowGoldInternal => ThornsTracker.GetGainedThornsThisTurn(Owner.Creature);
+
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>()
+        ];
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new CalculationBaseVar(5m),
-            new ExtraDamageVar(2m),
-            new CalculatedDamageVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
-            {
-                return CombatManager.Instance.History.CardPlaysFinished.Count((CardPlayFinishedEntry e) =>
-                       e.HappenedThisTurn(card.CombatState) &&
-                       e.CardPlay.Card.Type == CardType.Attack &&
-                       e.CardPlay.Card.Owner == card.Owner);
-            })
+            new DamageVar(5m, ValueProp.Move),
+            new RepeatVar(2)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            await DamageCmd.Attack(DynamicVars.CalculatedDamage.Calculate(cardPlay.Target)).FromCard(this).Targeting(cardPlay.Target)
-                .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
-                .Execute(choiceContext);
+            var hitCount = ThornsTracker.GetGainedThornsThisTurn(Owner.Creature) ? DynamicVars.Repeat.IntValue : 1;
+
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount(hitCount).FromCard(this, cardPlay)
+            .Targeting(cardPlay.Target)
+            .WithHitFx(null)
+            .Execute(choiceContext);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.ExtraDamage.UpgradeValueBy(1m);
+            DynamicVars.Damage.UpgradeValueBy(2m);
         }
     }
 }

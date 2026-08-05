@@ -17,83 +17,63 @@ namespace TheBrute.Cards.Rares
 {
     internal class Malice : TheBruteCard
     {
-        public Malice() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
-        {
-        }
-
-        private int currentDamage = 16;
-
-        private int damageDecrease = 4;
-
-        [SavedProperty]
-        public int CurrentDamage
-        {
-            get
-            {
-                return currentDamage;
-            }
-            set
-            {
-                AssertMutable();
-                currentDamage = value;
-                DynamicVars.Damage.BaseValue = currentDamage;
-            }
-        }
+        private decimal _extraDamageFromPlays;
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new CardsVar(1),
-            new DamageVar(CurrentDamage, ValueProp.Move),
-            new IntVar("DamageDecrease", 4m),
+            new DamageVar(18m, ValueProp.Move),
+            new DynamicVar("Decrease", 2m)
         ];
 
-        [SavedProperty]
-        public int DamageDecrease
+        private decimal ExtraDamageFromPlays
         {
             get
             {
-                return damageDecrease;
+                return _extraDamageFromPlays;
             }
             set
             {
                 AssertMutable();
-                damageDecrease = value;
+                _extraDamageFromPlays = value;
             }
+        }
+
+        public Malice() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        {
         }
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.IntValue, Owner);
-
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_heavy_blunt", null, "heavy_attack.mp3")
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
+                .WithHitFx("vfx/hellraiser_attack_vfx")
                 .Execute(choiceContext);
 
-            var damageDecreaseVar = DynamicVars["DamageDecrease"].IntValue;
-            NerfFromPlay(damageDecreaseVar);
-        }
-
-        protected override void OnUpgrade()
-        {
-            DynamicVars.Damage.UpgradeValueBy(6m);
+            DynamicVars.Damage.BaseValue -= DynamicVars["Decrease"].BaseValue;
+            ExtraDamageFromPlays -= DynamicVars["Decrease"].BaseValue;
         }
 
         protected override void AfterDowngraded()
         {
-            UpdateCurrentValues();
+            base.AfterDowngraded();
+            DynamicVars.Damage.BaseValue -= ExtraDamageFromPlays;
         }
 
-        private void NerfFromPlay(int damageDecreaseVar)
+        protected override void OnUpgrade()
         {
-            DamageDecrease += damageDecreaseVar;
-            UpdateCurrentValues();
+            DynamicVars.Damage.UpgradeValueBy(4m);
         }
 
-        private void UpdateCurrentValues()
+        protected override CardLocation GetResultLocationForCardPlay()
         {
-            CurrentDamage = 16 - DamageDecrease;
+            var resultLocationForCardPlay = base.GetResultLocationForCardPlay();
+            if (resultLocationForCardPlay.pileType == PileType.Discard)
+            {
+                resultLocationForCardPlay.pileType = PileType.Draw;
+                resultLocationForCardPlay.position = CardPilePosition.Top;
+            }
+            return resultLocationForCardPlay;
         }
     }
 }

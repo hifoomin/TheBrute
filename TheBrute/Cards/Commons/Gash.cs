@@ -24,29 +24,35 @@ namespace TheBrute.Cards.Commons
         {
         }
 
-        protected override IEnumerable<DynamicVar> CanonicalVars =>
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            new DamageVar(12m, ValueProp.Move),
-            new BlockVar(6m, ValueProp.Move)
+            HoverTipFactory.FromPower<WeakPower>()
         ];
 
-        public override bool GainsBlock => true;
+        protected override bool ShouldGlowGoldInternal => CombatState?.HittableEnemies.Any((Creature e) => e.HasPower<WeakPower>()) ?? false;
+
+        protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new CalculationBaseVar(17m),
+            new ExtraDamageVar(7m),
+            new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
+            {
+                return (card.CurrentTarget != null && card.CurrentTarget.GetPowerAmount<WeakPower>() > 0) ? 1m : 0m;
+            })
+        ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
+            await DamageCmd.Attack(((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(Owner.Creature)).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_flying_slash")
                 .Execute(choiceContext);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(3m);
-            DynamicVars.Block.UpgradeValueBy(2m);
+            DynamicVars.CalculationBase.UpgradeValueBy(4m);
         }
     }
 }

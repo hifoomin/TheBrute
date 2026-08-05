@@ -49,7 +49,7 @@ namespace TheBrute.Cards.Uncommons
                 select c)
             ];
 
-            var cards = (await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue)));
+            var cards = (await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(SelectionScreenPrompt, DynamicVars.Cards.IntValue)));
             foreach (var card in cards)
             {
                 await CardCmd.Exhaust(choiceContext, card);
@@ -58,7 +58,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars["PlatingPower"].UpgradeValueBy(1m);
+            DynamicVars["PlatingPower"].UpgradeValueBy(2m);
         }
     }
 }

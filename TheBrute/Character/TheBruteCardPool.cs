@@ -10,8 +10,8 @@ public class TheBruteCardPool : CustomCardPoolModel
 {
     public override string Title => TheBrute.CharacterId; //This is not a display name.
 
-    public override string BigEnergyIconPath => "charui/big_energy.png".ImagePath();
-    public override string TextEnergyIconPath => "charui/text_energy.png".ImagePath();
+    public override string BigEnergyIconPath => "charui/big_energy_v3.png".ImagePath();
+    public override string TextEnergyIconPath => "charui/text_energy_v3.png".ImagePath();
 
     /* These HSV values will determine the color of your card back.
     They are applied as a shader onto an already colored image,
@@ -24,9 +24,9 @@ public class TheBruteCardPool : CustomCardPoolModel
     //Alternatively, leave these values at 1 and provide a custom frame image.
     public override Texture2D CustomFrame(CustomCardModel card)
     {
-        var attackFrame = PreloadManager.Cache.GetTexture2D("cards/attackframe.png".ImagePath());
-        var defaultFrame = PreloadManager.Cache.GetTexture2D("cards/skillframe.png".ImagePath());
-        var powerFrame = PreloadManager.Cache.GetTexture2D("cards/powerframe.png".ImagePath());
+        var attackFrame = PreloadManager.Cache.GetTexture2D("cards/attackframe_v2.png".ImagePath());
+        var defaultFrame = PreloadManager.Cache.GetTexture2D("cards/skillframe_v2.png".ImagePath());
+        var powerFrame = PreloadManager.Cache.GetTexture2D("cards/powerframe_v2.png".ImagePath());
 
         return card.Type switch
         {

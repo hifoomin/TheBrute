@@ -30,11 +30,6 @@ namespace TheBrute.Cards.Ancients
         {
         }
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.maxHpRelated
-        ]);
-
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DynamicVar("ExtraAsPercent", 10m),

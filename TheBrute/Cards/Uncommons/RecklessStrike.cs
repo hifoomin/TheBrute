@@ -22,27 +22,31 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
-        protected override HashSet<CardTag> CanonicalTags => new([CardTag.Strike, TheBrute.Cards.Tags.goldRelated]);
+        protected override HashSet<CardTag> CanonicalTags =>
+        [
+            CardTag.Strike
+        ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new CardsVar(1),
-            new DamageVar(13m, ValueProp.Move),
-            new GoldVar(3),
+            new DamageVar(12m, ValueProp.Move),
+            new GoldVar(2),
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_flying_slash")
                 .Execute(choiceContext);
 
             static bool filter(CardModel c) => c.IsUpgradable;
-            var cards = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: Owner, filter: filter, source: this));
+            var cards = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.UpgradeSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: Owner, filter: filter, source: this));
             foreach (var card in cards)
             {
+                /*
                 var vars = AccessTools.Field(typeof(DynamicVarSet), "_vars");
 
                 var cardVars = (Dictionary<string, DynamicVar>)vars.GetValue(card.DynamicVars);
@@ -50,6 +54,9 @@ namespace TheBrute.Cards.Uncommons
                 cardVars["Gold"] = new GoldVar(DynamicVars.Gold.IntValue);
                 // Main.Logger.Warn("reckless strike onplay: trying to add keyword and gold");
                 card.AddKeyword(TheBrute.Cards.Keywords.goldLossKeyword);
+                */
+
+                GoldLossModifier.AddTo(card, DynamicVars.Gold.BaseValue);
 
                 CardCmd.Upgrade(card);
             }
@@ -61,7 +68,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(4m);
+            DynamicVars.Damage.UpgradeValueBy(3m);
         }
     }
 }

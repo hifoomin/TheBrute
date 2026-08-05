@@ -28,19 +28,19 @@ namespace TheBrute.Potions
 
         public override PotionUsage Usage => PotionUsage.CombatOnly;
 
-        public override TargetType TargetType => TargetType.Self;
+        public override TargetType TargetType => TargetType.AnyPlayer;
 
         protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
         {
             PotionModel.AssertValidForTargetedPotion(target);
             NCombatRoom.Instance?.PlaySplashVfx(target, new Color("a9ffff"));
 
-            await GenerateRandomCard(target, Tags.thornsRelated);
-            await GenerateRandomCard(target, Tags.goldRelated);
-            await GenerateRandomCard(target, Tags.maxHpRelated);
+            await GenerateRandomCard(target, AutoTag.thornsRelatedCards);
+            await GenerateRandomCard(target, AutoTag.goldRelatedCards);
+            await GenerateRandomCard(target, AutoTag.maxHpRelatedCards);
         }
 
-        private async Task GenerateRandomCard(Creature? target, CardTag cardTag)
+        private async Task GenerateRandomCard(Creature? target, HashSet<ModelId> cardHashSet)
         {
             var player = target.Player;
             if (player == null)
@@ -48,18 +48,15 @@ namespace TheBrute.Potions
                 return;
             }
 
-            var eligibleCards = player.Character.CardPool.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint).Where(delegate (CardModel card)
-            {
-                var cardRarity = card.Rarity;
-
-                var hasTag = card.Tags.Contains(cardTag);
-
-                var isAcceptableRarity = cardRarity != CardRarity.Basic || cardRarity != CardRarity.Ancient || cardRarity != CardRarity.Status || cardRarity != CardRarity.Token || cardRarity != CardRarity.Curse;
-
-                var isEligible = hasTag && isAcceptableRarity;
-
-                return isEligible;
-            }).ToList();
+            var eligibleCards = ModelDb.Character<Character.TheBrute>().CardPool.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint)
+                                .Where(card => cardHashSet.Contains(card.Id))
+                                .Where(card =>
+                                card.Rarity != CardRarity.Basic &&
+                                card.Rarity != CardRarity.Ancient &&
+                                card.Rarity != CardRarity.Status &&
+                                card.Rarity != CardRarity.Token &&
+                                card.Rarity != CardRarity.Curse)
+            .ToList();
 
             if (eligibleCards.Count > 0)
             {

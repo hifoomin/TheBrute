@@ -1,3 +1,4 @@
+using BaseLib.Config;
 using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Modding;
@@ -15,6 +16,7 @@ public partial class Main : Node
 
     public static void Awake()
     {
+        ModConfigRegistry.Register("TheBrute", new Config());
         Harmony harmony = new(ModId);
 
         harmony.PatchAll();

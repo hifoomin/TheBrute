@@ -26,13 +26,9 @@ namespace TheBrute.Cards.Rares
         {
         }
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated
-        ]);
-
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new DynamicVar("ExtraAsPercent", 100m),
             new CalculationBaseVar(0m),
             new ExtraDamageVar(1m),
             new CalculatedDamageVar(ValueProp.Move).WithMultiplier(delegate(CardModel card, Creature? _)
@@ -47,7 +43,7 @@ namespace TheBrute.Cards.Rares
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            await DamageCmd.Attack(DynamicVars.CalculatedDamage).FromCard(this).Targeting(cardPlay.Target)
+            await DamageCmd.Attack(DynamicVars.CalculatedDamage).FromCard(this, cardPlay).Targeting(cardPlay.Target)
             .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
             .Execute(choiceContext);
 

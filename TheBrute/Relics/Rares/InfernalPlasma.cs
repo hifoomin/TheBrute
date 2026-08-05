@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace TheBrute.Relics.Rares
 
         private bool _usedThisEvent;
 
+        [SavedProperty]
         private bool UsedThisEvent
         {
             get

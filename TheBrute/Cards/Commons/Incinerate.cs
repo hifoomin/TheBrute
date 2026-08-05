@@ -27,13 +27,8 @@ namespace TheBrute.Cards.Commons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(14m, ValueProp.Move),
-            new GoldVar(4)
+            new GoldVar(3)
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated
-        ]);
 
         protected override bool ShouldGlowRedInternal => !Utils.HasGold(Owner, DynamicVars.Gold.IntValue);
 
@@ -43,7 +38,7 @@ namespace TheBrute.Cards.Commons
 
             if (Utils.HasGold(Owner, DynamicVars.Gold.IntValue))
             {
-                await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
+                await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
 
@@ -55,7 +50,7 @@ namespace TheBrute.Cards.Commons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(5m);
+            DynamicVars.Damage.UpgradeValueBy(4m);
         }
     }
 }

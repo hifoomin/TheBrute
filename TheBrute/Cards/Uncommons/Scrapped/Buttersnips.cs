@@ -44,7 +44,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await DamageCmd.Attack(DynamicVars.CalculatedDamage).FromCard(this).TargetingAllOpponents(CombatState)
+            await DamageCmd.Attack(DynamicVars.CalculatedDamage).FromCard(this, cardPlay).TargetingAllOpponents(CombatState)
                 .WithHitFx(null)
                 .Execute(choiceContext);
         }

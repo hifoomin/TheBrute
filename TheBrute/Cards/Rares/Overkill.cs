@@ -10,6 +10,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using TheBrute.Powers;
 
 namespace TheBrute.Cards.Rares
 {
@@ -24,43 +25,34 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(9m, ValueProp.Move),
-            new RepeatVar(2),
-            new PowerVar<WeakPower>(3m),
-            new PowerVar<StrengthPower>(2m)
+            new DamageVar(18m, ValueProp.Move),
+            new PowerVar<StrengthPower>(4m)
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.Static(StaticHoverTip.Fatal),
             HoverTipFactory.FromPower<StrengthPower>(),
-            HoverTipFactory.FromPower<WeakPower>()
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            AttackCommand attackCommand = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-                .WithHitCount(DynamicVars.Repeat.IntValue)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_heavy_blunt", null, "heavy_attack.mp3")
                 .Execute(choiceContext);
 
-            if (attackCommand.Results.SelectMany((List<DamageResult> r) => r).Any((DamageResult r) => r.WasTargetKilled) && CombatState != null)
+            var hittableEnemies = CombatState?.HittableEnemies;
+            foreach (var hittableEnemy in hittableEnemies)
             {
-                for (int i = 0; i < CombatState.Enemies.Count; i++)
-                {
-                    var enemy = CombatState.Enemies[i];
-                    await PowerCmd.Apply<StrengthPower>(choiceContext, enemy, -DynamicVars.Strength.BaseValue, Owner.Creature, this);
-                    await PowerCmd.Apply<WeakPower>(choiceContext, enemy, DynamicVars.Weak.BaseValue, Owner.Creature, this);
-                }
+                await PowerCmd.Apply<OverkillPower>(choiceContext, hittableEnemy, -DynamicVars.Strength.BaseValue, Owner.Creature, this);
             }
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(3m);
-            DynamicVars.Weak.UpgradeValueBy(2m);
+            DynamicVars.Damage.UpgradeValueBy(4m);
+            DynamicVars.Strength.UpgradeValueBy(1m);
         }
     }
 }

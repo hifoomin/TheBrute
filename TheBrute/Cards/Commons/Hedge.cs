@@ -24,11 +24,6 @@ namespace TheBrute.Cards.Commons
 
         public override bool GainsBlock => true;
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated
-        ]);
-
         protected override bool ShouldGlowGoldInternal => GoldTracker.GetChangedGoldThisTurn(Owner.Creature);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -62,7 +57,7 @@ namespace TheBrute.Cards.Commons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Block.UpgradeValueBy(1m);
+            DynamicVars.Block.UpgradeValueBy(2m);
         }
     }
 }

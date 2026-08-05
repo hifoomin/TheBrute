@@ -19,7 +19,7 @@ namespace TheBrute.Cards.Rares
         {
         }
 
-        private int currentGoldLoss = 7;
+        private int currentGoldLoss = 6;
         private int currentMaxHpGain = 1;
 
         private int increasedGoldLoss;
@@ -62,7 +62,7 @@ namespace TheBrute.Cards.Rares
         [
             new MaxHpVar(CurrentMaxHpGain),
             new GoldVar(CurrentGoldLoss),
-            new IntVar("GoldCostIncrease", 7m),
+            new IntVar("GoldCostIncrease", 6m),
             new IntVar("MaxHpGainIncrease", 1m)
         ];
 
@@ -70,11 +70,6 @@ namespace TheBrute.Cards.Rares
         [
             CardKeyword.Exhaust
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.maxHpRelated, TheBrute.Cards.Tags.goldRelated
-        ]);
 
         [SavedProperty]
         public int IncreasedGoldLoss
@@ -138,7 +133,7 @@ namespace TheBrute.Cards.Rares
 
         private void UpdateCurrentValues()
         {
-            CurrentGoldLoss = 7 + IncreasedGoldLoss;
+            CurrentGoldLoss = 6 + IncreasedGoldLoss;
             CurrentMaxHpGain = 1 + IncreasedMaxHpGain;
         }
     }

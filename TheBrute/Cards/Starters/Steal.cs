@@ -24,19 +24,14 @@ namespace TheBrute.Cards.Starters
             new GoldVar(1)
         ];
 
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated
-        ]);
-
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
             await PlayerCmd.GainGold(DynamicVars.Gold.BaseValue, Owner);
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
-                .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
+                .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);
         }
 

@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheBrute.Cards;
+using TheBrute.Cards.Rares;
 using TheBrute.Powers;
 
 namespace TheBrute.Powers
@@ -31,18 +32,16 @@ namespace TheBrute.Powers
                 return;
             }
 
-            var eligibleCards = Owner.Player.Character.CardPool.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint).Where(delegate (CardModel card)
-            {
-                var cardRarity = card.Rarity;
-
-                var isGoldRelated = card.Tags.Contains(Tags.goldRelated);
-
-                var isAcceptableRarity = cardRarity != CardRarity.Basic || cardRarity != CardRarity.Ancient || cardRarity != CardRarity.Status || cardRarity != CardRarity.Token || cardRarity != CardRarity.Curse;
-
-                var isEligible = isGoldRelated && isAcceptableRarity;
-
-                return isEligible;
-            }).ToList();
+            var eligibleCards = ModelDb.Character<Character.TheBrute>().CardPool.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint)
+                                .Where(card => AutoTag.goldRelatedCards.Contains(card.Id))
+                                .Where(card =>
+                                card.Rarity != CardRarity.Basic &&
+                                card.Rarity != CardRarity.Ancient &&
+                                card.Rarity != CardRarity.Status &&
+                                card.Rarity != CardRarity.Token &&
+                                card.Rarity != CardRarity.Curse &&
+                                card != ModelDb.Card<BitterEmbrace>())
+            .ToList();
 
             if (eligibleCards.Count > 0)
             {

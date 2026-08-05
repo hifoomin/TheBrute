@@ -48,9 +48,17 @@ namespace TheBrute.Powers
                 if (cardModel != null)
                 {
                     deathWishPower.Flash();
-                    cardModel.SetToFreeThisTurn();
+                    GarbageSpaghettiCodeKurwaJebanaSzmataPierdolonaKurwaBezmozgiJebaneToPisaly(cardModel.EnergyCost, 0);
                     CardPileCmd.AddGeneratedCardToCombat(cardModel, PileType.Hand, creature.Player);
                 }
+            }
+        }
+
+        private static void GarbageSpaghettiCodeKurwaJebanaSzmataPierdolonaKurwaBezmozgiJebaneToPisaly(CardEnergyCost cardEnergyCost, int cost, bool reduceOnly = false)
+        {
+            if (cost != 0 || cardEnergyCost.Canonical >= 0)
+            {
+                cardEnergyCost._localModifiers.Add(new LocalCostModifier(cost, LocalCostType.Absolute, LocalCostModifierExpiration.WhenPlayed, reduceOnly));
             }
         }
     }

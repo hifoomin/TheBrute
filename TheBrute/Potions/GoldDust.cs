@@ -20,7 +20,7 @@ namespace TheBrute.Potions
     {
         public override PotionRarity Rarity => PotionRarity.Common;
 
-        public override PotionUsage Usage => PotionUsage.CombatOnly;
+        public override PotionUsage Usage => PotionUsage.AnyTime;
 
         public override TargetType TargetType => TargetType.AnyPlayer;
 

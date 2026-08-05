@@ -28,14 +28,9 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(8m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new BlockVar(9m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
             new PowerVar<Powers.TemporaryThornsUpNextTurnPower>(3m)
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.thornsRelated
-        ]);
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {

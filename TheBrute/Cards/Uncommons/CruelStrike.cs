@@ -15,7 +15,7 @@ namespace TheBrute.Cards.Uncommons
     internal class CruelStrike : TheBruteCard
 #pragma warning restore STS001 // Symbol missing localization
     {
-        public CruelStrike() : base(1, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
+        public CruelStrike() : base(2, CardType.Attack, CardRarity.Uncommon, TargetType.AnyEnemy)
         {
         }
 
@@ -23,29 +23,29 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(9m, ValueProp.Move),
-            new PowerVar<StrengthPower>(1m)
+            new DamageVar(17m, ValueProp.Move),
+            new PowerVar<VulnerablePower>(1m)
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-            HoverTipFactory.FromPower<StrengthPower>()
+            HoverTipFactory.FromPower<VulnerablePower>()
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this).Targeting(cardPlay.Target)
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_scratch")
                 .Execute(choiceContext);
 
-            await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars.Strength.BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(3m);
+            DynamicVars.Damage.UpgradeValueBy(4m);
         }
     }
 }

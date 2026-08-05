@@ -1,4 +1,4 @@
-﻿/*
+﻿using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
@@ -27,6 +27,16 @@ namespace TheBrute.Relics.Commons
     {
         public override RelicRarity Rarity => RelicRarity.Common;
 
+        protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new PowerVar<ThornsPower>(4m)
+        ];
+
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<ThornsPower>()
+        ];
+
         private bool _usedThisCombat;
 
         private bool UsedThisCombat
@@ -42,37 +52,14 @@ namespace TheBrute.Relics.Commons
             }
         }
 
-        // stupid shit because of their garbage systems lol
-
-        public override bool TryModifyPowerAmountReceived(PowerModel canonicalPower, Creature target, decimal amount, Creature? applier, out decimal modifiedAmount)
+        public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
         {
-            modifiedAmount = amount;
-            if (canonicalPower is not ThornsPower && canonicalPower is not TemporaryThornsUpPower && canonicalPower is not TemporaryThornsUpNextTurnPower)
+            if (CombatManager.Instance.IsInProgress && target == Owner.Creature && result.UnblockedDamage > 0 && !UsedThisCombat)
             {
-                // Main.Logger.Warn("canonicalpower is not thornspower AND not temp thorns up poewr ANDDD not temp thorns up next turn power");
-                return false;
+                Flash();
+                UsedThisCombat = true;
+                await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, DynamicVars["ThornsPower"].BaseValue, Owner.Creature, null);
             }
-            if (target != Owner.Creature)
-            {
-                return false;
-            }
-            if (amount <= 0m)
-            {
-                return false;
-            }
-            if (UsedThisCombat)
-            {
-                return false;
-            }
-            modifiedAmount *= 2m;
-            return true;
-        }
-
-        public override Task AfterModifyingPowerAmountReceived(PowerModel power)
-        {
-            Flash();
-            UsedThisCombat = true;
-            return Task.CompletedTask;
         }
 
         public override Task AfterCombatEnd(CombatRoom _)
@@ -82,4 +69,3 @@ namespace TheBrute.Relics.Commons
         }
     }
 }
-*/

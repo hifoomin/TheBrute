@@ -1,16 +1,17 @@
 ﻿using BaseLib.Abstracts;
 using BaseLib.Utils.NodeFactories;
-using TheBrute.Extensions;
 using Godot;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Characters;
+using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Relics;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using TheBrute.Cards.Starters;
+using TheBrute.Extensions;
 using TheBrute.Relics;
 using TheBrute.Relics.Starters;
-using HarmonyLib;
-using MegaCrit.Sts2.Core.Localization;
 
 namespace TheBrute.Character;
 
@@ -57,10 +58,10 @@ public class TheBrute : PlaceholderCharacterModel
     public override RelicPoolModel RelicPool => ModelDb.RelicPool<TheBruteRelicPool>();
     public override PotionPoolModel PotionPool => ModelDb.PotionPool<TheBrutePotionPool>();
 
-    /*  PlaceholderCharacterModel will utilize placeholder basegame assets for most of your character assets until you
-        override all the other methods that define those assets.
-        These are just some of the simplest assets, given some placeholders to differentiate your character with.
-        You don't have to, but you're suggested to rename these images. */
+    public override NCreatureVisuals CreateCustomVisuals()
+    {
+        return NodeFactory<NCreatureVisuals>.CreateFromScene($"res://{CharacterId}/images/character/the_brute_static_sketch_color_v2.tscn");
+    }
 
     public override Control CustomIcon
     {
@@ -72,11 +73,27 @@ public class TheBrute : PlaceholderCharacterModel
         }
     }
 
-    public override string CustomIconTexturePath => "character_icon_the_brute.png".CharacterUiPath();
-    public override string CustomCharacterSelectIconPath => "char_select_the_brute.png".CharacterUiPath();
-    public override string CustomCharacterSelectLockedIconPath => "char_select_the_brute_locked.png".CharacterUiPath();
-    public override string CustomMapMarkerPath => "map_marker_the_brute.png".CharacterUiPath();
-    // public override string CustomCharacterSelectBg => "res://character_select.tscn";
+    public override string CustomIconTexturePath => "character_icon_the_brute_v2.png".CharacterUiPath();
+    public override string CustomCharacterSelectIconPath => "char_select_the_brute_v2.png".CharacterUiPath();
+    public override string CustomCharacterSelectLockedIconPath => "char_select_the_brute_locked_v2.png".CharacterUiPath();
+    public override string CustomMapMarkerPath => "map_marker_the_brute_v2.png".CharacterUiPath();
+
+    public override string CustomCharacterSelectBg
+    {
+        get
+        {
+            var date = DateTime.Now;
+
+            var postfix = "_character_select_background";
+
+            var background = SpecialEventManager.IsNewYears(date) ? $"new_years{postfix}" :
+                 SpecialEventManager.IsAprilFools(date) ? $"april_fools{postfix}" :
+                 SpecialEventManager.IsChristmas(date) ? $"christmas{postfix}_v2" :
+                 $"default{postfix}_v2";
+
+            return $"res://{CharacterId}/images/character/{background}.tscn";
+        }
+    }
 }
 
 /*

@@ -27,21 +27,23 @@ namespace TheBrute.Cards.Uncommons
 
         protected override bool HasEnergyCostX => true;
 
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromKeyword(CardKeyword.Exhaust)
+        ];
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new CardsVar(1),
             new GoldVar(2)
         ];
 
+        /*
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
             CardKeyword.Exhaust
         ];
-
-        protected override HashSet<CardTag> CanonicalTags => new
-        ([
-            TheBrute.Cards.Tags.goldRelated
-        ]);
+        */
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
@@ -60,7 +62,7 @@ namespace TheBrute.Cards.Uncommons
                 select c)
             ];
 
-            if (cardsIn.Count > 0)
+            if (cardsIn.Count > 0 && (goldLossRepeats > 0 || IsUpgraded))
             {
                 foreach (var card in await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue * exhaustRepeats)))
                 {
