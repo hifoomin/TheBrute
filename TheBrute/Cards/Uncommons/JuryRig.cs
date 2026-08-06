@@ -18,6 +18,8 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
+        public override bool CanBeGeneratedInCombat => false;
+
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
             CardKeyword.Ethereal

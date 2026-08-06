@@ -71,7 +71,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(1m);
+            DynamicVars.Damage.UpgradeValueBy(2m);
         }
 
         protected override void AfterDowngraded()

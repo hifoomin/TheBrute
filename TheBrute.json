@@ -3,7 +3,7 @@
   "name": "TheBrute",
   "author": "HIFU",
   "description": "A character that plays around Max HP, Thorns, and Gold",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "min_game_version": "0.110.0",
   "has_pck": true,
   "has_dll": true,

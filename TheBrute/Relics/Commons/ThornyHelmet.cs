@@ -29,7 +29,7 @@ namespace TheBrute.Relics.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<ThornsPower>(4m)
+            new PowerVar<ThornsPower>(5m)
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>

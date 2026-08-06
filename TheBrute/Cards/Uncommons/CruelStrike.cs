@@ -24,7 +24,7 @@ namespace TheBrute.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(17m, ValueProp.Move),
-            new PowerVar<VulnerablePower>(1m)
+            new PowerVar<VulnerablePower>(2m)
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -45,7 +45,8 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(4m);
+            DynamicVars.Damage.UpgradeValueBy(3m);
+            DynamicVars.Vulnerable.UpgradeValueBy(1m);
         }
     }
 }

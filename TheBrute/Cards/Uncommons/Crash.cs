@@ -19,7 +19,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(1m),
+            new MaxHpVar(2m),
             new DamageVar(25m, ValueProp.Move)
         ];
 

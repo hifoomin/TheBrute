@@ -120,7 +120,7 @@
 	"THEBRUTE-DEGRADE.title": "Degrade",
 	"THEBRUTE-DEGRADE.description": "Deal {Damage:diff()} damage.\nIf you gained [gold]Thorns[/gold] this turn, hits {Repeat:diff()} {Repeat:plural:time|times}.",
 	"THEBRUTE-AMEND.title": "Amend",
-	"THEBRUTE-AMEND.description": "Lose {MaxHp:diff()} Max HP.\nTransform {Cards:cond:>1?{Cards:diff()} {Cards:plural:card|cards}|a card} in your [gold]Hand[/gold] into [gold]{IfUpgraded:show:Ridicule+|Ridicule}[/gold].",
+	"THEBRUTE-AMEND.description": "Lose {MaxHp:diff()} Max HP.\nTransform {Cards:cond:>1?{Cards:diff()} {Cards:plural:card|cards}|a card} in your [gold]Hand[/gold] into [gold]Ridicule[/gold].",
 	"THEBRUTE-REVEAL_WEAKNESS.title": "Reveal Weakness",
 	"THEBRUTE-REVEAL_WEAKNESS.description": "Gain {Block:diff()} [gold]Block[/gold].\nApply {VulnerablePower:diff()} [gold]Vulnerable[/gold] to ALL enemies.",
 	"THEBRUTE-LASH_OUT.title": "Lash Out",
