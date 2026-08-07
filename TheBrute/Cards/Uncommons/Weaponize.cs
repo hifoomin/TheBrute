@@ -21,7 +21,7 @@ namespace TheBrute.Cards.Uncommons
 {
     internal class Weaponize : TheBruteCard
     {
-        public Weaponize() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
+        public Weaponize() : base(0, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
         {
         }
 

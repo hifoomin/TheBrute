@@ -18,18 +18,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TheBrute.Cards;
+using TheBrute.Powers;
 
 namespace TheBrute.Cards.Uncommons
 {
     internal class Leverage : TheBruteCard
     {
-        public Leverage() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.AnyEnemy)
+        public Leverage() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
-            CardKeyword.Exhaust
+            CardKeyword.Innate,
+            CardKeyword.Ethereal
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -39,32 +41,19 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new CalculationBaseVar(0m),
-            new CalculationExtraVar(2m),
-            new CalculatedVar("CalculatedThorns").WithMultiplier((CardModel card, Creature? target) => target?.Powers.Count(ShouldCountPower) ?? 0)
+            new PowerVar<LeveragePower>(200m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-            await PowerCmd.Apply<ThornsPower>(choiceContext, Owner.Creature, ((CalculatedVar)base.DynamicVars["CalculatedThorns"]).Calculate(cardPlay.Target), Owner.Creature, this);
-        }
-
-        private static bool ShouldCountPower(PowerModel power)
-        {
-            if (power.TypeForCurrentAmount == PowerType.Debuff)
-            {
-                return power is not ITemporaryPower; // not sure about this, could be cool, but that's how vanilla does it
-            }
-            return false;
+            await PowerCmd.Apply<LeveragePower>(choiceContext, Owner.Creature, DynamicVars["LeveragePower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()
         {
-            AddKeyword(CardKeyword.Retain);
+            DynamicVars["LeveragePower"].UpgradeValueBy(100m);
         }
     }
 }

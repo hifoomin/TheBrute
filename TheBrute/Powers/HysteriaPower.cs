@@ -32,7 +32,10 @@ namespace TheBrute.Powers
 
         public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.ForEnergy(this)];
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.ForEnergy(this)
+        ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [

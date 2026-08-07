@@ -40,8 +40,8 @@
     "THEBRUTE-ATTUNE_POWER.smartDescription": "Next turn, put a card from your [gold]Draw Pile[/gold] into your [gold]Hand[/gold].",
     "THEBRUTE-ATTUNE_POWER.selectionScreenPrompt": "Select a card to put in your Hand.",
     "THEBRUTE-BITTER_EMBRACE_POWER.title": "Bitter Embrace",
-    "THEBRUTE-BITTER_EMBRACE_POWER.description": "At the start of your turn, add 1 random [gold]Gold[/gold] related card into your [gold]Hand[/gold].",
-    "THEBRUTE-BITTER_EMBRACE_POWER.smartDescription": "At the start of your turn, add [blue]{Amount}[/blue] random [gold]Gold[/gold] related card into your [gold]Hand[/gold].",
+    "THEBRUTE-BITTER_EMBRACE_POWER.description": "At the start of your next turns, add random [gold]Gold[/gold] related cards into your [gold]Hand[/gold].",
+    "THEBRUTE-BITTER_EMBRACE_POWER.smartDescription": "At the start of your next{Amount:cond:==1?|>1? [blue]{}[/blue]|} {Amount:plural:turn|turns}, add {Cards:cond:>1?{Cards:diff()} random [gold]Gold[/gold] related {Cards:plural:card|cards}|a random [gold]Gold[/gold] related card} into your [gold]Hand[/gold].",
     "THEBRUTE-COMBO_POWER.title": "Combo",
     "THEBRUTE-COMBO_POWER.description": "This turn, your next Attack is played an extra time.",
     "THEBRUTE-COMBO_POWER.smartDescription": "This turn, your next Attack is played [blue]{Amount}[/blue] extra {Amount:plural:time|times}.",
@@ -80,5 +80,8 @@
 	"THEBRUTE-RIPOSTE_POWER.smartDescription": "Attacks cost [blue]{Amount}[/blue] less {energyPrefix:energyIcons(1)} this turn.",
 	"THEBRUTE-OVERKILL_POWER.title": "Overkill",
 	"THEBRUTE-OVERKILL_POWER.description": "Lose [gold]Strength[/gold] until the end of this turn.",
-	"THEBRUTE-OVERKILL_POWER.smartDescription": "Lose [blue]{Amount:InverseDiff()}[/blue] [gold]Strength[/gold] until the end of this turn."
+	"THEBRUTE-OVERKILL_POWER.smartDescription": "Lose [blue]{Amount}[/blue] [gold]Strength[/gold] until the end of this turn.",
+	"THEBRUTE-LEVERAGE_POWER.title": "Leverage",
+	"THEBRUTE-LEVERAGE_POWER.description": "Whenever an enemy hits you once, it takes more damage from your [gold]Thorns[/gold].",
+	"THEBRUTE-LEVERAGE_POWER.smartDescription": "Whenever an enemy hits you once, it takes [blue]{Amount}%[/blue] damage from your [gold]Thorns[/gold]."
 }

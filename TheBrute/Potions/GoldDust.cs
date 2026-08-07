@@ -1,12 +1,17 @@
 ﻿using Godot;
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Merchant;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Potions;
+using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
+using MegaCrit.Sts2.Core.Saves;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +41,23 @@ namespace TheBrute.Potions
             await PlayerCmd.GainGold(base.DynamicVars.Gold.BaseValue, target.Player);
 
             VfxCmd.PlayOnCreatureCenter(target, "vfx/vfx_coin_explosion_regular");
+        }
+    }
+
+    [HarmonyPatch(typeof(MerchantPotionEntry))]
+    internal class GoldDustMerchantPotionEntryPatch
+    {
+        [HarmonyPatch(MethodType.Constructor, typeof(PotionModel), typeof(Player))]
+        [HarmonyPostfix]
+        private static void Postfix(MerchantPotionEntry __instance)
+        {
+            if (__instance.Model?.Id == ModelDb.Potion<GoldDust>().Id)
+            {
+                __instance.Model = PotionFactory.CreateRandomPotionOutOfCombat(__instance._player, __instance._player.PlayerRng.Shops, []).ToMutable();
+
+                __instance.CalcCost();
+                SaveManager.Instance.MarkPotionAsSeen(__instance.Model);
+            }
         }
     }
 }

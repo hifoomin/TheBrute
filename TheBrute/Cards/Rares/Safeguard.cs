@@ -62,7 +62,8 @@ namespace TheBrute.Cards.Rares
 
         protected override void OnUpgrade()
         {
-            DynamicVars["RetainBlock"].UpgradeValueBy(1m);
+            // DynamicVars.Block.UpgradeValueBy(3m);
+            DynamicVars["RetainBlock"].UpgradeValueBy(2m);
         }
     }
 }

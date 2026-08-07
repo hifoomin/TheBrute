@@ -27,9 +27,13 @@ namespace TheBrute.Powers
     {
         protected override Func<PlayerChoiceContext, Creature, decimal, Creature?, CardModel?, bool, Task> ApplyPowerFunc => PowerCmd.Apply<StrengthPower>;
 
+        public override PowerType Type => PowerType.Debuff;
+
         public override PowerModel InternallyAppliedPower => ModelDb.Power<StrengthPower>();
         public override AbstractModel OriginModel => ModelDb.Card<Overkill>();
         public override string CustomPackedIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PowerImagePath();
         public override string CustomBigIconPath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".BigPowerImagePath();
+
+        protected override bool InvertInternalPowerAmount => true;
     }
 }

@@ -102,6 +102,10 @@
       <AdditionalFiles Include="TheBrute\localization\eng\static_hover_tips.json" />
     </ItemGroup>
     
+    <ItemGroup>
+      <Folder Include="TheBrute\Cards\Uncommons\Scrapped\" />
+    </ItemGroup>
+    
     <Target Name="GodotPublish" AfterTargets="Publish" Condition="'$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'" Inputs="@(GodotResourceFiles)" Outputs="$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck">
         <Message Text="Exporting Godot .pck to mods folder" Importance="high" />
         <Exec Command="&quot;$(GodotPath)&quot; --headless --export-pack &quot;BasicExport&quot; &quot;$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck&quot;" EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1" ContinueOnError="WarnAndContinue" />

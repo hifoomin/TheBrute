@@ -45,7 +45,7 @@ namespace TheBrute.Cards.Rares
             var hittableEnemies = CombatState?.HittableEnemies;
             foreach (var hittableEnemy in hittableEnemies)
             {
-                await PowerCmd.Apply<OverkillPower>(choiceContext, hittableEnemy, -DynamicVars.Strength.BaseValue, Owner.Creature, this);
+                await PowerCmd.Apply<OverkillPower>(choiceContext, hittableEnemy, DynamicVars.Strength.BaseValue, Owner.Creature, this);
             }
         }
 
