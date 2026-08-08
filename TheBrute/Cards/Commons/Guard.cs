@@ -15,7 +15,7 @@ namespace TheBrute.Cards.Commons
 {
     internal class Guard : TheBruteCard
     {
-        public Guard() : base(1, CardType.Skill, CardRarity.Common, TargetType.Self)
+        public Guard() : base(1, CardType.Skill, CardRarity.Common, TargetType.AnyEnemy)
         {
         }
 
@@ -32,10 +32,9 @@ namespace TheBrute.Cards.Commons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            foreach (Creature enemy in CombatState.HittableEnemies)
-            {
-                await PowerCmd.Apply<WeakPower>(choiceContext, enemy, DynamicVars.Weak.BaseValue, Owner.Creature, this);
-            }
+            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+
+            await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
 
             await PowerCmd.Apply<EnergyNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["EnergyNextTurnPower"].BaseValue, Owner.Creature, this);
         }

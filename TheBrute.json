@@ -1,9 +1,9 @@
 {
   "id": "TheBrute",
-  "name": "TheBrute",
+  "name": "The Brute",
   "author": "HIFU",
-  "description": "A character that plays around Max HP, Thorns, and Gold",
-  "version": "0.3.2",
+  "description": "A character that plays around Max HP, Thorns, and Gold.",
+  "version": "0.3.3",
   "min_game_version": "0.110.0",
   "has_pck": true,
   "has_dll": true,

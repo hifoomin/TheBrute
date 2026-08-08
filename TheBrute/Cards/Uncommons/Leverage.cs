@@ -24,7 +24,7 @@ namespace TheBrute.Cards.Uncommons
 {
     internal class Leverage : TheBruteCard
     {
-        public Leverage() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        public Leverage() : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
         {
         }
 
@@ -53,7 +53,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars["LeveragePower"].UpgradeValueBy(100m);
+            EnergyCost.UpgradeBy(-1);
         }
     }
 }

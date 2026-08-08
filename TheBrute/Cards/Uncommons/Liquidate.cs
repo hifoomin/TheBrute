@@ -30,7 +30,7 @@ namespace TheBrute.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<EnergyNextTurnPower>(2m),
-            new GoldVar(7)
+            new GoldVar(8)
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>

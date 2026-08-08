@@ -32,9 +32,9 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar("ExtraAsPercent", 6m),
+            new DynamicVar("ExtraAsPercent", 4m),
             new CalculationBaseVar(0m),
-            new CalculationExtraVar(0.06m),
+            new CalculationExtraVar(0.04m),
             new CalculatedBlockVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Unpowered).WithMultiplier((CardModel card, Creature? _) =>
             {
                 return card.Owner.Creature.MaxHp;
