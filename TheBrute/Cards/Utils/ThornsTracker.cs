@@ -1,21 +1,16 @@
-﻿using BaseLib.Abstracts;
+﻿#region
+
+using BaseLib.Abstracts;
 using BaseLib.Utils;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Gold;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Rooms;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Relics.Uncommons;
+using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards
 {
@@ -85,14 +80,14 @@ namespace TheBrute.Cards
                 {
                     if (player.PlayerCombatState.TurnNumber == 1)
                     {
-                        ThornsTracker.totalThornsGainedThisCombat[player.Creature] = 0;
-                        ThornsTracker.timesThornsGainedThisCombat[player.Creature] = 0;
+                        totalThornsGainedThisCombat[player.Creature] = 0;
+                        timesThornsGainedThisCombat[player.Creature] = 0;
 
-                        ThornsTracker.totalThornsLostThisCombat[player.Creature] = 0;
-                        ThornsTracker.timesThornsLostThisCombat[player.Creature] = 0;
+                        totalThornsLostThisCombat[player.Creature] = 0;
+                        timesThornsLostThisCombat[player.Creature] = 0;
                     }
-                    ThornsTracker.gainedThornsThisTurn[player.Creature] = false;
-                    ThornsTracker.lostThornsThisTurn[player.Creature] = false;
+                    gainedThornsThisTurn[player.Creature] = false;
+                    lostThornsThisTurn[player.Creature] = false;
                 }
             }
         }
@@ -100,7 +95,7 @@ namespace TheBrute.Cards
         public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
         {
             // Main.Logger.Warn("thornstracker: after power amount changed called");
-            if (power is not Powers.TemporaryThornsUpPower && power is not ThornsPower)
+            if (power is not TemporaryThornsUpPower && power is not ThornsPower)
             {
                 // Main.Logger.Warn("thornstracker: power is not temporary thorns or not thorns, returning");
                 return;
@@ -116,21 +111,21 @@ namespace TheBrute.Cards
             if (amount > 0)
             {
                 // Main.Logger.Warn("temp thorns up or thorns gain is positive, adding to values");
-                ThornsTracker.totalThornsGainedThisCombat[creature] += amount;
-                ThornsTracker.timesThornsGainedThisCombat[creature] += 1;
+                totalThornsGainedThisCombat[creature] += amount;
+                timesThornsGainedThisCombat[creature] += 1;
                 if (creature.CombatState.CurrentSide == CombatSide.Player)
                 {
-                    ThornsTracker.gainedThornsThisTurn[creature] = true;
+                    gainedThornsThisTurn[creature] = true;
                 }
             }
             else
             {
                 // Main.Logger.Warn("temp thorns up or thorns gain is NEGATIVE, SUBTRACTING FROMM to values");
-                ThornsTracker.totalThornsLostThisCombat[creature] -= amount;
-                ThornsTracker.timesThornsLostThisCombat[creature] -= 1;
+                totalThornsLostThisCombat[creature] -= amount;
+                timesThornsLostThisCombat[creature] -= 1;
                 if (creature.CombatState.CurrentSide == CombatSide.Player)
                 {
-                    ThornsTracker.lostThornsThisTurn[creature] = false;
+                    lostThornsThisTurn[creature] = false;
                 }
             }
         }

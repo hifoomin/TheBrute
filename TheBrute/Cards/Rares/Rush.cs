@@ -1,17 +1,12 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿#region
+
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace TheBrute.Cards.Rares
 {
@@ -25,7 +20,7 @@ namespace TheBrute.Cards.Rares
         [
             new MaxHpVar(2m),
             new EnergyVar(2),
-            new CardsVar(2),
+            new CardsVar(2)
         ];
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>

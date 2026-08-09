@@ -1,16 +1,14 @@
-﻿using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
+﻿#region
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
-using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards.Commons
 {
@@ -38,14 +36,14 @@ namespace TheBrute.Cards.Commons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+            ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
             var hitCount = ThornsTracker.GetGainedThornsThisTurn(Owner.Creature) ? DynamicVars.Repeat.IntValue : 1;
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount(hitCount).FromCard(this, cardPlay)
-            .Targeting(cardPlay.Target)
-            .WithHitFx(null)
-            .Execute(choiceContext);
+                .Targeting(cardPlay.Target)
+                .WithHitFx()
+                .Execute(choiceContext);
         }
 
         protected override void OnUpgrade()

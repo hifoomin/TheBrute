@@ -1,11 +1,11 @@
-﻿using HarmonyLib;
+﻿#region
+
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TheBrute.Character;
+
+#endregion
 
 namespace TheBrute.Cards
 {
@@ -16,7 +16,7 @@ namespace TheBrute.Cards
         {
             if (Config.EnableColorfulPhilosophersAdditions)
             {
-                __result = __result.Append(ModelDb.CardPool<Character.TheBruteCardPool>());
+                __result = __result.Append(ModelDb.CardPool<TheBruteCardPool>());
             }
         }
     }

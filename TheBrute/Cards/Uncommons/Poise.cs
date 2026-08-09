@@ -1,21 +1,15 @@
-﻿using MegaCrit.Sts2.Core.CardSelection;
+﻿#region
+
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-using MegaCrit.Sts2.Core.Nodes.Vfx;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards.Uncommons
 {
@@ -43,13 +37,14 @@ namespace TheBrute.Cards.Uncommons
             await PowerCmd.Apply<PlatingPower>(choiceContext, Owner.Creature, DynamicVars["PlatingPower"].IntValue, Owner.Creature, this);
 
             List<CardModel> cardsIn =
-            [..
-                (from c in PileType.Draw.GetPile(Owner).Cards
+            [
+                ..
+                from c in PileType.Draw.GetPile(Owner).Cards
                 orderby c.Rarity, c.Id
-                select c)
+                select c
             ];
 
-            var cards = (await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(SelectionScreenPrompt, DynamicVars.Cards.IntValue)));
+            var cards = await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, Owner, new CardSelectorPrefs(SelectionScreenPrompt, DynamicVars.Cards.IntValue));
             foreach (var card in cards)
             {
                 await CardCmd.Exhaust(choiceContext, card);

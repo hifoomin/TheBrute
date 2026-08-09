@@ -1,14 +1,18 @@
-﻿using BaseLib.Abstracts;
+﻿#region
+
+using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Models.PotionPools;
-using TheBrute.Character;
 using TheBrute.Extensions;
 
-namespace TheBrute.Potions;
+#endregion
 
-[Pool(typeof(SharedPotionPool))]
-public abstract class GlobalPotion : CustomPotionModel
+namespace TheBrute.Potions
 {
-    public override string? CustomPackedImagePath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PotionImagePath();
+    [Pool(typeof(SharedPotionPool))]
+    public abstract class GlobalPotion : CustomPotionModel
+    {
+        public override string? CustomPackedImagePath => $"{Id.Entry.RemovePrefix().ToLowerInvariant()}.png".PotionImagePath();
+    }
 }

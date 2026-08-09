@@ -1,14 +1,13 @@
-﻿using BaseLib.Abstracts;
+﻿#region
+
+using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace TheBrute.Cards
 {
@@ -50,14 +49,14 @@ namespace TheBrute.Cards
                 return false;
             }
 
-            int amountToAdd = (int)amount;
+            var amountToAdd = (int)amount;
 
             if (amountToAdd <= 0)
             {
                 return false;
             }
 
-            MaxHpLossModifier? existingMaxHpLoss = Get(card);
+            var existingMaxHpLoss = Get(card);
 
             if (existingMaxHpLoss != null)
             {
@@ -79,7 +78,7 @@ namespace TheBrute.Cards
 
         public override void LoadSaveData(ModifierSave save)
         {
-            if (save.IntProperties.TryGetValue(AmountSaveKey, out int amount))
+            if (save.IntProperties.TryGetValue(AmountSaveKey, out var amount))
             {
                 SetAmount(amount);
             }

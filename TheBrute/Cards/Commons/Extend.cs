@@ -1,15 +1,14 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿#region
+
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards.Commons
 {
@@ -26,7 +25,7 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar("ThornsPower2", 1m),
+            new("ThornsPower2", 1m),
             new PowerVar<ThornsPower>(4m),
             new PowerVar<TemporaryThornsUpPower>(4m),
             new PowerVar<ExtendPower>(2m)

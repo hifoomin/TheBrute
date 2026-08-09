@@ -1,19 +1,13 @@
-﻿using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
+﻿#region
+
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Cards;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Powers;
+using MegaCrit.Sts2.Core.ValueProps;
+
+#endregion
 
 namespace TheBrute.Cards.Rares
 {
@@ -25,7 +19,7 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(5m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
+            new BlockVar(5m, ValueProp.Move),
             new CardsVar(3)
         ];
 
@@ -40,7 +34,7 @@ namespace TheBrute.Cards.Rares
         {
             if (cardPlay.Card.Owner == Owner && cardPlay.Card.Type == CardType.Attack && Pile.Type != PileType.Hand)
             {
-                var attacksPlayedThisTurn = CombatManager.Instance.History.CardPlaysFinished.Count((CardPlayFinishedEntry e) => e.HappenedThisTurn(CombatState) && e.CardPlay.Card.Type == CardType.Attack && e.CardPlay.Card.Owner == Owner);
+                var attacksPlayedThisTurn = CombatManager.Instance.History.CardPlaysFinished.Count(e => e.HappenedThisTurn(CombatState) && e.CardPlay.Card.Type == CardType.Attack && e.CardPlay.Card.Owner == Owner);
                 if (attacksPlayedThisTurn % DynamicVars.Cards.IntValue == 0)
                 {
                     await CardPileCmd.Add(this, PileType.Hand);

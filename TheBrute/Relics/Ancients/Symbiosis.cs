@@ -1,17 +1,11 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿#region
+
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Relics;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Rooms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Powers;
-using TheBrute.Relics;
+
+#endregion
 
 namespace TheBrute.Relics.Ancients
 {

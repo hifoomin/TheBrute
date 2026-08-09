@@ -1,14 +1,14 @@
-﻿using MegaCrit.Sts2.Core.CardSelection;
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
+﻿#region
+
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
+
+#endregion
 
 namespace TheBrute.Cards.Commons
 {
@@ -35,14 +35,14 @@ namespace TheBrute.Cards.Commons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+            ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount(DynamicVars.Repeat.IntValue).FromCard(this, cardPlay)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_molten_fist", null, "blunt_attack.mp3")
-            .Execute(choiceContext);
+                .Targeting(cardPlay.Target)
+                .WithHitFx("vfx/vfx_molten_fist", null, "blunt_attack.mp3")
+                .Execute(choiceContext);
 
-            var cards = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: base.Owner, filter: null, source: this));
+            var cards = await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: Owner, filter: null, source: this);
             foreach (var card in cards)
             {
                 await CardCmd.Exhaust(choiceContext, card);

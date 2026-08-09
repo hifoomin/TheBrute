@@ -1,23 +1,15 @@
-﻿using MegaCrit.Sts2.Core.CardSelection;
+﻿#region
+
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-using MegaCrit.Sts2.Core.Nodes.Vfx;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheBrute.Cards.Tokens;
-using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards.Uncommons
 {
@@ -46,10 +38,10 @@ namespace TheBrute.Cards.Uncommons
 
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
-            var card = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.TransformSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: base.Owner, filter: null, source: this)).FirstOrDefault();
+            var card = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.TransformSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: Owner, filter: null, source: this)).FirstOrDefault();
             if (card != null)
             {
-                var ridicule = CombatState.CreateCard<Tokens.Ridicule>(Owner);
+                var ridicule = CombatState.CreateCard<Ridicule>(Owner);
 
                 await CardCmd.Transform(card, ridicule);
             }

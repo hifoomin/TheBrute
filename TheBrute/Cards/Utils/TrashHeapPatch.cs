@@ -1,12 +1,12 @@
-﻿using BaseLib.Abstracts;
+﻿#region
+
 using HarmonyLib;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using TheBrute.Character;
+
+#endregion
 
 namespace TheBrute.Cards
 {
@@ -23,7 +23,7 @@ namespace TheBrute.Cards
                 return;
             }
 
-            trashHeapCards ??= [.. ModelDb.CardPool<Character.TheBruteCardPool>().AllCards.Where(card => card.Rarity == MegaCrit.Sts2.Core.Entities.Cards.CardRarity.Event)];
+            trashHeapCards ??= [.. ModelDb.CardPool<TheBruteCardPool>().AllCards.Where(card => card.Rarity == CardRarity.Event)];
             if (trashHeapCards.Length == 0)
             {
                 return;

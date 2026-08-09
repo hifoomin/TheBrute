@@ -1,26 +1,18 @@
-﻿using BaseLib.Abstracts;
+﻿#region
+
 using BaseLib.Utils;
-using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.PotionPools;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-using MegaCrit.Sts2.Core.Nodes.Vfx;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.ValueProps;
 using TheBrute.Character;
-using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards.Trash
 {
@@ -43,7 +35,7 @@ namespace TheBrute.Cards.Trash
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<StrengthPower>(1m),
-            new BlockVar(11m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move)
+            new BlockVar(11m, ValueProp.Move)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

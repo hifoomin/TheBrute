@@ -1,37 +1,31 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿#region
+
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Saves.Runs;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace TheBrute.Cards.Rares
 {
     internal class Disinter : TheBruteCard
     {
-        public Disinter() : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
-        {
-        }
-
         private int currentGoldLoss = 6;
         private int currentMaxHpGain = 1;
 
         private int increasedGoldLoss;
         private int increasedMaxHpGain;
 
+        public Disinter() : base(0, CardType.Skill, CardRarity.Rare, TargetType.Self)
+        {
+        }
+
         [SavedProperty]
         public int CurrentGoldLoss
         {
-            get
-            {
-                return currentGoldLoss;
-            }
+            get => currentGoldLoss;
             set
             {
                 AssertMutable();
@@ -43,10 +37,7 @@ namespace TheBrute.Cards.Rares
         [SavedProperty]
         public int CurrentMaxHpGain
         {
-            get
-            {
-                return currentMaxHpGain;
-            }
+            get => currentMaxHpGain;
             set
             {
                 AssertMutable();
@@ -74,10 +65,7 @@ namespace TheBrute.Cards.Rares
         [SavedProperty]
         public int IncreasedGoldLoss
         {
-            get
-            {
-                return increasedGoldLoss;
-            }
+            get => increasedGoldLoss;
             set
             {
                 AssertMutable();
@@ -88,10 +76,7 @@ namespace TheBrute.Cards.Rares
         [SavedProperty]
         public int IncreasedMaxHpGain
         {
-            get
-            {
-                return increasedMaxHpGain;
-            }
+            get => increasedMaxHpGain;
             set
             {
                 AssertMutable();

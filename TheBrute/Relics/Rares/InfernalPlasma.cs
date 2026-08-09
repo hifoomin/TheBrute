@@ -1,21 +1,16 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿#region
+
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Map;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Relics;
+
+#endregion
 
 namespace TheBrute.Relics.Rares
 {
@@ -24,6 +19,7 @@ namespace TheBrute.Relics.Rares
     internal class InfernalPlasma : TheBruteRelic
 #pragma warning restore STS001 // Symbol missing localization
     {
+        private bool _usedThisEvent;
         public override RelicRarity Rarity => RelicRarity.Rare;
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -31,15 +27,10 @@ namespace TheBrute.Relics.Rares
             new MaxHpVar(3m)
         ];
 
-        private bool _usedThisEvent;
-
         [SavedProperty]
         private bool UsedThisEvent
         {
-            get
-            {
-                return _usedThisEvent;
-            }
+            get => _usedThisEvent;
             set
             {
                 AssertMutable();

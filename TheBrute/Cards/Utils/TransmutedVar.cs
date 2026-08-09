@@ -1,10 +1,9 @@
-﻿using BaseLib.Extensions;
+﻿#region
+
+using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace TheBrute.Cards
 {

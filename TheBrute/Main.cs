@@ -1,24 +1,31 @@
+#region
+
 using BaseLib.Config;
 using Godot;
 using HarmonyLib;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Modding;
+using Logger = MegaCrit.Sts2.Core.Logging.Logger;
 
-namespace TheBrute;
+#endregion
 
-[ModInitializer(nameof(Awake))]
-public partial class Main : Node
+namespace TheBrute
 {
-    public const string ModId = "TheBrute"; //Used for resource filepath
-    public const string ResPath = $"res://{ModId}";
-
-    //
-    public static MegaCrit.Sts2.Core.Logging.Logger Logger { get; } = new(ModId, MegaCrit.Sts2.Core.Logging.LogType.Generic);
-
-    public static void Awake()
+    [ModInitializer(nameof(Awake))]
+    public partial class Main : Node
     {
-        ModConfigRegistry.Register("TheBrute", new Config());
-        Harmony harmony = new(ModId);
+        public const string ModId = "TheBrute"; //Used for resource filepath
+        public const string ResPath = $"res://{ModId}";
 
-        harmony.PatchAll();
+        //
+        public static Logger Logger { get; } = new(ModId, LogType.Generic);
+
+        public static void Awake()
+        {
+            ModConfigRegistry.Register("TheBrute", new Config());
+            Harmony harmony = new(ModId);
+
+            harmony.PatchAll();
+        }
     }
 }

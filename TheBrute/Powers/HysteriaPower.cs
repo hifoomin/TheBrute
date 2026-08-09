@@ -1,31 +1,21 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+﻿#region
+
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Combat;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-using MegaCrit.Sts2.Core.Nodes.Screens.MainMenu;
-using MegaCrit.Sts2.Core.Nodes.Vfx;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace TheBrute.Powers
 {
     internal class HysteriaPower : TheBrutePower
     {
+        private bool procLossesNextTurn;
         public override PowerType Type => PowerType.Buff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
@@ -42,8 +32,6 @@ namespace TheBrute.Powers
             new MaxHpVar(0m),
             new GoldVar(0)
         ];
-
-        private bool procLossesNextTurn = false;
 
         public void SetLossAmounts(decimal maxHpLoss, int goldLoss)
         {
@@ -97,7 +85,7 @@ namespace TheBrute.Powers
             {
                 return amount;
             }
-            return amount + (decimal)Amount;
+            return amount + Amount;
         }
     }
 }

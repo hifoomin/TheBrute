@@ -1,15 +1,14 @@
-﻿using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
+﻿#region
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
-using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards.Uncommons
 {
@@ -24,11 +23,11 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DynamicVar("ExtraAsPercent", 150m),
+            new("ExtraAsPercent", 150m),
             new MaxHpVar(1m),
             new CalculationBaseVar(0m),
             new ExtraDamageVar(1.5m),
-            new CalculatedDamageVar(MegaCrit.Sts2.Core.ValueProps.ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
+            new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, _) =>
             {
                 return card.Owner.Creature.GetPowerAmount<ThornsPower>();
             })
@@ -44,7 +43,7 @@ namespace TheBrute.Cards.Uncommons
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
             await DamageCmd.Attack(((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(Owner.Creature)).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx(null /*"vfx/vfx_attack_slash"*/)
+                .WithHitFx( /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
         }
 

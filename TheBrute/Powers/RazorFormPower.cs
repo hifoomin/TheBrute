@@ -1,23 +1,14 @@
-﻿using HarmonyLib;
-using MegaCrit.Sts2.Core.Combat;
+﻿#region
+
+using HarmonyLib;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Buffers;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Cards;
-using TheBrute.Relics.Uncommons;
+
+#endregion
 
 namespace TheBrute.Powers
 {
@@ -29,11 +20,11 @@ namespace TheBrute.Powers
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-           HoverTipFactory.FromPower<ThornsPower>()
+            HoverTipFactory.FromPower<ThornsPower>()
         ];
     }
 
-    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd), "LoseMaxHp")]
+    [HarmonyPatch(typeof(CreatureCmd), "LoseMaxHp")]
     internal class RazorFormPowerLoseMaxHpPatch
     {
         private static void Postfix(Task __result, PlayerChoiceContext choiceContext, Creature creature)

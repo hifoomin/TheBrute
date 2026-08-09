@@ -1,14 +1,12 @@
-﻿using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
+﻿#region
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
+
+#endregion
 
 namespace TheBrute.Cards.Rares
 {
@@ -26,7 +24,7 @@ namespace TheBrute.Cards.Rares
             new DamageVar(5m, ValueProp.Move),
             new CalculationBaseVar(0m),
             new CalculationExtraVar(1m),
-            new CalculatedVar("CalculatedHits").WithMultiplier((CardModel card, Creature? _) =>
+            new CalculatedVar("CalculatedHits").WithMultiplier((card, _) =>
             {
                 return MaxHpTracker.GetTimesMaxHpLostThisCombat(card.Owner.Creature);
             })
@@ -35,9 +33,9 @@ namespace TheBrute.Cards.Rares
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount((int)((CalculatedVar)DynamicVars["CalculatedHits"]).Calculate(Owner.Creature)).FromCard(this, cardPlay)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_thrash")
-            .Execute(choiceContext);
+                .Targeting(cardPlay.Target)
+                .WithHitFx("vfx/vfx_thrash")
+                .Execute(choiceContext);
         }
 
         protected override void OnUpgrade()

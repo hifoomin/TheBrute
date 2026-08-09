@@ -1,17 +1,13 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿#region
+
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Relics;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Rooms;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Relics;
+using TheBrute.Relics.Ancients;
+
+#endregion
 
 namespace TheBrute.Relics.Starters
 {
@@ -29,7 +25,7 @@ namespace TheBrute.Relics.Starters
 
         public override RelicModel GetUpgradeReplacement()
         {
-            return ModelDb.Relic<Ancients.Symbiosis>();
+            return ModelDb.Relic<Symbiosis>();
         }
 
         public override async Task AfterCombatVictory(CombatRoom _)

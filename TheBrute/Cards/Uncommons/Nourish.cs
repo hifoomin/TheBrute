@@ -1,29 +1,21 @@
-﻿using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
+﻿#region
+
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Random;
-using MegaCrit.Sts2.Core.ValueProps;
-using Microsoft.VisualBasic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Cards.Tokens;
+
+#endregion
 
 namespace TheBrute.Cards.Uncommons
 {
     internal class Nourish : TheBruteCard
     {
+        private CardModel? lastAttackOrSkill;
+
         public Nourish() : base(1, CardType.Skill, CardRarity.Uncommon, TargetType.Self)
         {
         }
@@ -37,26 +29,6 @@ namespace TheBrute.Cards.Uncommons
         [
             CardKeyword.Exhaust
         ];
-
-        private CardModel? lastAttackOrSkill;
-
-        private CardModel? GetLastAttackOrSkill()
-        {
-            HashSet<PileType> fuckingGarbagePiles =
-            [
-                PileType.None,
-                PileType.Exhaust,
-                PileType.Deck
-            ];
-
-            return CombatManager.Instance.History.CardPlaysFinished
-                   .Select(e => e.CardPlay.Card)
-                   .LastOrDefault(c =>
-                   c.Owner == Owner &&
-                   c.Pile != null &&
-                   !fuckingGarbagePiles.Contains(c.Pile.Type) &&
-                   (c.Type == CardType.Attack || c.Type == CardType.Skill));
-        }
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips
         {
@@ -84,6 +56,24 @@ namespace TheBrute.Cards.Uncommons
         protected override bool IsPlayable => GetLastAttackOrSkill() != null;
 
         protected override bool ShouldGlowRedInternal => !IsPlayable;
+
+        private CardModel? GetLastAttackOrSkill()
+        {
+            HashSet<PileType> fuckingGarbagePiles =
+            [
+                PileType.None,
+                PileType.Exhaust,
+                PileType.Deck
+            ];
+
+            return CombatManager.Instance.History.CardPlaysFinished
+                .Select(e => e.CardPlay.Card)
+                .LastOrDefault(c =>
+                                   c.Owner == Owner &&
+                                   c.Pile != null &&
+                                   !fuckingGarbagePiles.Contains(c.Pile.Type) &&
+                                   (c.Type == CardType.Attack || c.Type == CardType.Skill));
+        }
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {

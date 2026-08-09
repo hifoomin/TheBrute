@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿#region
+
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -8,16 +9,10 @@ using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Random;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheBrute.Cards;
 using TheBrute.Cards.Rares;
-using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Powers
 {
@@ -32,7 +27,7 @@ namespace TheBrute.Powers
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new CardsVar(0),
+            new CardsVar(0)
         ];
 
         public void SetGeneratedCardsAmount(decimal amount)
@@ -49,21 +44,21 @@ namespace TheBrute.Powers
             }
 
             var eligibleCards = ModelDb.Character<Character.TheBrute>().CardPool.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint)
-                                .Where(card => AutoTag.goldRelatedCards.Contains(card.Id))
-                                .Where(card =>
-                                card.Rarity != CardRarity.Basic &&
-                                card.Rarity != CardRarity.Ancient &&
-                                card.Rarity != CardRarity.Status &&
-                                card.Rarity != CardRarity.Token &&
-                                card.Rarity != CardRarity.Curse &&
-                                card != ModelDb.Card<BitterEmbrace>())
-            .ToList();
+                .Where(card => AutoTag.goldRelatedCards.Contains(card.Id))
+                .Where(card =>
+                           card.Rarity != CardRarity.Basic &&
+                           card.Rarity != CardRarity.Ancient &&
+                           card.Rarity != CardRarity.Status &&
+                           card.Rarity != CardRarity.Token &&
+                           card.Rarity != CardRarity.Curse &&
+                           card != ModelDb.Card<BitterEmbrace>())
+                .ToList();
 
             if (eligibleCards.Count > 0)
             {
-                CardModel[] array = new CardModel[DynamicVars.Cards.IntValue];
-                Rng combatCardGeneration = Owner.Player.RunState.Rng.CombatCardGeneration;
-                for (int i = 0; i < DynamicVars.Cards.IntValue; i++) // old: set this to amount
+                var array = new CardModel[DynamicVars.Cards.IntValue];
+                var combatCardGeneration = Owner.Player.RunState.Rng.CombatCardGeneration;
+                for (var i = 0; i < DynamicVars.Cards.IntValue; i++) // old: set this to amount
                 {
                     array[i] = CardFactory.GetDistinctForCombat(player, eligibleCards, 1, combatCardGeneration).First();
                 }

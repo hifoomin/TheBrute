@@ -16,6 +16,13 @@
              while your local StS2 version will be for your specific platform. -->
         <NoWarn>$(NoWarn);MSB3270</NoWarn>
     </PropertyGroup>
+	
+	<PropertyGroup>
+		<DebugSymbols>false</DebugSymbols>
+		<DebugType>None</DebugType>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		<GenerateDepsFile>false</GenerateDepsFile>
+	</PropertyGroup>
 
     <ItemGroup Condition="Exists('$(Sts2DataDir)')">
         <Reference Include="0Harmony">
@@ -36,32 +43,25 @@
         <PackageReference Include="Alchyr.Sts2.BaseLib" Version="*" PrivateAssets="All" />
         <PackageReference Include="Krafs.Publicizer" Version="2.3.0" PrivateAssets="All" />
         <PackageReference Include="Alchyr.Sts2.ModAnalyzers" Version="*" />
-        <!-- Generates a .pck file when building if only using simple assets. May not work on all setups. Uncomment to test. -->
-        <!-- <PackageReference Include="BSchneppe.StS2.PckPacker" Version="0.1.1" PrivateAssets="All" /> -->
         <AdditionalFiles Include="TheBrute/localization/**/*.json" /> <!-- Used by analyzer -->
     </ItemGroup>
 
     <ItemGroup>
-        <AdditionalFiles Remove="CharMod\**" />
-        <Compile Remove="CharMod/**" />
-        <Compile Remove="CharMod\**" />
-        <Compile Remove="materials/**" />
-        <Compile Remove="shaders/**" />
-        <Compile Remove="images/**" />
-        <EmbeddedResource Remove="CharMod/**" />
-        <EmbeddedResource Remove="CharMod\**" />
-        <EmbeddedResource Remove="materials/**" />
-        <EmbeddedResource Remove="shaders/**" />
-        <EmbeddedResource Remove="images/**" />
+        <Compile Remove="TheBrute/materials/**" />
+        <Compile Remove="TheBrute/shaders/**" />
+        <Compile Remove="TheBrute/images/**" />
+        <EmbeddedResource Remove="TheBrute/materials/**" />
+        <EmbeddedResource Remove="TheBrute/shaders/**" />
+        <EmbeddedResource Remove="TheBrute/images/**" />
     </ItemGroup>
 
     <ItemGroup>
         <None Include=".editorconfig" />
         <None Condition="Exists('Directory.Build.props')" Include="Directory.Build.props" />
         <None Include=".gitignore" />
-        <None Include="CharMod.json" />
+        <None Include="TheBrute.json" />
         <None Include="project.godot" />
-        <None Include="CharMod/**" />
+        <None Include="TheBrute/**" />
     </ItemGroup>
     
     <Target Name="CheckDependencyPaths">
@@ -73,41 +73,23 @@
         <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
         <Copy SourceFiles="$(AssemblyName).json" DestinationFolder="$(ModsPath)$(MSBuildProjectName)/" />
     </Target>
-
-    <Target Name="CopyQuickPck" AfterTargets="PackPck" Condition="Exists('$(PckPackerOutputPath)') And '$(PckPackerSkipped)' != 'true'">
-        <Message Text="Copying quick .pck to mods folder." Importance="high" />
-        <Copy SourceFiles="$(PckPackerOutputPath)" DestinationFolder="$(ModsPath)/$(MSBuildProjectName)" />
-    </Target>
     
     <Target Name="NeedGodotForPublish" BeforeTargets="Publish">
         <Error Text=" Godot path must be set up before publishing; Godot not found at path '$(GodotPath)'. Check Directory.Build.props file." Condition="'$(GodotPath)' == '' or !Exists('$(GodotPath)')" />
     </Target>
     
-    <ItemGroup>
-        <GodotResourceFiles Include="CharMod/**" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <GodotResourceFiles Remove="CharMod\**" />
-      <None Remove="CharMod\**" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <AdditionalFiles Include="TheBrute\localization\eng\ancients.json" />
-      <AdditionalFiles Include="TheBrute\localization\eng\cards.json" />
-      <AdditionalFiles Include="TheBrute\localization\eng\card_keywords.json" />
-      <AdditionalFiles Include="TheBrute\localization\eng\characters.json" />
-      <AdditionalFiles Include="TheBrute\localization\eng\powers.json" />
-      <AdditionalFiles Include="TheBrute\localization\eng\relics.json" />
-      <AdditionalFiles Include="TheBrute\localization\eng\static_hover_tips.json" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="TheBrute\Cards\Uncommons\Scrapped\" />
-    </ItemGroup>
-    
-    <Target Name="GodotPublish" AfterTargets="Publish" Condition="'$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'" Inputs="@(GodotResourceFiles)" Outputs="$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck">
+    <Target Name="GodotPublish" AfterTargets="Publish" Condition="'$(GodotPath)' != '' and Exists('$(GodotPath)') and '$(IsInnerGodotExport)' != 'true'">
         <Message Text="Exporting Godot .pck to mods folder" Importance="high" />
         <Exec Command="&quot;$(GodotPath)&quot; --headless --export-pack &quot;BasicExport&quot; &quot;$(ModsPath)$(MSBuildProjectName)/$(MSBuildProjectName).pck&quot;" EnvironmentVariables="IsInnerGodotExport=true;MSBUILDDISABLENODEREUSE=1" ContinueOnError="WarnAndContinue" />
     </Target>
+	
+	<Target Name="FuckOff" AfterTargets="GodotPublish">
+		<ItemGroup>
+			<FilesToDelete Include="$(ModsPath)$(MSBuildProjectName).*" />
+			<FilesToDelete Include="$(ModsPath)/Godot*.*" />
+		</ItemGroup>
+
+		<Delete Files="@(FilesToDelete)" />
+	</Target>
+
 </Project>

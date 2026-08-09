@@ -1,21 +1,14 @@
-﻿using MegaCrit.Sts2.Core.CardSelection;
-using MegaCrit.Sts2.Core.Combat;
+﻿#region
+
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Cards;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards.Uncommons
 {
@@ -56,10 +49,11 @@ namespace TheBrute.Cards.Uncommons
             var goldLossRepeats = ResolveEnergyXValue();
 
             List<CardModel> cardsIn =
-            [..
-                (from c in PileType.Draw.GetPile(Owner).Cards
+            [
+                ..
+                from c in PileType.Draw.GetPile(Owner).Cards
                 orderby c.Rarity, c.Id
-                select c)
+                select c
             ];
 
             if (cardsIn.Count > 0 && (goldLossRepeats > 0 || IsUpgraded))
@@ -72,7 +66,7 @@ namespace TheBrute.Cards.Uncommons
                     }
                 }
 
-                for (int i = 0; i < goldLossRepeats; i++)
+                for (var i = 0; i < goldLossRepeats; i++)
                 {
                     await PlayerCmd.LoseGold(DynamicVars.Gold.BaseValue, Owner);
                 }

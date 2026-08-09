@@ -1,29 +1,15 @@
-﻿using HarmonyLib;
-using MegaCrit.Sts2.Core.Combat;
+﻿#region
+
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Events;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Cards;
-using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Nodes.Vfx;
-using MegaCrit.Sts2.Core.Saves.Validation;
 using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Cards;
+
+#endregion
 
 namespace TheBrute.Powers
 {
@@ -35,7 +21,7 @@ namespace TheBrute.Powers
 
         public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
 
-        public override int DisplayAmount => (Owner.MaxHp * Amount) / 100;
+        public override int DisplayAmount => Owner.MaxHp * Amount / 100;
 
         public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
         {
@@ -49,7 +35,7 @@ namespace TheBrute.Powers
             {
                 foreach (var hittableEnemy in hittableEnemies)
                 {
-                    NFireBurstVfx child = NFireBurstVfx.Create(hittableEnemy, 0.75f);
+                    var child = NFireBurstVfx.Create(hittableEnemy, 0.75f);
                     NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(child);
                     await CreatureCmd.Damage(choiceContext, hittableEnemy, DisplayAmount, ValueProp.Unpowered, null, null);
                 }

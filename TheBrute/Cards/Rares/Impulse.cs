@@ -1,17 +1,12 @@
-﻿using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
+﻿#region
+
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Saves;
-using MegaCrit.Sts2.Core.ValueProps;
+
+#endregion
 
 namespace TheBrute.Cards.Rares
 {
@@ -32,7 +27,7 @@ namespace TheBrute.Cards.Rares
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             var cardsInHand = PileType.Hand.GetPile(Owner).Cards.ToList();
-            foreach (CardModel card in cardsInHand)
+            foreach (var card in cardsInHand)
             {
                 // burning sticks lol
                 if (card == this)
@@ -43,9 +38,9 @@ namespace TheBrute.Cards.Rares
                 await CardCmd.Exhaust(choiceContext, card);
             }
 
-            var attacksInDiscardPile = PileType.Discard.GetPile(Owner).Cards.Where((CardModel c) => c.Type == CardType.Attack && !c.Keywords.Contains(CardKeyword.Unplayable)).ToList().StableShuffle(Owner.RunState.Rng.Shuffle);
+            var attacksInDiscardPile = PileType.Discard.GetPile(Owner).Cards.Where(c => c.Type == CardType.Attack && !c.Keywords.Contains(CardKeyword.Unplayable)).ToList().StableShuffle(Owner.RunState.Rng.Shuffle);
 
-            foreach (CardModel card in attacksInDiscardPile)
+            foreach (var card in attacksInDiscardPile)
             {
                 if (!CombatManager.Instance.IsOverOrEnding)
                 {

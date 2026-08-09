@@ -1,27 +1,16 @@
-﻿using BaseLib.Abstracts;
+﻿#region
+
+using BaseLib.Abstracts;
 using BaseLib.Extensions;
 using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-using MegaCrit.Sts2.Core.Nodes.Vfx;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace TheBrute.Powers
 {
@@ -31,9 +20,10 @@ namespace TheBrute.Powers
 
         public override PowerStackType StackType => PowerStackType.Counter;
 
-        private class Data
+        public string GetSecondAmount()
         {
-            public int skillsPlayedThisTurn;
+            var normalized = Math.Max(0, 3 - GetInternalData<Data>().skillsPlayedThisTurn);
+            return $"{normalized}";
         }
 
         protected override object InitInternalData()
@@ -43,7 +33,7 @@ namespace TheBrute.Powers
 
         public override Task AfterApplied(Creature? applier, CardModel? cardSource)
         {
-            GetInternalData<Data>().skillsPlayedThisTurn = CombatManager.Instance.History.CardPlaysStarted.Count((CardPlayStartedEntry e) => e.CardPlay.Card.Type == CardType.Skill && e.CardPlay.Card.Owner.Creature == Owner && e.HappenedThisTurn(CombatState));
+            GetInternalData<Data>().skillsPlayedThisTurn = CombatManager.Instance.History.CardPlaysStarted.Count(e => e.CardPlay.Card.Type == CardType.Skill && e.CardPlay.Card.Owner.Creature == Owner && e.HappenedThisTurn(CombatState));
             this.InvokeSecondAmountChanged();
             return Task.CompletedTask;
         }
@@ -59,9 +49,9 @@ namespace TheBrute.Powers
             if (GetInternalData<Data>().skillsPlayedThisTurn == 3)
             {
                 Flash();
-                for (int i = 0; i < Amount; i++)
+                for (var i = 0; i < Amount; i++)
                 {
-                    CardModel card = cardPlay.Card.CreateClone();
+                    var card = cardPlay.Card.CreateClone();
                     await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, Owner.Player);
                 }
             }
@@ -76,10 +66,9 @@ namespace TheBrute.Powers
             }
         }
 
-        public string GetSecondAmount()
+        private class Data
         {
-            var normalized = Math.Max(0, 3 - GetInternalData<Data>().skillsPlayedThisTurn);
-            return $"{normalized}";
+            public int skillsPlayedThisTurn;
         }
     }
 }

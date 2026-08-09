@@ -1,4 +1,6 @@
-﻿using BaseLib.Abstracts;
+﻿#region
+
+using BaseLib.Abstracts;
 using BaseLib.Utils;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
@@ -7,16 +9,8 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Gold;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Rooms;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Powers;
-using TheBrute.Relics.Uncommons;
+
+#endregion
 
 namespace TheBrute.Cards
 {
@@ -86,20 +80,20 @@ namespace TheBrute.Cards
                 {
                     if (player.PlayerCombatState.TurnNumber == 1)
                     {
-                        GoldTracker.totalGoldGainedThisCombat[player.Creature] = 0;
-                        GoldTracker.timesGoldGainedThisCombat[player.Creature] = 0;
+                        totalGoldGainedThisCombat[player.Creature] = 0;
+                        timesGoldGainedThisCombat[player.Creature] = 0;
 
-                        GoldTracker.totalGoldLostThisCombat[player.Creature] = 0;
-                        GoldTracker.timesGoldLostThisCombat[player.Creature] = 0;
+                        totalGoldLostThisCombat[player.Creature] = 0;
+                        timesGoldLostThisCombat[player.Creature] = 0;
                     }
-                    GoldTracker.gainedGoldThisTurn[player.Creature] = false;
-                    GoldTracker.lostGoldThisTurn[player.Creature] = false;
+                    gainedGoldThisTurn[player.Creature] = false;
+                    lostGoldThisTurn[player.Creature] = false;
                 }
             }
         }
     }
 
-    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "GainGold")]
+    [HarmonyPatch(typeof(PlayerCmd), "GainGold")]
     internal class GoldTrackerGainGoldPatch
     {
         private static void Postfix(Task __result, decimal amount, Player player)
@@ -117,7 +111,7 @@ namespace TheBrute.Cards
         }
     }
 
-    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.PlayerCmd), "LoseGold")]
+    [HarmonyPatch(typeof(PlayerCmd), "LoseGold")]
     internal class GoldTrackerLoseGoldPatch
     {
         private static void Postfix(Task __result, decimal amount, Player player, GoldLossType goldLossType)

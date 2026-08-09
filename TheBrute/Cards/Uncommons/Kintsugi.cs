@@ -1,18 +1,12 @@
-﻿using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
+﻿#region
 
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace TheBrute.Cards.Uncommons
 {
@@ -26,9 +20,9 @@ namespace TheBrute.Cards.Uncommons
         [
             new CalculationBaseVar(0m),
             new CalculationExtraVar(3m),
-            new CalculatedBlockVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
+            new CalculatedBlockVar(ValueProp.Move).WithMultiplier((card, _) =>
             {
-                return PileType.Hand.GetPile(card.Owner).Cards.Count((CardModel c) => (AutoTag.goldRelatedCards.Contains(c.Id) && c != card) || GoldLossModifier.Has(c));
+                return PileType.Hand.GetPile(card.Owner).Cards.Count(c => AutoTag.goldRelatedCards.Contains(c.Id) && c != card || GoldLossModifier.Has(c));
             })
         ];
 

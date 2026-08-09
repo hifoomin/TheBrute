@@ -1,21 +1,13 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿#region
+
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-using MegaCrit.Sts2.Core.Nodes.Vfx;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards.Multiplayer
 {
@@ -29,7 +21,7 @@ namespace TheBrute.Cards.Multiplayer
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-                EnergyHoverTip
+            EnergyHoverTip
         ];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -45,7 +37,7 @@ namespace TheBrute.Cards.Multiplayer
             var aliveAllies = from c in CombatState.GetTeammatesOf(Owner.Creature)
                               where c != null && c.IsAlive && c.IsPlayer && c != Owner.Creature
                               select c;
-            foreach (Creature player in aliveAllies)
+            foreach (var player in aliveAllies)
             {
                 await PlayerCmd.GainEnergy(DynamicVars.Energy.BaseValue, player.Player);
             }

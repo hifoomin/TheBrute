@@ -1,20 +1,11 @@
-﻿using Godot;
+﻿#region
+
+using System.Text.RegularExpressions;
 using HarmonyLib;
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Nodes.Cards;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using TheBrute.Cards;
+
+#endregion
 
 namespace TheBrute.Cards
 {
@@ -25,7 +16,7 @@ namespace TheBrute.Cards
         public static HashSet<ModelId> goldRelatedCards = new();
     }
 
-    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Models.ModelDb), "Init")]
+    [HarmonyPatch(typeof(ModelDb), "Init")]
     internal class AutoTagPatch
     {
         private const string englishLanguageName = "eng";
@@ -35,8 +26,6 @@ namespace TheBrute.Cards
         private const string thornsVar = "ThornsPower";
         private const string maxHpVar = "MaxHp";
         private const string goldVar = "Gold";
-
-        private record LocalizationRule(string languageName, Regex thornsRegex, Regex maxHpRegex, Regex goldRegex);
 
         private static void Postfix()
         {
@@ -68,11 +57,11 @@ namespace TheBrute.Cards
                 new LocalizationRule(russianLanguageName, russianThornsRegex, russianMaxHpRegex, russianGoldRegex)
             };
 
-            foreach (CardModel card in ModelDb.AllCards)
+            foreach (var card in ModelDb.AllCards)
             {
-                bool foundThorns = card.DynamicVars.ContainsKey(thornsVar);
-                bool foundMaxHp = card.DynamicVars.ContainsKey(maxHpVar);
-                bool foundGold = card.DynamicVars.ContainsKey(goldVar);
+                var foundThorns = card.DynamicVars.ContainsKey(thornsVar);
+                var foundMaxHp = card.DynamicVars.ContainsKey(maxHpVar);
+                var foundGold = card.DynamicVars.ContainsKey(goldVar);
 
                 foreach (var localizationRule in localizationRules)
                 {
@@ -114,5 +103,7 @@ namespace TheBrute.Cards
                 AutoTag.goldRelatedCards.Add(card.Id);
             }
         }
+
+        private record LocalizationRule(string languageName, Regex thornsRegex, Regex maxHpRegex, Regex goldRegex);
     }
 }

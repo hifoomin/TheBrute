@@ -1,29 +1,20 @@
-﻿using BaseLib.Abstracts;
+﻿#region
+
 using BaseLib.Utils;
-using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheBrute.Character;
-using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards.Trash
 {
@@ -53,9 +44,9 @@ namespace TheBrute.Cards.Trash
                     return 0m;
                 }
 
-                int energySpentThisCombat = (from e in CombatManager.Instance.History.Entries.OfType<MegaCrit.Sts2.Core.Combat.History.Entries.EnergySpentEntry>()
-                          where /*e.HappenedThisTurn(card.CombatState) &&*/ e.Actor.Player == card.Owner
-                          select e).Sum((EnergySpentEntry c) => c.Amount);
+                var energySpentThisCombat = (from e in CombatManager.Instance.History.Entries.OfType<EnergySpentEntry>()
+                                             where /*e.HappenedThisTurn(card.CombatState) &&*/ e.Actor.Player == card.Owner
+                                             select e).Sum(c => c.Amount);
 
                 Main.Logger.Warn("energy spent this combat is equal to " + energySpentThisCombat);
 
@@ -71,11 +62,11 @@ namespace TheBrute.Cards.Trash
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+            ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
             await DamageCmd.Attack(DynamicVars.CalculatedDamage).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
-            .Execute(choiceContext);
+                .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
+                .Execute(choiceContext);
         }
 
         protected override void OnUpgrade()

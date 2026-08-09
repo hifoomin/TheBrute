@@ -1,28 +1,18 @@
-﻿using HarmonyLib;
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.Factories;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.MonsterMoves.Intents;
-using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
-using MegaCrit.Sts2.Core.Nodes.Combat;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿#region
+
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Relics.Rares;
+using HarmonyLib;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.MonsterMoves.Intents;
+using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
+
+#endregion
 
 namespace TheBrute.Powers
 {
@@ -34,7 +24,7 @@ namespace TheBrute.Powers
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [
-           HoverTipFactory.FromPower<ThornsPower>()
+            HoverTipFactory.FromPower<ThornsPower>()
         ];
     }
 
@@ -97,7 +87,7 @@ namespace TheBrute.Powers
 
             var amountLocal = il.DeclareLocal(typeof(decimal));
 
-            for (int i = 0; i < codes.Count - 1; i++)
+            for (var i = 0; i < codes.Count - 1; i++)
             {
                 if (!codes[i].Calls(getAmount) || !codes[i + 1].Calls(decimalImplicit))
                 {

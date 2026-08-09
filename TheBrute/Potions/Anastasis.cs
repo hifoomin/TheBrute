@@ -1,24 +1,17 @@
-﻿using Godot;
+﻿#region
+
+using Godot;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
-using MegaCrit.Sts2.Core.Random;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheBrute.Cards;
-using TheBrute.Potions;
-using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Potions
 {
@@ -32,7 +25,7 @@ namespace TheBrute.Potions
 
         protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
         {
-            PotionModel.AssertValidForTargetedPotion(target);
+            AssertValidForTargetedPotion(target);
             NCombatRoom.Instance?.PlaySplashVfx(target, new Color("a9ffff"));
 
             await GenerateRandomCard(target, AutoTag.thornsRelatedCards);
@@ -49,14 +42,14 @@ namespace TheBrute.Potions
             }
 
             var eligibleCards = ModelDb.Character<Character.TheBrute>().CardPool.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint)
-                                .Where(card => cardHashSet.Contains(card.Id))
-                                .Where(card =>
-                                card.Rarity != CardRarity.Basic &&
-                                card.Rarity != CardRarity.Ancient &&
-                                card.Rarity != CardRarity.Status &&
-                                card.Rarity != CardRarity.Token &&
-                                card.Rarity != CardRarity.Curse)
-            .ToList();
+                .Where(card => cardHashSet.Contains(card.Id))
+                .Where(card =>
+                           card.Rarity != CardRarity.Basic &&
+                           card.Rarity != CardRarity.Ancient &&
+                           card.Rarity != CardRarity.Status &&
+                           card.Rarity != CardRarity.Token &&
+                           card.Rarity != CardRarity.Curse)
+                .ToList();
 
             if (eligibleCards.Count > 0)
             {

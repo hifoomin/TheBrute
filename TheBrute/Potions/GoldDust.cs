@@ -1,4 +1,6 @@
-﻿using Godot;
+﻿#region
+
+using Godot;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -12,12 +14,8 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Saves;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Potions;
+
+#endregion
 
 namespace TheBrute.Potions
 {
@@ -36,9 +34,9 @@ namespace TheBrute.Potions
 
         protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
         {
-            PotionModel.AssertValidForTargetedPotion(target);
+            AssertValidForTargetedPotion(target);
             NCombatRoom.Instance?.PlaySplashVfx(target, new Color("f4bf57")); // hehe, bf :)
-            await PlayerCmd.GainGold(base.DynamicVars.Gold.BaseValue, target.Player);
+            await PlayerCmd.GainGold(DynamicVars.Gold.BaseValue, target.Player);
 
             VfxCmd.PlayOnCreatureCenter(target, "vfx/vfx_coin_explosion_regular");
         }
@@ -47,8 +45,7 @@ namespace TheBrute.Potions
     [HarmonyPatch(typeof(MerchantPotionEntry))]
     internal class GoldDustMerchantPotionEntryPatch
     {
-        [HarmonyPatch(MethodType.Constructor, typeof(PotionModel), typeof(Player))]
-        [HarmonyPostfix]
+        [HarmonyPatch(MethodType.Constructor, typeof(PotionModel), typeof(Player)), HarmonyPostfix]
         private static void Postfix(MerchantPotionEntry __instance)
         {
             if (__instance.Model?.Id == ModelDb.Potion<GoldDust>().Id)

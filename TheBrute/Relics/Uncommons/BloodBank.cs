@@ -1,24 +1,9 @@
-﻿using HarmonyLib;
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Gold;
-using MegaCrit.Sts2.Core.Entities.Players;
+﻿#region
+
 using MegaCrit.Sts2.Core.Entities.Relics;
-using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Rooms;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Powers;
-using TheBrute.Relics;
+
+#endregion
 
 namespace TheBrute.Relics.Uncommons
 {
@@ -27,9 +12,8 @@ namespace TheBrute.Relics.Uncommons
     internal class BloodBank : TheBruteRelic
 #pragma warning restore STS001 // Symbol missing localization
     {
-        public override bool ShowCounter => true;
-
         private int currentCounter;
+        public override bool ShowCounter => true;
 
         public int CurrentCounter
         {

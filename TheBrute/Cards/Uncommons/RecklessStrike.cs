@@ -1,15 +1,14 @@
-﻿using HarmonyLib;
+﻿#region
+
 using MegaCrit.Sts2.Core.CardSelection;
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Nodes.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
-using System.Reflection.Metadata.Ecma335;
+
+#endregion
 
 namespace TheBrute.Cards.Uncommons
 {
@@ -31,19 +30,23 @@ namespace TheBrute.Cards.Uncommons
         [
             new CardsVar(1),
             new DamageVar(12m, ValueProp.Move),
-            new GoldVar(2),
+            new GoldVar(2)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+            ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_flying_slash")
                 .Execute(choiceContext);
 
-            static bool filter(CardModel c) => c.IsUpgradable;
-            var cards = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.UpgradeSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: Owner, filter: filter, source: this));
+            static bool filter(CardModel c)
+            {
+                return c.IsUpgradable;
+            }
+
+            var cards = await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.UpgradeSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: Owner, filter: filter, source: this);
             foreach (var card in cards)
             {
                 /*

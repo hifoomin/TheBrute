@@ -1,21 +1,16 @@
-﻿using BaseLib.Abstracts;
+﻿#region
+
+using BaseLib.Abstracts;
 using BaseLib.Utils;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Gold;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Rooms;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TheBrute.Relics.Uncommons;
+
+#endregion
 
 namespace TheBrute.Cards
 {
@@ -88,20 +83,20 @@ namespace TheBrute.Cards
                 {
                     if (player.PlayerCombatState.TurnNumber == 1)
                     {
-                        MaxHpTracker.totalMaxHpGainedThisCombat[player.Creature] = 0;
-                        MaxHpTracker.timesMaxHpGainedThisCombat[player.Creature] = 0;
+                        totalMaxHpGainedThisCombat[player.Creature] = 0;
+                        timesMaxHpGainedThisCombat[player.Creature] = 0;
 
-                        MaxHpTracker.totalMaxHpLostThisCombat[player.Creature] = 0;
-                        MaxHpTracker.timesMaxHpLostThisCombat[player.Creature] = 0;
+                        totalMaxHpLostThisCombat[player.Creature] = 0;
+                        timesMaxHpLostThisCombat[player.Creature] = 0;
                     }
-                    MaxHpTracker.gainedMaxHpThisTurn[player.Creature] = false;
-                    MaxHpTracker.lostMaxHpThisTurn[player.Creature] = false;
+                    gainedMaxHpThisTurn[player.Creature] = false;
+                    lostMaxHpThisTurn[player.Creature] = false;
                 }
             }
         }
     }
 
-    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd), "GainMaxHp")]
+    [HarmonyPatch(typeof(CreatureCmd), "GainMaxHp")]
     internal class MaxHpTrackerGainMaxHpPatch
     {
         private static void Postfix(Task __result, Creature creature, decimal amount)
@@ -119,7 +114,7 @@ namespace TheBrute.Cards
         }
     }
 
-    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd), "LoseMaxHp")]
+    [HarmonyPatch(typeof(CreatureCmd), "LoseMaxHp")]
     internal class MaxHpTrackerLoseMaxHpPatch
     {
         private static void Postfix(Task __result, Creature creature, decimal amount, bool isFromCard)

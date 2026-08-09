@@ -1,15 +1,15 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿#region
+
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Powers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MegaCrit.Sts2.Core.ValueProps;
 using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards.Commons
 {
@@ -28,15 +28,15 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new BlockVar(9m, MegaCrit.Sts2.Core.ValueProps.ValueProp.Move),
-            new PowerVar<Powers.TemporaryThornsUpNextTurnPower>(3m)
+            new BlockVar(9m, ValueProp.Move),
+            new PowerVar<TemporaryThornsUpNextTurnPower>(3m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
-            await PowerCmd.Apply<Powers.TemporaryThornsUpNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsUpNextTurnPower"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<TemporaryThornsUpNextTurnPower>(choiceContext, Owner.Creature, DynamicVars["TemporaryThornsUpNextTurnPower"].BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()

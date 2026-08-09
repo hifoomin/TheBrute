@@ -1,17 +1,12 @@
-﻿using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Commands.Builders;
+﻿#region
+
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Rooms;
-using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+#endregion
 
 namespace TheBrute.Cards.Rares
 {
@@ -19,18 +14,19 @@ namespace TheBrute.Cards.Rares
     {
         private decimal _extraDamageFromPlays;
 
+        public Malice() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
+        {
+        }
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(18m, ValueProp.Move),
-            new DynamicVar("Decrease", 2m)
+            new("Decrease", 2m)
         ];
 
         private decimal ExtraDamageFromPlays
         {
-            get
-            {
-                return _extraDamageFromPlays;
-            }
+            get => _extraDamageFromPlays;
             set
             {
                 AssertMutable();
@@ -38,13 +34,9 @@ namespace TheBrute.Cards.Rares
             }
         }
 
-        public Malice() : base(1, CardType.Attack, CardRarity.Rare, TargetType.AnyEnemy)
-        {
-        }
-
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+            ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx("vfx/hellraiser_attack_vfx")

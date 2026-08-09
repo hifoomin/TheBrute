@@ -1,21 +1,13 @@
-﻿using BaseLib.Patches.Content;
-using Godot;
+﻿#region
+
+using BaseLib.Patches.Content;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Gold;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Relics;
+
+#endregion
 
 namespace TheBrute.Cards
 {
@@ -24,13 +16,13 @@ namespace TheBrute.Cards
         [CustomEnum, KeywordProperties(AutoKeywordPosition.Before)]
         public static CardKeyword transmutedKeyword;
 
+        [CustomEnum, KeywordProperties(AutoKeywordPosition.Before)]
+        public static CardKeyword goldLossKeyword;
+
         public static bool hasTransmutedKeyword(this CardModel card)
         {
             return card.Keywords.Contains(transmutedKeyword);
         }
-
-        [CustomEnum, KeywordProperties(AutoKeywordPosition.Before)]
-        public static CardKeyword goldLossKeyword;
 
         public static bool hasGoldLossKeyword(this CardModel card)
         {
@@ -38,7 +30,7 @@ namespace TheBrute.Cards
         }
     }
 
-    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Models.CardModel), "OnPlayWrapper")]
+    [HarmonyPatch(typeof(CardModel), "OnPlayWrapper")]
     public class KeywordsOnPlayWrapperPatch
     {
         private static async Task Postfix(Task __result, PlayerChoiceContext choiceContext, CardModel __instance)

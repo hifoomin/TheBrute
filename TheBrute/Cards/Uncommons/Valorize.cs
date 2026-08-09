@@ -1,26 +1,12 @@
-﻿using BaseLib.Abstracts;
-using BaseLib.Extensions;
-using MegaCrit.Sts2.Core.Combat;
+﻿#region
+
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Models.Relics;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-using MegaCrit.Sts2.Core.Nodes.Vfx;
-using MegaCrit.Sts2.Core.Random;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Powers;
+
+#endregion
 
 namespace TheBrute.Cards.Uncommons
 {
@@ -46,7 +32,7 @@ namespace TheBrute.Cards.Uncommons
 
             if (Utils.HasGold(Owner, DynamicVars.Gold.IntValue))
             {
-                for (int i = 0; i < DynamicVars.Repeat.BaseValue; i++)
+                for (var i = 0; i < DynamicVars.Repeat.BaseValue; i++)
                 {
                     await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
                 }

@@ -1,55 +1,42 @@
-﻿using BaseLib.Abstracts;
+﻿#region
+
+using System.Reflection;
+using System.Reflection.Emit;
+using BaseLib.Abstracts;
 using BaseLib.Extensions;
-using BaseLib.Hooks;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
-using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Helpers;
-using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Cards;
-using MegaCrit.Sts2.Core.Models.Powers;
-using MegaCrit.Sts2.Core.Models.Relics;
-using MegaCrit.Sts2.Core.Nodes.Combat;
-using MegaCrit.Sts2.Core.Nodes.Rooms;
-using MegaCrit.Sts2.Core.Nodes.Vfx;
-using MegaCrit.Sts2.Core.ValueProps;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Text;
 using TheBrute.Cards;
+
+#endregion
 
 namespace TheBrute.Powers
 {
     internal class UnravelPower : TheBrutePower, IHasSecondAmount
     {
+        private int _usesLeft;
         public override PowerType Type => PowerType.Buff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
 
-        private int _usesLeft = 0;
-
         public int UsesLeft
         {
-            get
-            {
-                return _usesLeft;
-            }
+            get => _usesLeft;
             set
             {
                 AssertMutable();
                 _usesLeft = value;
             }
+        }
+
+        public string GetSecondAmount()
+        {
+            return $"{UsesLeft}";
         }
 
         public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
@@ -69,14 +56,9 @@ namespace TheBrute.Powers
                 this.InvokeSecondAmountChanged();
             }
         }
-
-        public string GetSecondAmount()
-        {
-            return $"{UsesLeft}";
-        }
     }
 
-    [HarmonyPatch(typeof(MegaCrit.Sts2.Core.Commands.CreatureCmd), "LoseMaxHp")]
+    [HarmonyPatch(typeof(CreatureCmd), "LoseMaxHp")]
     internal class UnravelPowerLoseMaxHpPatch
     {
         private static void Postfix(Task __result, Creature creature, decimal amount, bool isFromCard)

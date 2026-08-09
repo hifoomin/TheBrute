@@ -1,19 +1,4 @@
-﻿using HarmonyLib;
-using MegaCrit.Sts2.Core.Entities.Gold;
-using MegaCrit.Sts2.Core.Entities.Players;
-using MegaCrit.Sts2.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TheBrute.Cards.Ancients;
-using TheBrute.Cards.Starters;
-using TheBrute.Relics.Ancients;
-using TheBrute.Relics.Starters;
-using TheBrute.Relics.Uncommons;
-
-namespace TheBrute.Cards.Ancients
+﻿namespace TheBrute.Cards.Ancients
 {
     internal class Patches
     {

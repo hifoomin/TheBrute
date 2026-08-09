@@ -1,17 +1,14 @@
-﻿using BaseLib.Patches.Content;
+﻿#region
+
+using BaseLib.Patches.Content;
 using BaseLib.Patches.Features;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Models;
-using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Godot.Performance;
+
+#endregion
 
 namespace TheBrute.Cards
 {
