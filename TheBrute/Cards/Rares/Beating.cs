@@ -32,9 +32,14 @@ namespace TheBrute.Cards.Rares
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount((int)((CalculatedVar)DynamicVars["CalculatedHits"]).Calculate(Owner.Creature)).FromCard(this, cardPlay)
+            var hitCount = (int)((CalculatedVar)DynamicVars["CalculatedHits"]).Calculate(Owner.Creature);
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount(hitCount).FromCard(this, cardPlay)
                 .Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_thrash")
+                .BeforeDamage(() =>
+                {
+                    AudioUtils.PlayPunch();
+                    return Task.CompletedTask;
+                })
                 .Execute(choiceContext);
         }
 

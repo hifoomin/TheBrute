@@ -12,7 +12,7 @@ namespace TheBrute.Cards.Uncommons
 {
     internal class Deceive : TheBruteCard
     {
-        public Deceive() : base(1, CardType.Power, CardRarity.Uncommon, TargetType.Self)
+        public Deceive() : base(2, CardType.Power, CardRarity.Uncommon, TargetType.Self)
         {
         }
 

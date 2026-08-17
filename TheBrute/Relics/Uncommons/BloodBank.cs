@@ -36,7 +36,7 @@ namespace TheBrute.Relics.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(6m),
+            new MaxHpVar(5m),
             new CardsVar(1)
         ];
 

@@ -36,9 +36,11 @@ namespace TheBrute.Cards.Commons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState)
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState)
                 .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3")
                 .Execute(choiceContext);
+
+            AudioUtils.PlayAoeSlash(result);
 
             DynamicVars.Damage.BaseValue += DynamicVars["Increase"].BaseValue;
             ExtraDamageFromPlays += DynamicVars["Increase"].BaseValue;

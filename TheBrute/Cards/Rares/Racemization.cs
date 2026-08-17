@@ -33,8 +33,9 @@ namespace TheBrute.Cards.Rares
         {
             await PowerCmd.Apply<DexterityPower>(choiceContext, Owner.Creature, -DynamicVars.Dexterity.BaseValue, Owner.Creature, this);
 
+            Main.Audio.PlaySfx("racemization.ogg");
+
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState)
-                .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3")
                 .Execute(choiceContext);
         }
 

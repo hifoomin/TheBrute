@@ -31,9 +31,10 @@ namespace TheBrute.Cards.Starters
 
             await PlayerCmd.GainGold(DynamicVars.Gold.BaseValue, Owner);
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_attack_slash")
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .Execute(choiceContext);
+
+            AudioUtils.PlaySlash(result);
         }
 
         protected override void OnUpgrade()

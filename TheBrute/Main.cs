@@ -1,5 +1,6 @@
 #region
 
+using BaseLib.Audio;
 using BaseLib.Config;
 using Godot;
 using HarmonyLib;
@@ -16,6 +17,11 @@ namespace TheBrute
     {
         public const string ModId = "TheBrute"; //Used for resource filepath
         public const string ResPath = $"res://{ModId}";
+        public const string AudioPath = $"res://{ModId}/audio/";
+
+        public static bool isAprilFools = false;
+
+        public static readonly AutoModAudio Audio = new($"res://{ModId}/audio");
 
         //
         public static Logger Logger { get; } = new(ModId, LogType.Generic);

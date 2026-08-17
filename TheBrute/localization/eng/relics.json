@@ -28,5 +28,6 @@
 	"THEBRUTE-THORNY_HELMET.flavor": "The past grew thorns.",
 	"THEBRUTE-BLOOD_BANK.title": "Blood Bank",
 	"THEBRUTE-BLOOD_BANK.description": "Every [blue]{MaxHp:diff()}[/blue] times you lose Max HP, draw [blue]{Cards:diff()}[/blue] {Cards:plural:card|cards}.",
-	"THEBRUTE-BLOOD_BANK.flavor": "It remembers every drop.."
+	"THEBRUTE-BLOOD_BANK.flavor": "It remembers every drop..",
+	"SEA_GLASS.THEBRUTE-THE_BRUTE.title": "Virulent Glass"
 }

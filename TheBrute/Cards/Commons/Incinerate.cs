@@ -30,6 +30,8 @@ namespace TheBrute.Cards.Commons
 
             if (Utils.HasGold(Owner, DynamicVars.Gold.IntValue))
             {
+                Main.Audio.PlaySfx("incinerate.ogg");
+
                 await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                     .WithHitFx( /*"vfx/vfx_attack_slash"*/)
                     .Execute(choiceContext);

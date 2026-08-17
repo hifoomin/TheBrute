@@ -1,11 +1,13 @@
 ﻿#region
 
+using System.Runtime.InteropServices;
 using BaseLib.Abstracts;
 using BaseLib.Utils.NodeFactories;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using TheBrute.Cards.Starters;
 using TheBrute.Extensions;
 using TheBrute.Relics.Starters;
@@ -21,13 +23,19 @@ namespace TheBrute.Character
     {
         public const string CharacterId = "TheBrute";
 
-        public static readonly Color Color = new("726c10");
+        public static readonly Color Color = new("C7FF00");
 
-        public override Color NameColor => Color;
         public override CharacterGender Gender => CharacterGender.Feminine;
-        public override int StartingHp => 70;
 
-        public override Color MapDrawingColor => Color;
+        public override int StartingHp => 70;
+        public override int StartingGold => 99;
+        public override Color NameColor => new("C7FF00");
+        public override Color EnergyLabelOutlineColor => new("3F4F00FF");
+        public override Color DialogueColor => new("3C411A");
+        public override VfxColor SpeechBubbleColor => VfxColor.Swamp;
+        public override Color MapDrawingColor => new("686317");
+        public override Color RemoteTargetingLineColor => new("93CA02FF");
+        public override Color RemoteTargetingLineOutline => new("3F4F00FF");
 
         public override IEnumerable<CardModel> StartingDeck =>
         [
@@ -89,22 +97,31 @@ namespace TheBrute.Character
             }
         }
 
+        public override string CharacterTransitionSfx => $"{Main.AudioPath}character_transition.ogg";
+        public override string CharacterSelectSfx => $"{Main.AudioPath}character_select.ogg";
+
         public override NCreatureVisuals CreateCustomVisuals()
         {
             return NodeFactory<NCreatureVisuals>.CreateFromScene($"res://{CharacterId}/images/character/the_brute_static_sketch_color_v2.tscn");
         }
+
+        public override List<string> GetArchitectAttackVfx()
+        {
+            var num = 5;
+            var list = new List<string>(num);
+            CollectionsMarshal.SetCount(list, num);
+            var span = CollectionsMarshal.AsSpan(list);
+            var num2 = 0;
+            span[num2] = "vfx/vfx_attack_blunt";
+            num2++;
+            span[num2] = "vfx/vfx_heavy_blunt";
+            num2++;
+            span[num2] = "vfx/vfx_attack_slash";
+            num2++;
+            span[num2] = "vfx/vfx_bloody_impact";
+            num2++;
+            span[num2] = "vfx/vfx_rock_shatter";
+            return list;
+        }
     }
 }
-
-/*
-[HarmonyPatch(typeof(CharacterModel), "AddDetailsTo")]
-internal class WhatTheFuck
-{
-    public static void Postfix(CharacterModel __instance, LocString locString)
-    {
-        Main.Logger.Warn("base.Id.Entry is " + __instance.Id.Entry);
-    }
-}
-*/
-
-// HAHAJEKIFDASJJKLFSKADJFGAHK OF COURSE I CANT EVEN FUCKING WRITE A HARMONY APATCH TO SEE WHAT THE FUCK IS WRONG WITH COLORFUL PHILOSOPHERS FUCKING GARBAGE GAME WITH ZERO USEFUL LOGGING

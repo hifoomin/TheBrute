@@ -90,16 +90,19 @@ namespace TheBrute.Cards
         {
             if (foundThorns)
             {
+                // Main.Logger.Warn("found thorns in " + card.Title);
                 AutoTag.thornsRelatedCards.Add(card.Id);
             }
 
             if (foundMaxHp)
             {
+                // Main.Logger.Warn("found max hp in " + card.Title);
                 AutoTag.maxHpRelatedCards.Add(card.Id);
             }
 
             if (foundGold)
             {
+                // Main.Logger.Warn("found gold in " + card.Title);
                 AutoTag.goldRelatedCards.Add(card.Id);
             }
         }

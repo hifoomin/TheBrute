@@ -33,6 +33,8 @@ namespace TheBrute.Cards.Commons
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
+            Main.Audio.PlaySfx("charge_ahead.ogg");
+
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx()
                 .Execute(choiceContext);

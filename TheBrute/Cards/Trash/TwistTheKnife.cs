@@ -48,14 +48,14 @@ namespace TheBrute.Cards.Trash
                                              where /*e.HappenedThisTurn(card.CombatState) &&*/ e.Actor.Player == card.Owner
                                              select e).Sum(c => c.Amount);
 
-                Main.Logger.Warn("energy spent this combat is equal to " + energySpentThisCombat);
+                // Main.Logger.Warn("energy spent this combat is equal to " + energySpentThisCombat);
 
                 if (card.Pile.Type == PileType.Play)
                 {
                     energySpentThisCombat -= card.EnergyCost.GetWithModifiers(CostModifiers.All);
-                    Main.Logger.Warn("card piletype is play, subtracting its energy from energy spent this combat, current value: " + energySpentThisCombat);
+                    // Main.Logger.Warn("card piletype is play, subtracting its energy from energy spent this combat, current value: " + energySpentThisCombat);
                 }
-                Main.Logger.Warn("final value of energy spent this combat: " + energySpentThisCombat);
+                // Main.Logger.Warn("final value of energy spent this combat: " + energySpentThisCombat);
                 return energySpentThisCombat;
             })
         ];

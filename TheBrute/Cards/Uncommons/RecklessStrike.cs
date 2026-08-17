@@ -37,9 +37,10 @@ namespace TheBrute.Cards.Uncommons
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_flying_slash")
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .Execute(choiceContext);
+
+            AudioUtils.PlaySlash(result);
 
             static bool filter(CardModel c)
             {

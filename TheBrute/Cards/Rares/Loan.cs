@@ -28,7 +28,7 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new GoldVar(16),
+            new GoldVar(12),
             new PowerVar<BufferPower>(1m)
         ];
 
@@ -46,7 +46,7 @@ namespace TheBrute.Cards.Rares
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Gold.UpgradeValueBy(-4m);
+            DynamicVars["BufferPower"].UpgradeValueBy(1m);
         }
     }
 }

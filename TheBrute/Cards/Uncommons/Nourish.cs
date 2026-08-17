@@ -53,7 +53,7 @@ namespace TheBrute.Cards.Uncommons
             }
         }
 
-        protected override bool IsPlayable => GetLastAttackOrSkill() != null;
+        // protected override bool IsPlayable => GetLastAttackOrSkill() != null;
 
         protected override bool ShouldGlowRedInternal => !IsPlayable;
 
@@ -77,6 +77,8 @@ namespace TheBrute.Cards.Uncommons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
+
             lastAttackOrSkill = GetLastAttackOrSkill();
 
             if (lastAttackOrSkill == null)
@@ -85,8 +87,6 @@ namespace TheBrute.Cards.Uncommons
             }
 
             await CardCmd.Exhaust(choiceContext, lastAttackOrSkill);
-
-            await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.MaxHp.BaseValue);
         }
 
         protected override void OnUpgrade()

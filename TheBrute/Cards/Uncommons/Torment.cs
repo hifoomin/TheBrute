@@ -29,8 +29,9 @@ namespace TheBrute.Cards.Uncommons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            AudioUtils.PlayPunch();
+
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_molten_fist", null, "blunt_attack.mp3")
                 .Execute(choiceContext);
 
             if (GoldTracker.GetChangedGoldThisTurn(Owner.Creature))

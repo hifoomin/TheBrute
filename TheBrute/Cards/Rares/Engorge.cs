@@ -43,6 +43,8 @@ namespace TheBrute.Cards.Rares
 
             var shouldTriggerFatal = cardPlay.Target.Powers.All(p => p.ShouldOwnerDeathTriggerFatal());
 
+            AudioUtils.PlayBite();
+
             var attackCommand = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_bite", null, "blunt_attack.mp3")
                 .Execute(choiceContext);

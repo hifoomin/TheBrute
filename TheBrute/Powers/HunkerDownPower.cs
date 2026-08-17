@@ -24,7 +24,7 @@ namespace TheBrute.Powers
             if (creature == Owner && amount > 0 && shouldRun)
             {
                 Flash();
-                await CardPileCmd.Draw(new ThrowingPlayerChoiceContext(), Amount, Owner.Player);
+                await CardPileCmd.Draw(new BlockingPlayerChoiceContext(), Amount, Owner.Player);
             }
         }
 

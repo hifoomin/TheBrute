@@ -42,8 +42,9 @@ namespace TheBrute.Cards.Uncommons
         {
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
+            Main.Audio.PlaySfx("collapse.ogg");
+
             await DamageCmd.Attack(((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(Owner.Creature)).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx( /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
         }
 

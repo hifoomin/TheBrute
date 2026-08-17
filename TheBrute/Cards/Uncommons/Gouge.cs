@@ -41,7 +41,11 @@ namespace TheBrute.Cards.Uncommons
             }
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState).WithHitCount(DynamicVars.Repeat.IntValue)
-                .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3")
+                .BeforeDamage(() =>
+                {
+                    AudioUtils.PlayAoeSlash(null);
+                    return Task.CompletedTask;
+                })
                 .Execute(choiceContext);
         }
 

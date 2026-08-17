@@ -35,8 +35,9 @@ namespace TheBrute.Cards.Rares
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
+            Main.Audio.PlaySfx("first_class.ogg");
+
             await DamageCmd.Attack(DynamicVars.CalculatedDamage).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx( /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
 
             VfxCmd.PlayOnCreatureCenter(Owner.Creature, "vfx/vfx_coin_explosion_regular");

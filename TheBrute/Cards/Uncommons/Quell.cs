@@ -30,9 +30,10 @@ namespace TheBrute.Cards.Uncommons
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-            await DamageCmd.Attack(((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(Owner.Creature)).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_dramatic_stab")
+            var result = await DamageCmd.Attack(((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(Owner.Creature)).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .Execute(choiceContext);
+
+            AudioUtils.PlaySlash(result);
         }
 
         protected override void OnUpgrade()

@@ -38,9 +38,10 @@ namespace TheBrute.Cards.Rares
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx("vfx/hellraiser_attack_vfx")
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .Execute(choiceContext);
+
+            AudioUtils.PlaySlash(result);
 
             DynamicVars.Damage.BaseValue -= DynamicVars["Decrease"].BaseValue;
             ExtraDamageFromPlays -= DynamicVars["Decrease"].BaseValue;

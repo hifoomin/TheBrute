@@ -33,6 +33,8 @@ namespace TheBrute.Powers
             var hittableEnemies = CombatState.HittableEnemies;
             if (hittableEnemies != null)
             {
+                Main.Audio.PlaySfx("explosion.ogg");
+
                 foreach (var hittableEnemy in hittableEnemies)
                 {
                     var child = NFireBurstVfx.Create(hittableEnemy, 0.75f);

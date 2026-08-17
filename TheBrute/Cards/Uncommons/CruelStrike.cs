@@ -38,9 +38,10 @@ namespace TheBrute.Cards.Uncommons
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_scratch")
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .Execute(choiceContext);
+
+            AudioUtils.PlaySlash(result);
 
             await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
         }

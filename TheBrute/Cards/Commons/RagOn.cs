@@ -39,7 +39,11 @@ namespace TheBrute.Cards.Commons
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount(DynamicVars.Repeat.IntValue).FromCard(this, cardPlay)
                 .Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_attack_slash")
+                .BeforeDamage(() =>
+                {
+                    AudioUtils.PlayPunch();
+                    return Task.CompletedTask;
+                })
                 .Execute(choiceContext);
 
             await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);

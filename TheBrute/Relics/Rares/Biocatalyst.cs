@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
@@ -32,10 +33,12 @@ namespace TheBrute.Relics.Rares
             var combatState = target.CombatState;
             var biocatalyst = target.Player?.GetRelic<Biocatalyst>();
             var hittableEnemiesExceptInflictor = combatState.HittableEnemies.Where(x => x != dealer);
-            if (combatState != null && biocatalyst != null)
+            var count = hittableEnemiesExceptInflictor.Count();
+            var thornsAmount = target.GetPowerAmount<ThornsPower>();
+            if (thornsAmount > 0 && biocatalyst != null && count > 0 && (props.IsPoweredAttack() || cardSource is Omnislice))
             {
                 biocatalyst.Flash();
-                CreatureCmd.Damage(choiceContext, hittableEnemiesExceptInflictor, amount, props, target, cardSource, null);
+                CreatureCmd.Damage(choiceContext, hittableEnemiesExceptInflictor, thornsAmount, ValueProp.Unpowered | ValueProp.SkipHurtAnim, target, null, null);
             }
         }
     }

@@ -22,7 +22,7 @@ namespace TheBrute.Relics.Shops
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<PlatingPower>(2)
+            new PowerVar<PlatingPower>(1)
         ];
 
         public override decimal ModifyPowerAmountGivenAdditive(PowerModel power, Creature giver, decimal amount, Creature? target, CardModel? cardSource)

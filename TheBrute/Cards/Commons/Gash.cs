@@ -29,9 +29,14 @@ namespace TheBrute.Cards.Commons
         [
             new CalculationBaseVar(17m),
             new ExtraDamageVar(7m),
-            new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, _) =>
+            new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, target) =>
             {
-                return card.CurrentTarget != null && card.CurrentTarget.GetPowerAmount<WeakPower>() > 0 ? 1m : 0m;
+                var ret = 0m;
+                if (target != null && target.GetPowerAmount<WeakPower>() > 0)
+                {
+                    ret = 1m;
+                }
+                return ret;
             })
         ];
 
@@ -39,9 +44,10 @@ namespace TheBrute.Cards.Commons
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-            await DamageCmd.Attack(((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(Owner.Creature)).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_flying_slash")
+            var result = await DamageCmd.Attack(DynamicVars.CalculatedDamage).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .Execute(choiceContext);
+
+            AudioUtils.PlaySlash(result);
         }
 
         protected override void OnUpgrade()

@@ -30,6 +30,8 @@ namespace TheBrute.Cards.Uncommons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            Main.Audio.PlaySfx("yowl.ogg");
+
             if ((await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState)
                     .WithHitFx("vfx/vfx_attack_slash", null, "slash_attack.mp3")
                     .Execute(choiceContext)).Results.SelectMany(r => r).Any(r => r.WasTargetKilled))
@@ -40,7 +42,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Damage.UpgradeValueBy(3m);
+            DynamicVars.Damage.UpgradeValueBy(4m);
         }
     }
 }

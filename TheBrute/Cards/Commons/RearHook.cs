@@ -39,7 +39,11 @@ namespace TheBrute.Cards.Commons
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount(DynamicVars.Repeat.IntValue).FromCard(this, cardPlay)
                 .Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_molten_fist", null, "blunt_attack.mp3")
+                .BeforeDamage(() =>
+                {
+                    AudioUtils.PlayPunch();
+                    return Task.CompletedTask;
+                })
                 .Execute(choiceContext);
 
             var cards = await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.ExhaustSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: Owner, filter: null, source: this);

@@ -25,8 +25,8 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<PlatingPower>(4m),
-            new PowerVar<ThornsPower>(2m)
+            new PowerVar<PlatingPower>(3m),
+            new PowerVar<ThornsPower>(3m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
@@ -38,7 +38,8 @@ namespace TheBrute.Cards.Uncommons
 
         protected override void OnUpgrade()
         {
-            DynamicVars["ThornsPower"].UpgradeValueBy(2m);
+            DynamicVars["PlatingPower"].UpgradeValueBy(1m);
+            DynamicVars["ThornsPower"].UpgradeValueBy(1m);
         }
     }
 }

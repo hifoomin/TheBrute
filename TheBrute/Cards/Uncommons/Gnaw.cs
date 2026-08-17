@@ -44,7 +44,11 @@ namespace TheBrute.Cards.Uncommons
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target).WithHitCount(DynamicVars.Repeat.IntValue)
-                .WithHitFx("vfx/vfx_bite", null, "blunt_attack.mp3")
+                .BeforeDamage(() =>
+                {
+                    AudioUtils.PlayBite();
+                    return Task.CompletedTask;
+                })
                 .Execute(choiceContext);
 
             await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);

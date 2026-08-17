@@ -137,7 +137,7 @@ namespace TheBrute.Cards
                     if (MaxHpTracker.timesMaxHpLostWithBloodBank[creature] % bloodBank.DynamicVars.MaxHp.BaseValue == 0)
                     {
                         bloodBank.Flash();
-                        CardPileCmd.Draw(new ThrowingPlayerChoiceContext(), bloodBank.DynamicVars.Cards.BaseValue, creature.Player);
+                        CardPileCmd.Draw(new BlockingPlayerChoiceContext(), bloodBank.DynamicVars.Cards.BaseValue, creature.Player);
                         MaxHpTracker.timesMaxHpLostWithBloodBank[creature] = 0;
                         bloodBank.CurrentCounter = (int)MaxHpTracker.timesMaxHpLostWithBloodBank[creature];
                     }

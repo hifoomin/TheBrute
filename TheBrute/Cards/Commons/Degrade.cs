@@ -43,6 +43,11 @@ namespace TheBrute.Cards.Commons
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount(hitCount).FromCard(this, cardPlay)
                 .Targeting(cardPlay.Target)
                 .WithHitFx()
+                .BeforeDamage(() =>
+                {
+                    AudioUtils.PlayPunch();
+                    return Task.CompletedTask;
+                })
                 .Execute(choiceContext);
         }
 

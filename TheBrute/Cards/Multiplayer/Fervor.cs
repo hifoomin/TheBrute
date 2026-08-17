@@ -30,9 +30,10 @@ namespace TheBrute.Cards.Multiplayer
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
                 .Execute(choiceContext);
+
+            AudioUtils.PlaySlash(result);
 
             var alivePlayers = from c in CombatState.GetTeammatesOf(Owner.Creature)
                                where c != null && c.IsAlive && c.IsPlayer

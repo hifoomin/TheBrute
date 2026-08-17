@@ -51,8 +51,8 @@ namespace TheBrute.Powers
                 Flash();
                 for (var i = 0; i < Amount; i++)
                 {
-                    var card = cardPlay.Card.CreateClone();
-                    await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, Owner.Player);
+                    // null target == random target
+                    await CardCmd.AutoPlay(choiceContext, cardPlay.Card, cardPlay.Target);
                 }
             }
         }

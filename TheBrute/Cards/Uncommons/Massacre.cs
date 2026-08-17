@@ -28,9 +28,15 @@ namespace TheBrute.Cards.Uncommons
         {
             var hitCount = GoldTracker.GetChangedGoldThisTurn(Owner.Creature) ? DynamicVars.Repeat.IntValue : 1;
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState).WithHitCount(hitCount)
-                .WithHitFx("vfx/vfx_giant_horizontal_slash", null, "slash_attack.mp3")
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState).WithHitCount(hitCount)
+                .BeforeDamage(() =>
+                {
+                    AudioUtils.PlayAoeSlash(null);
+                    return Task.CompletedTask;
+                })
                 .Execute(choiceContext);
+
+            AudioUtils.PlayAoeSlash(result);
         }
 
         protected override void OnUpgrade()

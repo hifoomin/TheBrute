@@ -26,6 +26,10 @@ namespace TheBrute.Cards.Rares
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            Main.Audio.PlaySfx("impulse.ogg");
+
+            await Cmd.Wait(1f);
+
             var cardsInHand = PileType.Hand.GetPile(Owner).Cards.ToList();
             foreach (var card in cardsInHand)
             {

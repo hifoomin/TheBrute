@@ -26,10 +26,11 @@ namespace TheBrute.Cards.Ancients
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
+            Main.Audio.PlaySfx("usurp.ogg");
+
             await PlayerCmd.GainGold(DynamicVars.Gold.BaseValue, Owner);
 
             await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .WithHitFx( /*"vfx/vfx_attack_slash"*/)
                 .Execute(choiceContext);
         }
 
