@@ -1,61 +1,21 @@
 ﻿#region
 
-using System.Reflection;
-using System.Reflection.Emit;
-using BaseLib.Abstracts;
-using BaseLib.Extensions;
 using HarmonyLib;
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models;
-using TheBrute.Cards;
+using MegaCrit.Sts2.Core.Models.Powers;
 
 #endregion
 
 namespace TheBrute.Powers
 {
-    internal class UnravelPower : TheBrutePower, IHasSecondAmount
+    internal class UnravelPower : TheBrutePower
     {
-        private int _usesLeft;
         public override PowerType Type => PowerType.Buff;
 
         public override PowerStackType StackType => PowerStackType.Counter;
-
-        public int UsesLeft
-        {
-            get => _usesLeft;
-            set
-            {
-                AssertMutable();
-                _usesLeft = value;
-            }
-        }
-
-        public string GetSecondAmount()
-        {
-            return $"{UsesLeft}";
-        }
-
-        public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
-        {
-            if (applier == Owner && power == this)
-            {
-                UsesLeft = Amount;
-                this.InvokeSecondAmountChanged();
-            }
-        }
-
-        public override async Task AfterSideTurnStart(CombatSide side, IReadOnlyList<Creature> participants, ICombatState combatState)
-        {
-            if (participants.Contains(Owner))
-            {
-                UsesLeft = Amount;
-                this.InvokeSecondAmountChanged();
-            }
-        }
     }
 
     [HarmonyPatch(typeof(CreatureCmd), "LoseMaxHp")]
@@ -66,54 +26,10 @@ namespace TheBrute.Powers
             var combatState = creature.CombatState;
             var unravelPower = creature.GetPower<UnravelPower>();
             var normalizedAmount = Math.Abs(amount); // idfk it shouldnt be negative anyway lmao
-            if (combatState != null && unravelPower != null && normalizedAmount > 0 && unravelPower.UsesLeft > 0 /* && isFromCard*/)
+            if (combatState != null && unravelPower != null && normalizedAmount > 0)
             {
-                MaxHpTracker.rozjebKurwaJebanyHealKurwaKurwaGownoKurwaPierdoloneKurwa[creature] = true;
-                CreatureCmd.GainMaxHp(creature, normalizedAmount);
-                unravelPower.UsesLeft--;
-                unravelPower.InvokeSecondAmountChanged();
-                MaxHpTracker.rozjebKurwaJebanyHealKurwaKurwaGownoKurwaPierdoloneKurwa[creature] = false;
+                PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), creature, unravelPower.Amount, creature, null);
             }
-        }
-    }
-
-    [HarmonyPatch]
-    public class GainMaxHpPatch
-    {
-        private static MethodBase TargetMethod()
-        {
-            var stateMachine = typeof(CreatureCmd).GetNestedType("<GainMaxHp>d__22", BindingFlags.NonPublic);
-
-            return stateMachine.GetMethod("MoveNext", BindingFlags.Instance | BindingFlags.NonPublic);
-        }
-
-        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-        {
-            var szmataKurwaPierdolanaDziwka = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Heal), [typeof(Creature), typeof(decimal), typeof(bool)]);
-
-            var kurwaJebana = AccessTools.Method(typeof(GainMaxHpPatch), nameof(KurwaGownoJebaneSpierdoloneKurwaSzmatyJebaneKurwaBezmozgieKurwyKurwa));
-
-            foreach (var instruction in instructions)
-            {
-                if (instruction.Calls(szmataKurwaPierdolanaDziwka))
-                {
-                    yield return new CodeInstruction(OpCodes.Call, kurwaJebana);
-                }
-                else
-                {
-                    yield return instruction;
-                }
-            }
-        }
-
-        public static Task KurwaGownoJebaneSpierdoloneKurwaSzmatyJebaneKurwaBezmozgieKurwyKurwa(Creature creature, decimal amount, bool playAnim)
-        {
-            if (MaxHpTracker.rozjebKurwaJebanyHealKurwaKurwaGownoKurwaPierdoloneKurwa[creature])
-            {
-                return Task.CompletedTask;
-            }
-
-            return CreatureCmd.Heal(creature, amount, playAnim);
         }
     }
 }

@@ -1,6 +1,6 @@
 {
     "THEBRUTE-TOXEMIA.title": "Toxemia",
-    "THEBRUTE-TOXEMIA.description": "At the end of combat, gain [blue]{MaxHp}[/blue] Max HP.",
+    "THEBRUTE-TOXEMIA.description": "The first {Cards:plural:time|{:diff()} times} you lose Max HP each turn, gain Max HP equal to the amount lost.",
     "THEBRUTE-TOXEMIA.flavor": "The ambivalence in despair.",
 	"THEBRUTE-SYMBIOSIS.title": "Symbiosis",
     "THEBRUTE-SYMBIOSIS.description": "At the end of combat, gain [blue]{MaxHp}[/blue] Max HP.",

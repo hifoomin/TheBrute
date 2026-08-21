@@ -20,9 +20,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(1m),
-            new RepeatVar(2),
-            new GoldVar(3),
+            new GoldVar(5),
             new PowerVar<StrengthPower>(3m)
         ];
 
@@ -32,10 +30,7 @@ namespace TheBrute.Cards.Uncommons
 
             if (Utils.HasGold(Owner, DynamicVars.Gold.IntValue))
             {
-                for (var i = 0; i < DynamicVars.Repeat.BaseValue; i++)
-                {
-                    await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
-                }
+                await PlayerCmd.LoseGold(DynamicVars.Gold.BaseValue, Owner);
 
                 await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars.Strength.BaseValue, Owner.Creature, this);
             }

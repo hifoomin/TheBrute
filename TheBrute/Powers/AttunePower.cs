@@ -24,12 +24,10 @@ namespace TheBrute.Powers
                 return;
             }
 
-            var prefs = new CardSelectorPrefs(SelectionScreenPrompt, 1);
-            var cardsIn = PileType.Draw.GetPile(player).Cards.ToList();
-            var cardModel = (await CardSelectCmd.FromSimpleGrid(choiceContext, cardsIn, player, prefs)).FirstOrDefault();
-            if (cardModel != null)
+            var max = Math.Min(Amount, CardPile.MaxCardsInHand - PileType.Hand.GetPile(player).Cards.Count);
+            if (max > 0)
             {
-                await CardPileCmd.Add(cardModel, PileType.Hand);
+                await CardPileCmd.Add(await CardSelectCmd.FromCombatPile(choiceContext, PileType.Draw.GetPile(player), player, new CardSelectorPrefs(SelectionScreenPrompt, 0, max)), PileType.Hand);
                 await PowerCmd.Remove(this);
             }
         }

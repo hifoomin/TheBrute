@@ -29,7 +29,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new GoldVar(6),
+            new GoldVar(7),
             new PowerVar<StrengthPower>(3m)
         ];
 

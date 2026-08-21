@@ -3,9 +3,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 
 #endregion
@@ -18,12 +16,7 @@ namespace TheBrute.Cards.Commons
         {
         }
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
-        [
-            HoverTipFactory.FromPower<WeakPower>()
-        ];
-
-        protected override bool ShouldGlowGoldInternal => CombatState?.HittableEnemies.Any(e => e.HasPower<WeakPower>()) ?? false;
+        protected override bool ShouldGlowGoldInternal => MaxHpTracker.GetChangedMaxHpThisTurn(Owner.Creature);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
@@ -31,12 +24,7 @@ namespace TheBrute.Cards.Commons
             new ExtraDamageVar(7m),
             new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, target) =>
             {
-                var ret = 0m;
-                if (target != null && target.GetPowerAmount<WeakPower>() > 0)
-                {
-                    ret = 1m;
-                }
-                return ret;
+                return MaxHpTracker.GetChangedMaxHpThisTurn(card.Owner.Creature) ? 1m : 0m;
             })
         ];
 

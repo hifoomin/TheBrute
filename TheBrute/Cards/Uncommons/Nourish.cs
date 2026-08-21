@@ -22,7 +22,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(2m)
+            new MaxHpVar(3m)
         ];
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
@@ -52,8 +52,6 @@ namespace TheBrute.Cards.Uncommons
                 return hoverTips;
             }
         }
-
-        // protected override bool IsPlayable => GetLastAttackOrSkill() != null;
 
         protected override bool ShouldGlowRedInternal => !IsPlayable;
 

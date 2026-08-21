@@ -50,9 +50,11 @@
         <Compile Remove="TheBrute/materials/**" />
         <Compile Remove="TheBrute/shaders/**" />
         <Compile Remove="TheBrute/images/**" />
+        <Compile Remove="TheBrute/audio/**" />
         <EmbeddedResource Remove="TheBrute/materials/**" />
         <EmbeddedResource Remove="TheBrute/shaders/**" />
         <EmbeddedResource Remove="TheBrute/images/**" />
+        <EmbeddedResource Remove="TheBrute/audio/**" />
     </ItemGroup>
 
     <ItemGroup>

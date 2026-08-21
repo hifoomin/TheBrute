@@ -20,8 +20,7 @@ namespace TheBrute.Cards.Uncommons
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
-            CardKeyword.Innate,
-            CardKeyword.Ethereal
+            CardKeyword.Innate
         ];
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>

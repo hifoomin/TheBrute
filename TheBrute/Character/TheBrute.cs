@@ -27,7 +27,8 @@ namespace TheBrute.Character
 
         public override CharacterGender Gender => CharacterGender.Feminine;
 
-        public override int StartingHp => 70;
+        // public override int StartingHp => 70;
+        public override int StartingHp => 76;
         public override int StartingGold => 99;
         public override Color NameColor => new("C7FF00");
         public override Color EnergyLabelOutlineColor => new("3F4F00FF");

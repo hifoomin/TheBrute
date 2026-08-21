@@ -18,7 +18,7 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new MaxHpVar(3m),
+            new MaxHpVar(4m),
             new PowerVar<ReducedMaximumHandSizePower>(3m)
         ];
 
