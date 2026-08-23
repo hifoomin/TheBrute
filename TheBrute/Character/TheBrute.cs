@@ -91,8 +91,7 @@ namespace TheBrute.Character
 
                 var background = SpecialEventManager.IsNewYears(date) ? $"new_years{postfix}" :
                     SpecialEventManager.IsAprilFools(date) ? $"april_fools{postfix}" :
-                    SpecialEventManager.IsChristmas(date) ? $"christmas{postfix}_v2" :
-                    $"default{postfix}_v2";
+                    SpecialEventManager.IsChristmas(date) ? $"christmas{postfix}_v2" : $"default{postfix}_v2";
 
                 return $"res://{CharacterId}/images/character/{background}.tscn";
             }
@@ -100,6 +99,11 @@ namespace TheBrute.Character
 
         public override string CharacterTransitionSfx => $"{Main.AudioPath}character_transition.ogg";
         public override string CharacterSelectSfx => $"{Main.AudioPath}character_select.ogg";
+
+        // public override string CustomAttackSfx => "event:/sfx/characters/silent/silent_attack";
+        // alright candidate
+        public override string CustomAttackSfx => "event:/sfx/enemy/enemy_attacks/obscura/obscura_attack";
+        // keeping this for now, sounds decent
 
         public override NCreatureVisuals CreateCustomVisuals()
         {

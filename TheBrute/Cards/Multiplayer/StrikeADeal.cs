@@ -34,11 +34,16 @@ namespace TheBrute.Cards.Multiplayer
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-            var aliveAllies = from c in CombatState.GetTeammatesOf(Owner.Creature)
+            var aliveAllies = from c in CombatState!.GetTeammatesOf(Owner.Creature)
                               where c != null && c.IsAlive && c.IsPlayer && c != Owner.Creature
                               select c;
             foreach (var player in aliveAllies)
             {
+                if (player.Player == null)
+                {
+                    continue;
+                }
+
                 await PlayerCmd.GainEnergy(DynamicVars.Energy.BaseValue, player.Player);
             }
 

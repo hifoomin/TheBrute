@@ -18,6 +18,8 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
+        public override bool CanBeGeneratedInCombat => false;
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new MaxHpVar(0m),

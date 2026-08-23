@@ -19,8 +19,6 @@ namespace TheBrute
         public const string ResPath = $"res://{ModId}";
         public const string AudioPath = $"res://{ModId}/audio/";
 
-        public static bool isAprilFools = false;
-
         public static readonly AutoModAudio Audio = new($"res://{ModId}/audio");
 
         //

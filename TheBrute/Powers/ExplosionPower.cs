@@ -30,7 +30,7 @@ namespace TheBrute.Powers
                 return;
             }
 
-            var hittableEnemies = CombatState.HittableEnemies;
+            var hittableEnemies = CombatState!.HittableEnemies;
             if (hittableEnemies != null)
             {
                 Main.Audio.PlaySfx("explosion.ogg");

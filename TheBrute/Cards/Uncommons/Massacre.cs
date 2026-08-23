@@ -28,13 +28,11 @@ namespace TheBrute.Cards.Uncommons
         {
             var hitCount = GoldTracker.GetChangedGoldThisTurn(Owner.Creature) ? DynamicVars.Repeat.IntValue : 1;
 
-            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState).WithHitCount(hitCount)
-                .BeforeDamage(() =>
-                {
-                    AudioUtils.PlayAoeSlash(null);
-                    return Task.CompletedTask;
-                })
-                .Execute(choiceContext);
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState!).WithHitCount(hitCount).BeforeDamage(() =>
+            {
+                AudioUtils.PlayAoeSlash(null);
+                return Task.CompletedTask;
+            }).Execute(choiceContext);
 
             AudioUtils.PlayAoeSlash(result);
         }

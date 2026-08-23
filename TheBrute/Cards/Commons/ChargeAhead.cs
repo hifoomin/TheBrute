@@ -25,7 +25,7 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(9m, ValueProp.Move),
+            new DamageVar(10m, ValueProp.Move),
             new PowerVar<ThornsPower>(2m)
         ];
 

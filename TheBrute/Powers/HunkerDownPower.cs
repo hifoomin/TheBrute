@@ -21,7 +21,7 @@ namespace TheBrute.Powers
 
         public override async Task AfterBlockGained(Creature creature, decimal amount, ValueProp props, CardModel? cardSource)
         {
-            if (creature == Owner && amount > 0 && shouldRun)
+            if (creature == Owner && amount > 0 && shouldRun && Owner.Player != null)
             {
                 Flash();
                 await CardPileCmd.Draw(new BlockingPlayerChoiceContext(), Amount, Owner.Player);

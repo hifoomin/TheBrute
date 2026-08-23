@@ -40,7 +40,7 @@ namespace TheBrute.Cards.Trash
             var blockVar = (BlockVar)DynamicVars["BlockNextTurn"];
             IEnumerable<AbstractModel> modifiers;
 
-            var blockNextTurnAmount = Hook.ModifyBlock(CombatState, Owner.Creature, blockVar.BaseValue, blockVar.Props, this, cardPlay, out modifiers);
+            var blockNextTurnAmount = Hook.ModifyBlock(CombatState!, Owner.Creature, blockVar.BaseValue, blockVar.Props, this, cardPlay, out modifiers);
 
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
             await PowerCmd.Apply<BlockNextTurnPower>(choiceContext, Owner.Creature, blockNextTurnAmount, Owner.Creature, this);

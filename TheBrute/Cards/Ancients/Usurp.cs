@@ -16,6 +16,8 @@ namespace TheBrute.Cards.Ancients
         {
         }
 
+        public override bool CanBeGeneratedInCombat => false;
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new DamageVar(20m, ValueProp.Move),

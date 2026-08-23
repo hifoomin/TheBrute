@@ -18,7 +18,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new CalculationBaseVar(8m),
+            new CalculationBaseVar(9m),
             new ExtraDamageVar(1m),
             new CalculatedDamageVar(ValueProp.Move).WithMultiplier((card, _) =>
             {
@@ -30,8 +30,7 @@ namespace TheBrute.Cards.Uncommons
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-            var result = await DamageCmd.Attack(((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(Owner.Creature)).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .Execute(choiceContext);
+            var result = await DamageCmd.Attack(((CalculatedDamageVar)DynamicVars["CalculatedDamage"]).Calculate(Owner.Creature)).FromCard(this, cardPlay).Targeting(cardPlay.Target).Execute(choiceContext);
 
             AudioUtils.PlaySlash(result);
         }

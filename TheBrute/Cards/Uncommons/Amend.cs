@@ -41,7 +41,7 @@ namespace TheBrute.Cards.Uncommons
             var card = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(CardSelectorPrefs.TransformSelectionPrompt, DynamicVars.Cards.IntValue), context: choiceContext, player: Owner, filter: null, source: this)).FirstOrDefault();
             if (card != null)
             {
-                var ridicule = CombatState.CreateCard<Ridicule>(Owner);
+                var ridicule = CombatState!.CreateCard<Ridicule>(Owner);
 
                 await CardCmd.Transform(card, ridicule);
             }

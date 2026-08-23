@@ -18,6 +18,8 @@ namespace TheBrute.Cards.Rares
         {
         }
 
+        public override bool CanBeGeneratedInCombat => false;
+
         protected override bool HasEnergyCostX => true;
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>

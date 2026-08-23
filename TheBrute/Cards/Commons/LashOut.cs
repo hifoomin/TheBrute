@@ -29,13 +29,12 @@ namespace TheBrute.Cards.Commons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<PlatingPower>(1m),
-            new DamageVar(11m, ValueProp.Move)
+            new DamageVar(12m, ValueProp.Move)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingRandomOpponents(CombatState)
-                .Execute(choiceContext);
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingRandomOpponents(CombatState!).Execute(choiceContext);
 
             AudioUtils.PlaySlash(result);
 

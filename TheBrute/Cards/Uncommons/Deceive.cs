@@ -16,6 +16,8 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
+        public override bool CanBeGeneratedInCombat => false;
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<DeceivePower>(1m)

@@ -81,7 +81,7 @@ namespace TheBrute.Cards
             {
                 if (combatState.CurrentSide == CombatSide.Player)
                 {
-                    if (player.PlayerCombatState.TurnNumber == 1)
+                    if (player.PlayerCombatState!.TurnNumber == 1)
                     {
                         totalMaxHpGainedThisCombat[player.Creature] = 0;
                         timesMaxHpGainedThisCombat[player.Creature] = 0;
@@ -129,11 +129,11 @@ namespace TheBrute.Cards
                     MaxHpTracker.lostMaxHpThisTurn[creature] = true;
                 }
                 // "I woke up 10 minutes ago" code below:
-                if (creature.Player != null && creature.Player.GetRelic<BloodBank>() != null)
+                if (creature.Player?.GetRelic<BloodBank>() != null)
                 {
                     var bloodBank = creature.Player.GetRelic<BloodBank>();
                     MaxHpTracker.timesMaxHpLostWithBloodBank[creature] += 1;
-                    bloodBank.CurrentCounter = (int)MaxHpTracker.timesMaxHpLostWithBloodBank[creature];
+                    bloodBank!.CurrentCounter = (int)MaxHpTracker.timesMaxHpLostWithBloodBank[creature];
                     if (MaxHpTracker.timesMaxHpLostWithBloodBank[creature] % bloodBank.DynamicVars.MaxHp.BaseValue == 0)
                     {
                         bloodBank.Flash();

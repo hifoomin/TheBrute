@@ -32,9 +32,7 @@ namespace TheBrute.Cards.Uncommons
         {
             Main.Audio.PlaySfx("yowl.ogg");
 
-            if ((await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState)
-                    .WithHitFx("vfx/vfx_attack_slash", null, "slash_attack.mp3")
-                    .Execute(choiceContext)).Results.SelectMany(r => r).Any(r => r.WasTargetKilled))
+            if ((await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState).Execute(choiceContext)).Results.SelectMany(r => r).Any(r => r.WasTargetKilled))
             {
                 await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
             }

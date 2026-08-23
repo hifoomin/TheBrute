@@ -110,19 +110,36 @@ namespace TheBrute.Relics.Starters
         private static MethodBase TargetMethod()
         {
             var stateMachine = typeof(CreatureCmd).GetNestedType("<GainMaxHp>d__22", BindingFlags.NonPublic);
+            if (stateMachine == null)
+            {
+                Main.Logger.Warn("gain max hp state machine is null");
+            }
 
             return stateMachine.GetMethod("MoveNext", BindingFlags.Instance | BindingFlags.NonPublic);
         }
 
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var szmataKurwaPierdolanaDziwka = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Heal), [typeof(Creature), typeof(decimal), typeof(bool)]);
+            var szmataKurwaPierdolonaDziwka = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Heal), [
+                typeof(Creature),
+                typeof(decimal),
+                typeof(bool)
+            ]);
+
+            if (szmataKurwaPierdolonaDziwka == null)
+            {
+                Main.Logger.Warn("heal method is null");
+            }
 
             var kurwaJebana = AccessTools.Method(typeof(GainMaxHpPatch), nameof(KurwaGownoJebaneSpierdoloneKurwaSzmatyJebaneKurwaBezmozgieKurwyKurwa));
+            if (kurwaJebana == null)
+            {
+                Main.Logger.Warn("kurwa");
+            }
 
             foreach (var instruction in instructions)
             {
-                if (instruction.Calls(szmataKurwaPierdolanaDziwka))
+                if (instruction.Calls(szmataKurwaPierdolonaDziwka))
                 {
                     yield return new CodeInstruction(OpCodes.Call, kurwaJebana);
                 }

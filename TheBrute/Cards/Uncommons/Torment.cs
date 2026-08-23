@@ -19,6 +19,8 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
+        public override bool CanBeGeneratedInCombat => false;
+
         protected override bool ShouldGlowGoldInternal => GoldTracker.GetChangedGoldThisTurn(Owner.Creature);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -29,10 +31,11 @@ namespace TheBrute.Cards.Uncommons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            ArgumentNullException.ThrowIfNull(cardPlay.Target);
+
             AudioUtils.PlayPunch();
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .Execute(choiceContext);
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target).Execute(choiceContext);
 
             if (GoldTracker.GetChangedGoldThisTurn(Owner.Creature))
             {

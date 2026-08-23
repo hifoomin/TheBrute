@@ -9,7 +9,7 @@ namespace TheBrute.Cards
 {
     public static class AudioUtils
     {
-        public static void PlaySlash(AttackCommand result)
+        public static void PlaySlash(AttackCommand? result)
         {
             if (result == null)
             {
@@ -17,12 +17,7 @@ namespace TheBrute.Cards
                 return;
             }
 
-            var highestDamageDone = result.Results
-                .SelectMany(hit => hit)
-                .GroupBy(r => r.Receiver)
-                .Select(g => g.Sum(r => r.TotalDamage + r.OverkillDamage))
-                .DefaultIfEmpty(0)
-                .Max();
+            var highestDamageDone = result.Results.SelectMany(hit => hit).GroupBy(r => r.Receiver).Select(g => g.Sum(r => r.TotalDamage + r.OverkillDamage)).DefaultIfEmpty(0).Max();
 
             var soundToPlay = highestDamageDone switch
             {
@@ -35,7 +30,7 @@ namespace TheBrute.Cards
         }
 
         // yes I know I could consolidate these methods, but I'm lazy for now lol
-        public static void PlayAoeSlash(AttackCommand result)
+        public static void PlayAoeSlash(AttackCommand? result)
         {
             if (result == null)
             {
@@ -43,12 +38,7 @@ namespace TheBrute.Cards
                 return;
             }
 
-            var highestDamageDone = result.Results
-                .SelectMany(hit => hit)
-                .GroupBy(r => r.Receiver)
-                .Select(g => g.Sum(r => r.TotalDamage))
-                .DefaultIfEmpty(0)
-                .Max();
+            var highestDamageDone = result.Results.SelectMany(hit => hit).GroupBy(r => r.Receiver).Select(g => g.Sum(r => r.TotalDamage)).DefaultIfEmpty(0).Max();
 
             var soundToPlay = highestDamageDone switch
             {

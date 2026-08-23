@@ -28,20 +28,23 @@ namespace TheBrute.Powers
             var deathWishPower = creature.GetPower<DeathWishPower>();
             var combatState = creature.CombatState;
 
-            if (deathWishPower != null && combatState != null && combatState.CurrentSide == CombatSide.Player)
+            if (deathWishPower == null || combatState == null || combatState.CurrentSide != CombatSide.Player || creature.Player == null)
             {
-                var cardModel = CardFactory.GetDistinctForCombat(creature.Player,
-                                                                 from c in creature.Player.Character.CardPool.GetUnlockedCards(creature.Player.UnlockState, creature.Player.RunState.CardMultiplayerConstraint)
-                                                                 where c.Type == CardType.Attack
-                                                                 select c, 1, creature.Player.RunState.Rng.CombatCardGeneration).FirstOrDefault();
-
-                if (cardModel != null)
-                {
-                    deathWishPower.Flash();
-                    GarbageSpaghettiCodeKurwaJebanaSzmataPierdolonaKurwaBezmozgiJebaneToPisaly(cardModel.EnergyCost, 0);
-                    CardPileCmd.AddGeneratedCardToCombat(cardModel, PileType.Hand, creature.Player);
-                }
+                return;
             }
+
+            var randomAttack = CardFactory.GetDistinctForCombat(creature.Player, from c in creature.Player.Character.CardPool.GetUnlockedCards(creature.Player.UnlockState, creature.Player.RunState.CardMultiplayerConstraint)
+                                                                                 where c.Type == CardType.Attack
+                                                                                 select c, 1, creature.Player.RunState.Rng.CombatCardGeneration).FirstOrDefault();
+
+            if (randomAttack == null)
+            {
+                return;
+            }
+
+            deathWishPower.Flash();
+            GarbageSpaghettiCodeKurwaJebanaSzmataPierdolonaKurwaBezmozgiJebaneToPisaly(randomAttack.EnergyCost, 0);
+            CardPileCmd.AddGeneratedCardToCombat(randomAttack, PileType.Hand, creature.Player);
         }
 
         private static void GarbageSpaghettiCodeKurwaJebanaSzmataPierdolonaKurwaBezmozgiJebaneToPisaly(CardEnergyCost cardEnergyCost, int cost, bool reduceOnly = false)

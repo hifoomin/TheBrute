@@ -32,7 +32,7 @@ namespace TheBrute.Cards.Rares
 
         public override async Task AfterCardPlayedLate(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            if (cardPlay.Card.Owner == Owner && cardPlay.Card.Type == CardType.Attack && Pile.Type != PileType.Hand)
+            if (cardPlay.Card.Owner == Owner && cardPlay.Card.Type == CardType.Attack && Pile != null && Pile.Type != PileType.Hand)
             {
                 var attacksPlayedThisTurn = CombatManager.Instance.History.CardPlaysFinished.Count(e => e.HappenedThisTurn(CombatState) && e.CardPlay.Card.Type == CardType.Attack && e.CardPlay.Card.Owner == Owner);
                 if (attacksPlayedThisTurn % DynamicVars.Cards.IntValue == 0)

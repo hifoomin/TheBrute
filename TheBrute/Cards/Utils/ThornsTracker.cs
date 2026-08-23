@@ -113,7 +113,7 @@ namespace TheBrute.Cards
                 // Main.Logger.Warn("temp thorns up or thorns gain is positive, adding to values");
                 totalThornsGainedThisCombat[creature] += amount;
                 timesThornsGainedThisCombat[creature] += 1;
-                if (creature.CombatState.CurrentSide == CombatSide.Player)
+                if (creature.CombatState!.CurrentSide == CombatSide.Player)
                 {
                     gainedThornsThisTurn[creature] = true;
                 }
@@ -123,7 +123,7 @@ namespace TheBrute.Cards
                 // Main.Logger.Warn("temp thorns up or thorns gain is NEGATIVE, SUBTRACTING FROMM to values");
                 totalThornsLostThisCombat[creature] -= amount;
                 timesThornsLostThisCombat[creature] -= 1;
-                if (creature.CombatState.CurrentSide == CombatSide.Player)
+                if (creature.CombatState!.CurrentSide == CombatSide.Player)
                 {
                     lostThornsThisTurn[creature] = false;
                 }

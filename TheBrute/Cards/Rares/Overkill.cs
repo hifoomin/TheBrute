@@ -37,12 +37,11 @@ namespace TheBrute.Cards.Rares
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .Execute(choiceContext);
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target).Execute(choiceContext);
 
             AudioUtils.PlaySlash(result);
 
-            var hittableEnemies = CombatState?.HittableEnemies;
+            var hittableEnemies = CombatState!.HittableEnemies;
             foreach (var hittableEnemy in hittableEnemies)
             {
                 await PowerCmd.Apply<OverkillPower>(choiceContext, hittableEnemy, DynamicVars.Strength.BaseValue, Owner.Creature, this);

@@ -24,7 +24,11 @@ namespace TheBrute.Cards.Trash
 
         public override CardPoolModel VisualCardPool => ModelDb.CardPool<TheBruteCardPool>();
 
-        protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.FromPower<WeakPower>(), HoverTipFactory.FromPower<StrengthPower>()];
+        protected override IEnumerable<IHoverTip> ExtraHoverTips =>
+        [
+            HoverTipFactory.FromPower<WeakPower>(),
+            HoverTipFactory.FromPower<StrengthPower>()
+        ];
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
@@ -41,7 +45,7 @@ namespace TheBrute.Cards.Trash
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
             VfxCmd.PlayOnCreatureCenter(Owner.Creature, "vfx/vfx_flying_slash");
-            foreach (var enemy in CombatState.HittableEnemies)
+            foreach (var enemy in CombatState!.HittableEnemies)
             {
                 await PowerCmd.Apply<WeakPower>(choiceContext, enemy, DynamicVars.Weak.BaseValue, Owner.Creature, this);
                 await PowerCmd.Apply<StrengthPower>(choiceContext, enemy, -DynamicVars.Strength.BaseValue, Owner.Creature, this);

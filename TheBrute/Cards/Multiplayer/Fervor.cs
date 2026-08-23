@@ -30,16 +30,20 @@ namespace TheBrute.Cards.Multiplayer
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
-            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .Execute(choiceContext);
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target).Execute(choiceContext);
 
             AudioUtils.PlaySlash(result);
 
-            var alivePlayers = from c in CombatState.GetTeammatesOf(Owner.Creature)
+            var alivePlayers = from c in CombatState!.GetTeammatesOf(Owner.Creature)
                                where c != null && c.IsAlive && c.IsPlayer
                                select c;
             foreach (var player in alivePlayers)
             {
+                if (player.Player == null)
+                {
+                    continue;
+                }
+
                 UpgradeCards(PileType.Draw, player.Player);
                 UpgradeCards(PileType.Discard, player.Player);
             }
@@ -47,9 +51,7 @@ namespace TheBrute.Cards.Multiplayer
 
         private void UpgradeCards(PileType pileType, Player player)
         {
-            var upgradeableCards = pileType.GetPile(player).Cards
-                .Where(card => card.IsUpgradable && card != this)
-                .ToList();
+            var upgradeableCards = pileType.GetPile(player).Cards.Where(card => card.IsUpgradable && card != this).ToList();
 
             var upgradeCount = Math.Min(DynamicVars.Cards.BaseValue, upgradeableCards.Count);
 

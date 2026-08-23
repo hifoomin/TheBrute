@@ -33,8 +33,7 @@ namespace TheBrute.Cards.Uncommons
 
             Main.Audio.PlaySfx("crash.ogg");
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .Execute(choiceContext);
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target).WithAttackerFx().WithHitFx().Execute(choiceContext);
         }
 
         protected override void OnUpgrade()

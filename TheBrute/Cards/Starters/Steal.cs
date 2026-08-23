@@ -19,15 +19,20 @@ namespace TheBrute.Cards.Starters
         {
         }
 
+        public override bool CanBeGeneratedInCombat => false;
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new DamageVar(10m, ValueProp.Move),
-            new GoldVar(1)
+            new MaxHpVar(1m),
+            new GoldVar(1),
+            new DamageVar(10m, ValueProp.Move)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
+
+            await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
             await PlayerCmd.GainGold(DynamicVars.Gold.BaseValue, Owner);
 

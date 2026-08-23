@@ -17,6 +17,8 @@ namespace TheBrute.Cards.Multiplayer
         {
         }
 
+        public override bool CanBeGeneratedInCombat => false;
+
         public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
@@ -34,11 +36,16 @@ namespace TheBrute.Cards.Multiplayer
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-            var alivePlayers = from c in CombatState.GetTeammatesOf(Owner.Creature)
+            var alivePlayers = from c in CombatState!.GetTeammatesOf(Owner.Creature)
                                where c != null && c.IsAlive && c.IsPlayer
                                select c;
             foreach (var player in alivePlayers)
             {
+                if (player.Player == null)
+                {
+                    continue;
+                }
+
                 await PlayerCmd.GainGold(DynamicVars.Gold.IntValue, player.Player);
                 await PowerCmd.Apply<PlatingPower>(choiceContext, player, DynamicVars["PlatingPower"].BaseValue, Owner.Creature, this);
             }

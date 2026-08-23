@@ -24,14 +24,10 @@ namespace TheBrute.Cards.Uncommons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new CalculationBaseVar(7m),
-            new CalculationExtraVar(4m),
+            new CalculationExtraVar(5m),
             new CalculatedBlockVar(ValueProp.Move).WithMultiplier((card, _) =>
             {
-                var playedPowerThisTurn = CombatManager.Instance.History.CardPlaysFinished
-                    .Any(e =>
-                             e.HappenedThisTurn(card.CombatState) &&
-                             e.CardPlay.Card.Owner == card.Owner &&
-                             e.CardPlay.Card.Type == CardType.Power);
+                var playedPowerThisTurn = CombatManager.Instance.History.CardPlaysFinished.Any(e => e.HappenedThisTurn(card.CombatState) && e.CardPlay.Card.Owner == card.Owner && e.CardPlay.Card.Type == CardType.Power);
 
                 return playedPowerThisTurn ? 1m : 0m;
             })
@@ -39,11 +35,7 @@ namespace TheBrute.Cards.Uncommons
 
         private bool PlayedPowerThisTurn()
         {
-            return CombatManager.Instance.History.CardPlaysFinished
-                .Any(e =>
-                         e.HappenedThisTurn(CombatState) &&
-                         e.CardPlay.Card.Owner == Owner &&
-                         e.CardPlay.Card.Type == CardType.Power);
+            return CombatManager.Instance.History.CardPlaysFinished.Any(e => e.HappenedThisTurn(CombatState) && e.CardPlay.Card.Owner == Owner && e.CardPlay.Card.Type == CardType.Power);
         }
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -16,6 +16,8 @@ namespace TheBrute.Cards.Multiplayer
         {
         }
 
+        public override bool CanBeGeneratedInCombat => false;
+
         public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>

@@ -22,6 +22,8 @@ namespace TheBrute.Cards.Rares
         {
         }
 
+        public override bool CanBeGeneratedInCombat => false;
+
         [SavedProperty]
         public int CurrentGoldLoss
         {

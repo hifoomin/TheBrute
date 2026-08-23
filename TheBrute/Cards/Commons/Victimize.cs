@@ -20,12 +20,7 @@ namespace TheBrute.Cards.Commons
         {
         }
 
-        /*
-        public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        [
-            CardKeyword.Exhaust
-        ];
-        */
+        public override bool CanBeGeneratedInCombat => false;
 
         protected override IEnumerable<IHoverTip> ExtraHoverTips =>
         [

@@ -23,6 +23,8 @@ namespace TheBrute.Potions
 
         public override TargetType TargetType => TargetType.AnyPlayer;
 
+        public override bool CanBeGeneratedInCombat => false;
+
         protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
         {
             AssertValidForTargetedPotion(target);
@@ -35,21 +37,16 @@ namespace TheBrute.Potions
 
         private async Task GenerateRandomCard(Creature? target, HashSet<ModelId> cardHashSet)
         {
-            var player = target.Player;
+            var player = target?.Player;
             if (player == null)
             {
                 return;
             }
 
-            var eligibleCards = ModelDb.Character<Character.TheBrute>().CardPool.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint)
-                .Where(card => cardHashSet.Contains(card.Id))
-                .Where(card =>
-                           card.Rarity != CardRarity.Basic &&
-                           card.Rarity != CardRarity.Ancient &&
-                           card.Rarity != CardRarity.Status &&
-                           card.Rarity != CardRarity.Token &&
-                           card.Rarity != CardRarity.Curse)
-                .ToList();
+            var eligibleCards = ModelDb.Character<Character.TheBrute>().CardPool.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint).Where(card => cardHashSet.Contains(card.Id)).Where(card => card.Rarity != CardRarity.Status && card.Rarity != CardRarity.Token && card.Rarity != CardRarity.Curse).ToList();
+
+            // get distinct for combat -> filter for combat already checks whether it can be
+            // generated in combat and that it ain't basic or ancient or event
 
             if (eligibleCards.Count > 0)
             {

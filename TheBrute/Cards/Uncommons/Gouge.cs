@@ -31,7 +31,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            var hittableEnemies = CombatState.HittableEnemies;
+            var hittableEnemies = CombatState!.HittableEnemies;
 
             // await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
@@ -40,13 +40,11 @@ namespace TheBrute.Cards.Uncommons
                 await CreatureCmd.LoseBlock(choiceContext, hittableEnemy, hittableEnemy.Block, Owner.Creature);
             }
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState).WithHitCount(DynamicVars.Repeat.IntValue)
-                .BeforeDamage(() =>
-                {
-                    AudioUtils.PlayAoeSlash(null);
-                    return Task.CompletedTask;
-                })
-                .Execute(choiceContext);
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState).WithHitCount(DynamicVars.Repeat.IntValue).BeforeDamage(() =>
+            {
+                AudioUtils.PlayAoeSlash(null);
+                return Task.CompletedTask;
+            }).Execute(choiceContext);
         }
 
         protected override void OnUpgrade()

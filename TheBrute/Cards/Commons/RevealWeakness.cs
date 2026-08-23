@@ -35,7 +35,7 @@ namespace TheBrute.Cards.Commons
         {
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
-            await PowerCmd.Apply<VulnerablePower>(choiceContext, CombatState.HittableEnemies, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<VulnerablePower>(choiceContext, CombatState!.HittableEnemies, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
         }
 
         protected override void OnUpgrade()

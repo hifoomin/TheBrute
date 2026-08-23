@@ -30,7 +30,7 @@ namespace TheBrute.Powers
         {
             if (Amount <= 0 && applier.CombatState != null)
             {
-                activatedOnTurnNumber = applier.CombatState.RoundNumber + 1;
+                activatedOnTurnNumber = applier.CombatState!.RoundNumber + 1;
             }
 
             return Task.CompletedTask;
@@ -44,7 +44,7 @@ namespace TheBrute.Powers
             }
 
             var combatState = player.Creature.CombatState;
-            if (combatState.RoundNumber < activatedOnTurnNumber)
+            if (combatState != null && combatState.RoundNumber < activatedOnTurnNumber)
             {
                 return;
             }

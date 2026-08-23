@@ -27,6 +27,8 @@ namespace TheBrute.Potions
 
         public override TargetType TargetType => TargetType.AnyPlayer;
 
+        public override bool CanBeGeneratedInCombat => false;
+
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new GoldVar(15)
@@ -35,6 +37,7 @@ namespace TheBrute.Potions
         protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
         {
             AssertValidForTargetedPotion(target);
+
             NCombatRoom.Instance?.PlaySplashVfx(target, new Color("f4bf57")); // hehe, bf :)
             await PlayerCmd.GainGold(DynamicVars.Gold.BaseValue, target.Player);
 
@@ -50,7 +53,8 @@ namespace TheBrute.Potions
         {
             if (__instance.Model?.Id == ModelDb.Potion<GoldDust>().Id)
             {
-                __instance.Model = PotionFactory.CreateRandomPotionOutOfCombat(__instance._player, __instance._player.PlayerRng.Shops, []).ToMutable();
+                __instance.Model = PotionFactory.CreateRandomPotionOutOfCombat(__instance._player, __instance._player.PlayerRng.Shops, [
+                ]).ToMutable();
 
                 __instance.CalcCost();
                 SaveManager.Instance.MarkPotionAsSeen(__instance.Model);

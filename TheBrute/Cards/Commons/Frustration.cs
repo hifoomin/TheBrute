@@ -15,8 +15,6 @@ namespace TheBrute.Cards.Commons
 {
     internal class Frustration : TheBruteCard
     {
-        private decimal _extraDamageFromPlays;
-
         public Frustration() : base(1, CardType.Attack, CardRarity.Common, TargetType.AllEnemies)
         {
         }
@@ -34,8 +32,7 @@ namespace TheBrute.Cards.Commons
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
-            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState)
-                .Execute(choiceContext);
+            var result = await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState!).Execute(choiceContext);
 
             AudioUtils.PlayAoeSlash(result);
 

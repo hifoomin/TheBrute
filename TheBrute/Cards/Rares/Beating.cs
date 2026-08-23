@@ -32,15 +32,15 @@ namespace TheBrute.Cards.Rares
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {
+            ArgumentNullException.ThrowIfNull(cardPlay.Target);
+
             var hitCount = (int)((CalculatedVar)DynamicVars["CalculatedHits"]).Calculate(Owner.Creature);
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount(hitCount).FromCard(this, cardPlay)
-                .Targeting(cardPlay.Target)
-                .BeforeDamage(() =>
-                {
-                    AudioUtils.PlayPunch();
-                    return Task.CompletedTask;
-                })
-                .Execute(choiceContext);
+
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount(hitCount).FromCard(this, cardPlay).Targeting(cardPlay.Target).BeforeDamage(() =>
+            {
+                AudioUtils.PlayPunch();
+                return Task.CompletedTask;
+            }).Execute(choiceContext);
         }
 
         protected override void OnUpgrade()

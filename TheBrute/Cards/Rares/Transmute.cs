@@ -17,6 +17,8 @@ namespace TheBrute.Cards.Rares
         {
         }
 
+        public override bool CanBeGeneratedInCombat => false;
+
         protected override IEnumerable<IHoverTip> ExtraHoverTips => [HoverTipFactory.Static(StaticHoverTip.ReplayStatic)];
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
