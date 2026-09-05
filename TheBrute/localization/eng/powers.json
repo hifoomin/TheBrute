@@ -86,5 +86,14 @@
 	"THEBRUTE-LEVERAGE_POWER.smartDescription": "Whenever an enemy hits you once, it takes [blue]{Amount}%[/blue] damage from your [gold]Thorns[/gold].",
 	"THEBRUTE-FRUSTRATION_POWER.title": "Frustration",
 	"THEBRUTE-FRUSTRATION_POWER.description": "Gain [gold]Strength[/gold] until the end of this turn.",
-	"THEBRUTE-FRUSTRATION_POWER.smartDescription": "Gain [blue]{Amount}[/blue] [gold]Strength[/gold] until the end of this turn."
+	"THEBRUTE-FRUSTRATION_POWER.smartDescription": "Gain [blue]{Amount}[/blue] [gold]Strength[/gold] until the end of this turn.",
+	"THEBRUTE-WARP_POWER.title": "Warp",
+	"THEBRUTE-WARP_POWER.description": "Your [gold]Thorns[/gold] cannot be reduced.",
+	"THEBRUTE-WARP_POWER.smartDescription": "Your [gold]Thorns[/gold] cannot be reduced.",
+	"THEBRUTE-SPINE_CHARM_POWER.title": "Spine Charm",
+	"THEBRUTE-SPINE_CHARM_POWER.description": "The first [gold]Thorns[/gold] related card you play is free to play.",
+	"THEBRUTE-SPINE_CHARM_POWER.smartDescription": "The first {Amount:cond:>1?[blue]{Amount:diff()}[/blue] [gold]Thorns[/gold] related cards|[gold]Thorns[/gold] related card} you play {Amount:plural:is|are} free to play.",
+	"THEBRUTE-RETAIN_POWER.title": "Retain",
+	"THEBRUTE-RETAIN_POWER.description": "Retained enemies are not discarded at the end of turn.",
+	"THEBRUTE-RETAIN_POWER.smartDescription": "Retained enemies are not discarded at the end of turn."
 }

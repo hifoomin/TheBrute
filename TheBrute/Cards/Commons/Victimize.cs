@@ -1,5 +1,6 @@
 ﻿#region
 
+using BaseLib.Cards.Variables;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -30,7 +31,8 @@ namespace TheBrute.Cards.Commons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new PowerVar<VulnerablePower>(1m),
-            new GoldVar(2)
+            new GoldVar(2),
+            new ExhaustiveVar(3)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -16,16 +16,12 @@ namespace TheBrute.Cards.Uncommons
         {
         }
 
-        /*
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
             CardKeyword.Exhaust
         ];
-        */
 
-        protected override bool ShouldGlowRedInternal => PileType.Draw.GetPile(Owner).Cards
-            .Where(card => card.IsUpgradable && card != this)
-            .ToList().Count <= 0;
+        protected override bool ShouldGlowRedInternal => PileType.Draw.GetPile(Owner).Cards.Where(card => card.IsUpgradable && card != this).ToList().Count <= 0;
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
@@ -37,9 +33,7 @@ namespace TheBrute.Cards.Uncommons
         {
             await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
 
-            var upgradeableCards = PileType.Draw.GetPile(Owner).Cards
-                .Where(card => card.IsUpgradable && card != this)
-                .ToList();
+            var upgradeableCards = PileType.Draw.GetPile(Owner).Cards.Where(card => card.IsUpgradable && card != this).ToList();
 
             var upgradeCount = Math.Min(DynamicVars.Cards.IntValue, upgradeableCards.Count);
 
@@ -54,7 +48,7 @@ namespace TheBrute.Cards.Uncommons
 
                 CardCmd.Upgrade(randomUpgradeableCard, CardPreviewStyle.MessyLayout);
                 upgradeableCards.Remove(randomUpgradeableCard);
-                CardCmd.Preview(randomUpgradeableCard, 2.5f);
+                CardCmd.Preview(randomUpgradeableCard, 2.2f);
             }
         }
 

@@ -3,7 +3,7 @@
     "THEBRUTE-TOXEMIA.description": "The first {Cards:plural:time|{:diff()} times} you lose Max HP each turn, gain Max HP equal to the amount lost.",
     "THEBRUTE-TOXEMIA.flavor": "The ambivalence in despair.",
 	"THEBRUTE-SYMBIOSIS.title": "Symbiosis",
-    "THEBRUTE-SYMBIOSIS.description": "At the end of combat, gain [blue]{MaxHp}[/blue] Max HP.",
+    "THEBRUTE-SYMBIOSIS.description": "The first [blue]{Cards:plural:time|{:diff()} times}[/blue] you lose Max HP each turn, gain Max HP equal to the amount lost.",
 	"THEBRUTE-SYMBIOSIS.flavor": "A remnant of self-control... trapped, watching all the while...",
     "THEBRUTE-INFERNAL_PLASMA.title": "Infernal Plasma",
     "THEBRUTE-INFERNAL_PLASMA.description": "The first time you lose HP during an event, raise your Max HP by [blue]{MaxHp}[/blue].",
@@ -29,5 +29,11 @@
 	"THEBRUTE-BLOOD_BANK.title": "Blood Bank",
 	"THEBRUTE-BLOOD_BANK.description": "Every [blue]{MaxHp:diff()}[/blue] times you lose Max HP, draw [blue]{Cards:diff()}[/blue] {Cards:plural:card|cards}.",
 	"THEBRUTE-BLOOD_BANK.flavor": "It remembers every drop..",
-	"SEA_GLASS.THEBRUTE-THE_BRUTE.title": "Virulent Glass"
+	"SEA_GLASS.THEBRUTE-THE_BRUTE.title": "Virulent Glass",
+	"THEBRUTE-CROWNS_DIAMOND.title": "Crown's Diamond",
+	"THEBRUTE-CROWNS_DIAMOND.description": "At the start of each combat, add [blue]{Cards}[/blue] random [gold]Gold[/gold] related {Cards:plural:card|cards} into your [gold]Hand[/gold].",
+	"THEBRUTE-CROWNS_DIAMOND.flavor": "I seem to recognize this object from somewhere... strange.",
+	"THEBRUTE-SPINE_CHARM.title": "Spine Charm",
+	"THEBRUTE-SPINE_CHARM.description": "The first {Cards:cond:>1?[blue]{Cards:diff()}[/blue] [gold]Thorns[/gold] related cards|[gold]Thorns[/gold] related card} you play each combat {Cards:plural:is|are} free to play.",
+	"THEBRUTE-SPINE_CHARM.flavor": "A spine? For me?"
 }

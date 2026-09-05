@@ -39,13 +39,18 @@ namespace TheBrute.Cards.Uncommons
                 var lastAttackOrSkill = GetLastAttackOrSkill();
                 if (lastAttackOrSkill == null)
                 {
-                    return [];
+                    return
+                    [
+                    ];
                 }
 
                 // var canonical = lastAttackOrSkill.CanonicalInstance;
 
+                // HOLY FUCK LMAO FROMCARD CREATES A MUTABLE CARD CLONE ONLY TO SHOW A PREVIEW AND THEN IT HAS THE FUCKING AUDACITY TO UPGRADE IT
+                // LIKE HOW SPAGHETTI WHY SPAGHGEETTI WYTHTAH  WHAT TEH EUFCK C?  ? ? ?? ?
+
                 List<IHoverTip> hoverTips = new();
-                hoverTips.Add(HoverTipFactory.FromCard(lastAttackOrSkill, lastAttackOrSkill.IsUpgraded));
+                hoverTips.Add(HoverTipFactory.FromCard(lastAttackOrSkill, lastAttackOrSkill is { IsUpgradable: true, IsUpgraded: false }));
                 // hoverTips.AddRange(canonical.HoverTips);
 
                 // I'll settle for this for now, this creates confusion because it can display more than one card if lastAttackOrSkill has a FromCard hover tip as well
@@ -66,13 +71,7 @@ namespace TheBrute.Cards.Uncommons
                 PileType.Deck
             ];
 
-            return CombatManager.Instance.History.CardPlaysFinished
-                .Select(e => e.CardPlay.Card)
-                .LastOrDefault(c =>
-                                   c.Owner == Owner &&
-                                   c.Pile != null &&
-                                   !fuckingGarbagePiles.Contains(c.Pile.Type) &&
-                                   (c.Type == CardType.Attack || c.Type == CardType.Skill));
+            return CombatManager.Instance.History.CardPlaysFinished.Select(e => e.CardPlay.Card).LastOrDefault(c => c.Owner == Owner && c.Pile != null && !fuckingGarbagePiles.Contains(c.Pile.Type) && (c.Type == CardType.Attack || c.Type == CardType.Skill));
         }
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

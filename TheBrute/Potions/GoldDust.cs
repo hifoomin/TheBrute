@@ -31,7 +31,7 @@ namespace TheBrute.Potions
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new GoldVar(15)
+            new GoldVar(25)
         ];
 
         protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)

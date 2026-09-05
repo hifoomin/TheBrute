@@ -20,6 +20,7 @@ namespace TheBrute.Cards.Ancients
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
+            new MaxHpVar(1m),
             new DamageVar(20m, ValueProp.Move),
             new GoldVar(3)
         ];
@@ -28,12 +29,13 @@ namespace TheBrute.Cards.Ancients
         {
             ArgumentNullException.ThrowIfNull(cardPlay.Target);
 
+            await CreatureCmd.LoseMaxHp(choiceContext, Owner.Creature, DynamicVars.MaxHp.BaseValue, true);
+
             Main.Audio.PlaySfx("usurp.ogg");
 
             await PlayerCmd.GainGold(DynamicVars.Gold.BaseValue, Owner);
 
-            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target)
-                .Execute(choiceContext);
+            await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).Targeting(cardPlay.Target).Execute(choiceContext);
         }
 
         protected override void OnUpgrade()

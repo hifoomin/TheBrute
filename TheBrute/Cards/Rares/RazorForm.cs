@@ -25,7 +25,7 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<RazorFormPower>(1m)
+            new PowerVar<RazorFormPower>(2m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using TheBrute.Character;
 
 #endregion
 
@@ -31,14 +32,7 @@ namespace TheBrute.Cards.Rares
         {
             await CreatureCmd.TriggerAnim(Owner.Creature, "Cast", Owner.Character.CastAnimDelay);
 
-            var eligibleCards = ModelDb.Character<Character.TheBrute>().CardPool.GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint)
-                .Where(card => AutoTag.goldRelatedCards.Contains(card.Id))
-                .Where(card =>
-                           card.Rarity != CardRarity.Status &&
-                           card.Rarity != CardRarity.Token &&
-                           card.Rarity != CardRarity.Curse &&
-                           card != ModelDb.Card<BitterEmbrace>())
-                .ToList();
+            var eligibleCards = ModelDb.CardPool<TheBruteCardPool>().GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint).Where(card => AutoTag.goldRelatedCards.Contains(card.Id)).Where(card => card.Rarity != CardRarity.Status && card.Rarity != CardRarity.Token && card.Rarity != CardRarity.Curse && card != ModelDb.Card<BitterEmbrace>()).ToList();
 
             // get distinct for combat -> filter for combat already checks whether it can be
             // generated in combat and that it ain't basic or ancient or event

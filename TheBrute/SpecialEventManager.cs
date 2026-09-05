@@ -11,7 +11,7 @@
         internal static bool IsAprilFools(DateTime date)
         {
             return date.Month == 4 && date.Day == 1;
-            // return date.Month == 8 && date.Day == 1;
+            // return date.Month == 9 && date.Day == 3;
         }
 
         internal static bool IsChristmas(DateTime date)

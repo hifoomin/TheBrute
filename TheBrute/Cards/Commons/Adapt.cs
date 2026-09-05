@@ -22,7 +22,7 @@ namespace TheBrute.Cards.Commons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new CardsVar(1),
+            new CardsVar(2),
             new("CardUpgrade", 1m)
         ];
 
@@ -46,7 +46,7 @@ namespace TheBrute.Cards.Commons
 
         protected override void OnUpgrade()
         {
-            DynamicVars.Cards.UpgradeValueBy(1m);
+            DynamicVars["CardUpgrade"].UpgradeValueBy(1m);
         }
     }
 }

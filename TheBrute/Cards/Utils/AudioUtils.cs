@@ -52,7 +52,7 @@ namespace TheBrute.Cards
 
         public static void PlayPunch()
         {
-            var maxExclusive = SpecialEventManager.IsAprilFools(DateTime.Now) ? 3 : 2;
+            var maxExclusive = SpecialEventManager.IsAprilFools(DateTime.Today) ? 3 : 2;
             var soundToPlay = Rng.Chaotic.NextInt(0, maxExclusive) switch
             {
                 2 => "punch_april_fools.ogg",
@@ -65,7 +65,7 @@ namespace TheBrute.Cards
 
         public static void PlayBite()
         {
-            var maxExclusive = SpecialEventManager.IsAprilFools(DateTime.Now) ? 3 : 2;
+            var maxExclusive = SpecialEventManager.IsAprilFools(DateTime.Today) ? 3 : 2;
 
             var soundToPlay = Rng.Chaotic.NextInt(0, maxExclusive) switch
             {

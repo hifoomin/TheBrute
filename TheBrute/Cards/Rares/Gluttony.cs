@@ -29,7 +29,7 @@ namespace TheBrute.Cards.Rares
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new GoldVar(9)
+            new GoldVar(11)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)

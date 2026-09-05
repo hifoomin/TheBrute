@@ -1,6 +1,5 @@
 ﻿#region
 
-using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -19,7 +18,7 @@ namespace TheBrute.Cards.Uncommons
 
         public override bool GainsBlock => true;
 
-        protected override bool ShouldGlowGoldInternal => PlayedPowerThisTurn();
+        protected override bool ShouldGlowGoldInternal => ThornsTracker.GetGainedThornsThisTurn(Owner.Creature);
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
@@ -27,16 +26,9 @@ namespace TheBrute.Cards.Uncommons
             new CalculationExtraVar(5m),
             new CalculatedBlockVar(ValueProp.Move).WithMultiplier((card, _) =>
             {
-                var playedPowerThisTurn = CombatManager.Instance.History.CardPlaysFinished.Any(e => e.HappenedThisTurn(card.CombatState) && e.CardPlay.Card.Owner == card.Owner && e.CardPlay.Card.Type == CardType.Power);
-
-                return playedPowerThisTurn ? 1m : 0m;
+                return ThornsTracker.GetGainedThornsThisTurn(card.Owner.Creature) ? 1m : 0m;
             })
         ];
-
-        private bool PlayedPowerThisTurn()
-        {
-            return CombatManager.Instance.History.CardPlaysFinished.Any(e => e.HappenedThisTurn(CombatState) && e.CardPlay.Card.Owner == Owner && e.CardPlay.Card.Type == CardType.Power);
-        }
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
         {

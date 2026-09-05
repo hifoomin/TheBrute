@@ -26,7 +26,7 @@ namespace TheBrute.Cards
         public static readonly SpireField<Creature, bool> gainedMaxHpThisTurn = new(() => false);
         public static readonly SpireField<Creature, bool> lostMaxHpThisTurn = new(() => false);
 
-        public static readonly SpireField<Creature, bool> rozjebKurwaJebanyHealKurwaKurwaGownoKurwaPierdoloneKurwa = new(() => false);
+        public static readonly SpireField<Creature, int> suppressedGainMaxHpHeals = new(() => 0);
 
         public static decimal GetTotalMaxHpGainedThisCombat(Creature creature)
         {
@@ -142,7 +142,6 @@ namespace TheBrute.Cards
                         bloodBank.CurrentCounter = (int)MaxHpTracker.timesMaxHpLostWithBloodBank[creature];
                     }
                 }
-                MaxHpTracker.rozjebKurwaJebanyHealKurwaKurwaGownoKurwaPierdoloneKurwa[creature] = false;
             }
         }
     }

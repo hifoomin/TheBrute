@@ -85,7 +85,7 @@ namespace TheBrute.Character
         {
             get
             {
-                var date = DateTime.Now;
+                var date = DateTime.Today;
 
                 var postfix = "_character_select_background";
 

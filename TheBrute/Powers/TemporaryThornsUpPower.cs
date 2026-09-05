@@ -1,14 +1,11 @@
 ﻿#region
 
-using Godot;
-using HarmonyLib;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
-using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 
 #endregion
@@ -17,10 +14,7 @@ using MegaCrit.Sts2.Core.Models.Powers;
 
 namespace TheBrute.Powers
 {
-#pragma warning disable STS001 // Symbol missing localization
-
     internal class TemporaryThornsUpPower : TheBrutePower
-#pragma warning restore STS001 // Symbol missing localization
     {
         public override PowerType Type => PowerType.Buff;
 
@@ -44,18 +38,6 @@ namespace TheBrute.Powers
 
                 // Main.Logger.Warn("removing TEMP thorns power");
                 await PowerCmd.Remove(this);
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(PowerModel), "SetAmount")]
-    public class TemporaryThornsUpPowerJustInCasePatch
-    {
-        private static void Prefix(PowerModel __instance, ref int amount)
-        {
-            if (__instance is ThornsPower)
-            {
-                amount = Mathf.Max(amount, 0);
             }
         }
     }

@@ -19,7 +19,8 @@ namespace TheBrute.Cards.Rares
 
         public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
-            CardKeyword.Retain
+            CardKeyword.Retain,
+            CardKeyword.Innate
         ];
 
         public override bool GainsBlock => true;

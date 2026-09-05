@@ -8,7 +8,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
-using TheBrute.Powers;
+using TheBrute.Cards.Rares;
 
 #endregion
 
@@ -85,6 +85,16 @@ namespace TheBrute.Cards
 
                         totalThornsLostThisCombat[player.Creature] = 0;
                         timesThornsLostThisCombat[player.Creature] = 0;
+
+                        // just in case ig
+                        /*
+                        var anathemasInCombat = player.PlayerCombatState.AllCards.Where(x => x is Anathema);
+                        foreach (var anathema in anathemasInCombat)
+                        {
+                            anathema.EnergyCost.
+                            // nvm fuck idk how to reset energy cost lol
+                        }
+                        */
                     }
                     gainedThornsThisTurn[player.Creature] = false;
                     lostThornsThisTurn[player.Creature] = false;
@@ -95,7 +105,7 @@ namespace TheBrute.Cards
         public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
         {
             // Main.Logger.Warn("thornstracker: after power amount changed called");
-            if (power is not TemporaryThornsUpPower && power is not ThornsPower)
+            if ( /*power is not TemporaryThornsUpPower &&*/ power is not ThornsPower)
             {
                 // Main.Logger.Warn("thornstracker: power is not temporary thorns or not thorns, returning");
                 return;
@@ -113,6 +123,13 @@ namespace TheBrute.Cards
                 // Main.Logger.Warn("temp thorns up or thorns gain is positive, adding to values");
                 totalThornsGainedThisCombat[creature] += amount;
                 timesThornsGainedThisCombat[creature] += 1;
+
+                var anathemasInCombat = creature.Player.PlayerCombatState.AllCards.Where(x => x is Anathema);
+                foreach (var anathema in anathemasInCombat)
+                {
+                    anathema.EnergyCost.AddThisCombat(-anathema.DynamicVars.Energy.IntValue);
+                }
+
                 if (creature.CombatState!.CurrentSide == CombatSide.Player)
                 {
                     gainedThornsThisTurn[creature] = true;

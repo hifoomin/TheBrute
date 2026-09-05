@@ -7,9 +7,12 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Potions;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using TheBrute.Cards;
+using TheBrute.Character;
 
 #endregion
 
@@ -24,6 +27,13 @@ namespace TheBrute.Potions
         public override TargetType TargetType => TargetType.AnyPlayer;
 
         public override bool CanBeGeneratedInCombat => false;
+
+        protected override IEnumerable<DynamicVar> CanonicalVars =>
+        [
+            new CardsVar(1)
+        ];
+
+        public override IEnumerable<IHoverTip> ExtraHoverTips { get; }
 
         protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
         {
@@ -43,7 +53,7 @@ namespace TheBrute.Potions
                 return;
             }
 
-            var eligibleCards = ModelDb.Character<Character.TheBrute>().CardPool.GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint).Where(card => cardHashSet.Contains(card.Id)).Where(card => card.Rarity != CardRarity.Status && card.Rarity != CardRarity.Token && card.Rarity != CardRarity.Curse).ToList();
+            var eligibleCards = ModelDb.CardPool<TheBruteCardPool>().GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint).Where(card => cardHashSet.Contains(card.Id)).Where(card => card.Rarity != CardRarity.Status && card.Rarity != CardRarity.Token && card.Rarity != CardRarity.Curse).ToList();
 
             // get distinct for combat -> filter for combat already checks whether it can be
             // generated in combat and that it ain't basic or ancient or event
@@ -51,7 +61,7 @@ namespace TheBrute.Potions
             if (eligibleCards.Count > 0)
             {
                 var combatCardGenerationRng = player.RunState.Rng.CombatCardGeneration;
-                var randomCard = CardFactory.GetDistinctForCombat(player, eligibleCards, 1, combatCardGenerationRng).First();
+                var randomCard = CardFactory.GetDistinctForCombat(player, eligibleCards, DynamicVars.Cards.IntValue, combatCardGenerationRng).First();
                 randomCard.SetToFreeThisTurn();
 
                 await CardPileCmd.AddGeneratedCardToCombat(randomCard, PileType.Hand, player);

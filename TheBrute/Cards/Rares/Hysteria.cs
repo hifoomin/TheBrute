@@ -13,7 +13,7 @@ namespace TheBrute.Cards.Rares
 {
     internal class Hysteria : TheBruteCard
     {
-        public Hysteria() : base(2, CardType.Power, CardRarity.Rare, TargetType.Self)
+        public Hysteria() : base(1, CardType.Power, CardRarity.Rare, TargetType.Self)
         {
         }
 
@@ -39,7 +39,7 @@ namespace TheBrute.Cards.Rares
 
         protected override void OnUpgrade()
         {
-            EnergyCost.UpgradeBy(-1);
+            AddKeyword(CardKeyword.Innate);
         }
     }
 }

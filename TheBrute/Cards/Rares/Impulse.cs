@@ -28,7 +28,7 @@ namespace TheBrute.Cards.Rares
         {
             Main.Audio.PlaySfx("impulse.ogg");
 
-            await Cmd.Wait(1f);
+            await Cmd.Wait(0.8f);
 
             var cardsInHand = PileType.Hand.GetPile(Owner).Cards.ToList();
             foreach (var card in cardsInHand)

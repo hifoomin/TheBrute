@@ -33,7 +33,6 @@ namespace TheBrute.Cards.Commons
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
             new CardsVar(1),
-            // new PowerVar<PlatingPower>(3m),
             new PowerVar<PlatingPower>(2m)
         ];
 
@@ -51,7 +50,6 @@ namespace TheBrute.Cards.Commons
         protected override void OnUpgrade()
         {
             DynamicVars["PlatingPower"].UpgradeValueBy(1m);
-            // RemoveKeyword(CardKeyword.Exhaust);
         }
     }
 }

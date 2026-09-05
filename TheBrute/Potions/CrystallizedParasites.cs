@@ -25,8 +25,8 @@ namespace TheBrute.Potions
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<ThornsPower>(8m),
-            new PowerVar<TemporaryThornsUpPower>(8m)
+            new PowerVar<ThornsPower>(10m),
+            new PowerVar<TemporaryThornsUpPower>(10m)
         ];
 
         protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)

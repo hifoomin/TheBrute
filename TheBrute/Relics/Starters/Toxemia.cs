@@ -23,7 +23,7 @@ namespace TheBrute.Relics.Starters
 #pragma warning restore STS001 // Symbol missing localization
     {
         private int currentCounter;
-        public override bool ShowCounter => true;
+        public override bool ShowCounter => CombatManager.Instance.IsInProgress;
 
         public int CurrentCounter
         {
@@ -96,52 +96,38 @@ namespace TheBrute.Relics.Starters
                 return;
             }
 
-            MaxHpTracker.rozjebKurwaJebanyHealKurwaKurwaGownoKurwaPierdoloneKurwa[creature] = true;
+            MaxHpTracker.suppressedGainMaxHpHeals[creature]++;
             CreatureCmd.GainMaxHp(creature, normalizedAmount);
-            toxemia.CurrentCounter = Math.Min(0, toxemia.CurrentCounter - 1);
+            toxemia.CurrentCounter = Math.Max(0, toxemia.CurrentCounter - 1);
             toxemia.InvokeDisplayAmountChanged();
-            MaxHpTracker.rozjebKurwaJebanyHealKurwaKurwaGownoKurwaPierdoloneKurwa[creature] = false;
         }
     }
 
     [HarmonyPatch]
-    public class GainMaxHpPatch
+    internal static class GainMaxHpPatch
     {
         private static MethodBase TargetMethod()
         {
             var stateMachine = typeof(CreatureCmd).GetNestedType("<GainMaxHp>d__22", BindingFlags.NonPublic);
-            if (stateMachine == null)
-            {
-                Main.Logger.Warn("gain max hp state machine is null");
-            }
 
-            return stateMachine.GetMethod("MoveNext", BindingFlags.Instance | BindingFlags.NonPublic);
+            return stateMachine?.GetMethod("MoveNext", BindingFlags.Instance | BindingFlags.NonPublic);
         }
 
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
-            var szmataKurwaPierdolonaDziwka = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Heal), [
+            var heal = AccessTools.Method(typeof(CreatureCmd), nameof(CreatureCmd.Heal), [
                 typeof(Creature),
                 typeof(decimal),
                 typeof(bool)
             ]);
 
-            if (szmataKurwaPierdolonaDziwka == null)
-            {
-                Main.Logger.Warn("heal method is null");
-            }
-
-            var kurwaJebana = AccessTools.Method(typeof(GainMaxHpPatch), nameof(KurwaGownoJebaneSpierdoloneKurwaSzmatyJebaneKurwaBezmozgieKurwyKurwa));
-            if (kurwaJebana == null)
-            {
-                Main.Logger.Warn("kurwa");
-            }
+            var replacement = AccessTools.Method(typeof(GainMaxHpPatch), nameof(FixFuckingHealing));
 
             foreach (var instruction in instructions)
             {
-                if (instruction.Calls(szmataKurwaPierdolonaDziwka))
+                if (instruction.Calls(heal))
                 {
-                    yield return new CodeInstruction(OpCodes.Call, kurwaJebana);
+                    yield return new CodeInstruction(OpCodes.Call, replacement);
                 }
                 else
                 {
@@ -150,10 +136,11 @@ namespace TheBrute.Relics.Starters
             }
         }
 
-        public static Task KurwaGownoJebaneSpierdoloneKurwaSzmatyJebaneKurwaBezmozgieKurwyKurwa(Creature creature, decimal amount, bool playAnim)
+        public static Task FixFuckingHealing(Creature creature, decimal amount, bool playAnim)
         {
-            if (MaxHpTracker.rozjebKurwaJebanyHealKurwaKurwaGownoKurwaPierdoloneKurwa[creature])
+            if (MaxHpTracker.suppressedGainMaxHpHeals[creature] > 0)
             {
+                MaxHpTracker.suppressedGainMaxHpHeals[creature]--;
                 return Task.CompletedTask;
             }
 

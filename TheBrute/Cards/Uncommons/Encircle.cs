@@ -25,7 +25,7 @@ namespace TheBrute.Cards.Uncommons
 
         protected override IEnumerable<DynamicVar> CanonicalVars =>
         [
-            new PowerVar<EncirclePower>(3m)
+            new PowerVar<EncirclePower>(2m)
         ];
 
         protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
